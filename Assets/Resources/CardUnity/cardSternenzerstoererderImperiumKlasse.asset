@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 233e9fe69c4f7c34eb2447d13b0fc2b7, type: 3}
+  m_Name: cardSternenzerstoererderImperiumKlasse
+  m_EditorClassIdentifier: 
+  ID: cardSternenzerstoererderImperiumKlasse
+  sprite: {fileID: 21300000, guid: 2fa82bc57b2f8724c80d4dbef3d2f565, type: 3}
+  size: large
+  faction: 1
+  cardName: Sternenzerstoerer der Imperium-Klasse
+  cost: 110
+  contradictories: []
+  isCommander: 0
+  isUnique: 0
+  isSquadron: 0
+  cardTypeRaw: i-imperium-klasse
+  cardSize: 0
+  shipType: 8
+  upgradeTypes: 010000000a0000001600000019000000190000001b0000001d000000

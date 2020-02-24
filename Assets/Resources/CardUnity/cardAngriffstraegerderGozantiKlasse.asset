@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 233e9fe69c4f7c34eb2447d13b0fc2b7, type: 3}
+  m_Name: cardAngriffstraegerderGozantiKlasse
+  m_EditorClassIdentifier: 
+  ID: cardAngriffstraegerderGozantiKlasse
+  sprite: {fileID: 21300000, guid: 2ab6736727c4d0c47bb023e2c9cccabd, type: 3}
+  size: large
+  faction: 1
+  cardName: Angriffstraeger der Gozanti-Klasse
+  cost: 28
+  contradictories: []
+  isCommander: 0
+  isUnique: 0
+  isSquadron: 0
+  cardTypeRaw: k-gozanti
+  cardSize: 0
+  shipType: 10
+  upgradeTypes: 010000000c000000190000001e000000

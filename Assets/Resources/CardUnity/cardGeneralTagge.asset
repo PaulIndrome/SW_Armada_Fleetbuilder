@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce9add6379e0dca4a857da5e8fd3cd84, type: 3}
+  m_Name: cardGeneralTagge
+  m_EditorClassIdentifier: 
+  ID: cardGeneralTagge
+  sprite: {fileID: 21300000, guid: 159fb0ded2b7e1b4ea2d1a1b28d8a09e, type: 3}
+  size: small
+  faction: 1
+  cardName: General Tagge
+  cost: 25
+  contradictories: []
+  isCommander: 1
+  isUnique: 1
+  isSquadron: 0
+  cardTypeRaw: 00-commander
+  cardSize: 2
+  upgradeType: 0

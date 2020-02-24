@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce9add6379e0dca4a857da5e8fd3cd84, type: 3}
+  m_Name: cardElektronischeGegenmassnahmen
+  m_EditorClassIdentifier: 
+  ID: cardElektronischeGegenmassnahmen
+  sprite: {fileID: 21300000, guid: 08e7c6407538e504cae6258a0e0f581a, type: 3}
+  size: small
+  faction: 3
+  cardName: Elektronische Gegenmassnahmen
+  cost: 7
+  contradictories: []
+  isCommander: 0
+  isUnique: 0
+  isSquadron: 0
+  cardTypeRaw: 06-defensive-retrofit
+  cardSize: 2
+  upgradeType: 26

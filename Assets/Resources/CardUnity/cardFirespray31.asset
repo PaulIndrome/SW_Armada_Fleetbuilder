@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f9bbc703b4463046b3d6bfab73be75e, type: 3}
+  m_Name: cardFirespray31
+  m_EditorClassIdentifier: 
+  ID: cardFirespray31
+  sprite: {fileID: 21300000, guid: ecbae2b257395624591ff7f39bdc1459, type: 3}
+  size: medium
+  faction: 1
+  cardName: Firespray-31
+  cost: 18
+  contradictories: []
+  isCommander: 0
+  isUnique: 0
+  isSquadron: 1
+  cardTypeRaw: zz_firespray-31_normal
+  cardSize: 1
+  squadronType: 13

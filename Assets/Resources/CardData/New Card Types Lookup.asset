@@ -1,0 +1,357 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f199120b133acf4409137005552903cc, type: 3}
+  m_Name: New Card Types Lookup
+  m_EditorClassIdentifier: 
+  cardTypesRaw: {fileID: 4900000, guid: c14e12c5b91524f4aba100b8e07dbb5f, type: 3}
+  cardTypesLookupRaw:
+    large:
+    - a-cr-90-korvette
+    - b-nebulon-b-fregatte
+    - c-sieges-klasse
+    - d-gladiator-klasse
+    - e-angriffsfregatte-typ-ii
+    - f-sturm-klasse
+    - g-mc30c-fregatte
+    - h-mc80-kreuzer
+    - i-imperium-klasse
+    - j-gr-75-transporter
+    - k-gozanti
+    - l-mc80-kreuzer2
+    - m-interdictor
+    - n-pelta
+    - o-arquitens
+    - p-quasarfeuer
+    - q-hammerhai
+    - r-profundity
+    - s-onager
+    normal:
+    - a-wing_hero
+    - a-wing_named
+    - a-wing_normal
+    - b-wing_hero
+    - b-wing_named
+    - b-wing_normal
+    - e-fluegler-staffel_hero
+    - e-fluegler-staffel_normal
+    - tie-advanced_hero
+    - tie-advanced_named
+    - tie-advanced_normal
+    - tie-bomber_hero
+    - tie-bomber_named
+    - tie-bomber_normal
+    - tie-fighter_hero
+    - tie-fighter_named
+    - tie-fighter_normal
+    - tie-interceptor_hero
+    - tie-interceptor_named
+    - tie-interceptor_normal
+    - tie-jagdbomber_hero
+    - tie-jagdbomber_normal
+    - tie-phantom_hero
+    - tie-phantom_normal
+    - x-wing_hero
+    - x-wing_named
+    - x-wing_normal
+    - y-wing_hero
+    - y-wing_named
+    - y-wing_normal
+    - z-95-kopfjaeger-staffel_hero
+    - z-95-kopfjaeger-staffel_normal
+    - zz_aggressor-angriffsjaeger_hero
+    - zz_aggressor-angriffsjaeger_normal
+    - zz_firespray-31_hero
+    - zz_firespray-31_normal
+    - zz_hwk-290_hero
+    - zz_hwk-290_normal
+    - zz_jagdschiff-der-lanzen-klasse_hero
+    - zz_jagdschiff-der-lanzen-klasse_normal
+    - zz_jump-master-500_hero
+    - zz_jump-master-500_normal
+    - zz_lamda-klasse_hero
+    - zz_lamda-klasse_normal
+    - zz_mandalorianischer-gauntletjaeger_hero
+    - zz_mandalorianischer-gauntletjaeger_normal
+    - zz_scurrg-h-6-bomber_hero
+    - zz_scurrg-h-6-bomber_normal
+    - zz_vcx100_hero
+    - zz_vcx100_normal
+    - zz_vt49-decimator_hero
+    - zz_vt49-decimator_normal
+    - zz_yt1300_hero
+    - zz_yt1300_normal
+    - zz_yt2400_hero
+    - zz_yt2400_normal
+    - zz_yv-666_hero
+    - zz_yv-666_normal
+    small:
+    - 00-commander
+    - 01-officer
+    - 20a-title-cr-90-korvette
+    - 20b-title-nebulon-b-fregatte
+    - 20c-title-sieges-klasse
+    - 20d-title-gladiator-klasse
+    - 20e-title-angriffsfregatte-typ-ii
+    - 20f-title-sturm-klasse
+    - 20g-title-mc30c-fregatte
+    - 20h-title-mc80-kreuzer
+    - 20i-title-imperium-klasse
+    - 20j-title-gr-75-transporter
+    - 20k-title-gozanti
+    - 20l-title-mc80-kreuzer2
+    - 20m-title-interdictor
+    - 20n-title-pelta
+    - 20o-title-arquitens
+    - 20p-title-quasarfeuer
+    - 20q-title-hammerhai
+    - 20r-title-profundity
+    - 20s-title-onager
+    - 20zzz-title-fleet
+    - 03-weapons-team
+    - 03a-boarding-team
+    - 04-support-team
+    - 05-offensive-retrofit
+    - 06-defensive-retrofit
+    - 07-ion-cannons
+    - 08-ordenance
+    - 09-turbolasers
+    - 10-fleet-support
+    - 11-experimental-retrofit
+    - 12-fleet-command
+    - 13a-superweapon-onager
+  ships:
+  - cardTypeRaw: a-cr-90-korvette
+    shipType: 0
+  - cardTypeRaw: b-nebulon-b-fregatte
+    shipType: 1
+  - cardTypeRaw: c-sieges-klasse
+    shipType: 2
+  - cardTypeRaw: d-gladiator-klasse
+    shipType: 3
+  - cardTypeRaw: e-angriffsfregatte-typ-ii
+    shipType: 4
+  - cardTypeRaw: f-sturm-klasse
+    shipType: 5
+  - cardTypeRaw: g-mc30c-fregatte
+    shipType: 6
+  - cardTypeRaw: h-mc80-kreuzer
+    shipType: 7
+  - cardTypeRaw: i-imperium-klasse
+    shipType: 8
+  - cardTypeRaw: j-gr-75-transporter
+    shipType: 9
+  - cardTypeRaw: k-gozanti
+    shipType: 10
+  - cardTypeRaw: l-mc80-kreuzer2
+    shipType: 11
+  - cardTypeRaw: m-interdictor
+    shipType: 12
+  - cardTypeRaw: n-pelta
+    shipType: 13
+  - cardTypeRaw: o-arquitens
+    shipType: 14
+  - cardTypeRaw: p-quasarfeuer
+    shipType: 15
+  - cardTypeRaw: q-hammerhai
+    shipType: 16
+  - cardTypeRaw: r-profundity
+    shipType: 17
+  - cardTypeRaw: s-onager
+    shipType: 18
+  squadrons:
+  - cardTypeRaw: a-wing_hero
+    squadronType: 0
+  - cardTypeRaw: a-wing_named
+    squadronType: 0
+  - cardTypeRaw: a-wing_normal
+    squadronType: 0
+  - cardTypeRaw: b-wing_hero
+    squadronType: 1
+  - cardTypeRaw: b-wing_named
+    squadronType: 1
+  - cardTypeRaw: b-wing_normal
+    squadronType: 1
+  - cardTypeRaw: e-fluegler-staffel_hero
+    squadronType: 2
+  - cardTypeRaw: e-fluegler-staffel_normal
+    squadronType: 2
+  - cardTypeRaw: tie-advanced_hero
+    squadronType: 3
+  - cardTypeRaw: tie-advanced_named
+    squadronType: 8
+  - cardTypeRaw: tie-advanced_normal
+    squadronType: 3
+  - cardTypeRaw: tie-bomber_hero
+    squadronType: 4
+  - cardTypeRaw: tie-bomber_named
+    squadronType: 4
+  - cardTypeRaw: tie-bomber_normal
+    squadronType: 4
+  - cardTypeRaw: tie-fighter_hero
+    squadronType: 5
+  - cardTypeRaw: tie-fighter_named
+    squadronType: 5
+  - cardTypeRaw: tie-fighter_normal
+    squadronType: 5
+  - cardTypeRaw: tie-interceptor_hero
+    squadronType: 6
+  - cardTypeRaw: tie-interceptor_named
+    squadronType: 6
+  - cardTypeRaw: tie-interceptor_normal
+    squadronType: 6
+  - cardTypeRaw: tie-jagdbomber_hero
+    squadronType: 7
+  - cardTypeRaw: tie-jagdbomber_normal
+    squadronType: 7
+  - cardTypeRaw: tie-phantom_hero
+    squadronType: 8
+  - cardTypeRaw: tie-phantom_normal
+    squadronType: 8
+  - cardTypeRaw: x-wing_hero
+    squadronType: 9
+  - cardTypeRaw: x-wing_named
+    squadronType: 9
+  - cardTypeRaw: x-wing_normal
+    squadronType: 9
+  - cardTypeRaw: y-wing_hero
+    squadronType: 10
+  - cardTypeRaw: y-wing_named
+    squadronType: 10
+  - cardTypeRaw: y-wing_normal
+    squadronType: 10
+  - cardTypeRaw: z-95-kopfjaeger-staffel_hero
+    squadronType: 11
+  - cardTypeRaw: z-95-kopfjaeger-staffel_normal
+    squadronType: 11
+  - cardTypeRaw: zz_aggressor-angriffsjaeger_hero
+    squadronType: 12
+  - cardTypeRaw: zz_aggressor-angriffsjaeger_normal
+    squadronType: 12
+  - cardTypeRaw: zz_firespray-31_hero
+    squadronType: 13
+  - cardTypeRaw: zz_firespray-31_normal
+    squadronType: 13
+  - cardTypeRaw: zz_hwk-290_hero
+    squadronType: 14
+  - cardTypeRaw: zz_hwk-290_normal
+    squadronType: 14
+  - cardTypeRaw: zz_jagdschiff-der-lanzen-klasse_hero
+    squadronType: 15
+  - cardTypeRaw: zz_jagdschiff-der-lanzen-klasse_normal
+    squadronType: 15
+  - cardTypeRaw: zz_jump-master-500_hero
+    squadronType: 16
+  - cardTypeRaw: zz_jump-master-500_normal
+    squadronType: 16
+  - cardTypeRaw: zz_lamda-klasse_hero
+    squadronType: 17
+  - cardTypeRaw: zz_lamda-klasse_normal
+    squadronType: 17
+  - cardTypeRaw: zz_mandalorianischer-gauntletjaeger_hero
+    squadronType: 18
+  - cardTypeRaw: zz_mandalorianischer-gauntletjaeger_normal
+    squadronType: 18
+  - cardTypeRaw: zz_scurrg-h-6-bomber_hero
+    squadronType: 19
+  - cardTypeRaw: zz_scurrg-h-6-bomber_normal
+    squadronType: 19
+  - cardTypeRaw: zz_vcx100_hero
+    squadronType: 20
+  - cardTypeRaw: zz_vcx100_normal
+    squadronType: 20
+  - cardTypeRaw: zz_vt49-decimator_hero
+    squadronType: 21
+  - cardTypeRaw: zz_vt49-decimator_normal
+    squadronType: 21
+  - cardTypeRaw: zz_yt1300_hero
+    squadronType: 22
+  - cardTypeRaw: zz_yt1300_normal
+    squadronType: 22
+  - cardTypeRaw: zz_yt2400_hero
+    squadronType: 23
+  - cardTypeRaw: zz_yt2400_normal
+    squadronType: 23
+  - cardTypeRaw: zz_yv-666_hero
+    squadronType: 24
+  - cardTypeRaw: zz_yv-666_normal
+    squadronType: 24
+  upgrades:
+  - cardTypeRaw: 00-commander
+    upgradeType: 0
+  - cardTypeRaw: 01-officer
+    upgradeType: 1
+  - cardTypeRaw: 20a-title-cr-90-korvette
+    upgradeType: 2
+  - cardTypeRaw: 20b-title-nebulon-b-fregatte
+    upgradeType: 3
+  - cardTypeRaw: 20c-title-sieges-klasse
+    upgradeType: 4
+  - cardTypeRaw: 20d-title-gladiator-klasse
+    upgradeType: 5
+  - cardTypeRaw: 20e-title-angriffsfregatte-typ-ii
+    upgradeType: 6
+  - cardTypeRaw: 20f-title-sturm-klasse
+    upgradeType: 7
+  - cardTypeRaw: 20g-title-mc30c-fregatte
+    upgradeType: 8
+  - cardTypeRaw: 20h-title-mc80-kreuzer
+    upgradeType: 9
+  - cardTypeRaw: 20i-title-imperium-klasse
+    upgradeType: 10
+  - cardTypeRaw: 20j-title-gr-75-transporter
+    upgradeType: 11
+  - cardTypeRaw: 20k-title-gozanti
+    upgradeType: 12
+  - cardTypeRaw: 20l-title-mc80-kreuzer2
+    upgradeType: 13
+  - cardTypeRaw: 20m-title-interdictor
+    upgradeType: 14
+  - cardTypeRaw: 20n-title-pelta
+    upgradeType: 15
+  - cardTypeRaw: 20o-title-arquitens
+    upgradeType: 16
+  - cardTypeRaw: 20p-title-quasarfeuer
+    upgradeType: 17
+  - cardTypeRaw: 20q-title-hammerhai
+    upgradeType: 18
+  - cardTypeRaw: 20r-title-profundity
+    upgradeType: 19
+  - cardTypeRaw: 20s-title-onager
+    upgradeType: 20
+  - cardTypeRaw: 20zzz-title-fleet
+    upgradeType: 21
+  - cardTypeRaw: 03-weapons-team
+    upgradeType: 22
+  - cardTypeRaw: 03a-boarding-team
+    upgradeType: 23
+  - cardTypeRaw: 04-support-team
+    upgradeType: 24
+  - cardTypeRaw: 05-offensive-retrofit
+    upgradeType: 25
+  - cardTypeRaw: 06-defensive-retrofit
+    upgradeType: 26
+  - cardTypeRaw: 07-ion-cannons
+    upgradeType: 27
+  - cardTypeRaw: 08-ordnance
+    upgradeType: 28
+  - cardTypeRaw: 09-turbolasers
+    upgradeType: 29
+  - cardTypeRaw: 10-fleet-support
+    upgradeType: 30
+  - cardTypeRaw: 11-experimental-retrofit
+    upgradeType: 31
+  - cardTypeRaw: 12-fleet-command
+    upgradeType: 32
+  - cardTypeRaw: 13-superweapon
+    upgradeType: 33
+  - cardTypeRaw: 13a-superweapon-onager
+    upgradeType: 34

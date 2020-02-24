@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f9bbc703b4463046b3d6bfab73be75e, type: 3}
+  m_Name: cardGruenStaffel
+  m_EditorClassIdentifier: 
+  ID: cardGruenStaffel
+  sprite: {fileID: 21300000, guid: fa26645c6bdecd64aa6e46dfe5e8adf2, type: 3}
+  size: medium
+  faction: 2
+  cardName: Gruen-Staffel
+  cost: 12
+  contradictories: []
+  isCommander: 0
+  isUnique: 1
+  isSquadron: 1
+  cardTypeRaw: a-wing_named
+  cardSize: 1
+  squadronType: 0

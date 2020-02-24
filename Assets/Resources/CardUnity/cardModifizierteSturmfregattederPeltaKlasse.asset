@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 233e9fe69c4f7c34eb2447d13b0fc2b7, type: 3}
+  m_Name: cardModifizierteSturmfregattederPeltaKlasse
+  m_EditorClassIdentifier: 
+  ID: cardModifizierteSturmfregattederPeltaKlasse
+  sprite: {fileID: 21300000, guid: 1b7f09804b6747546a968d7bcc81616f, type: 3}
+  size: large
+  faction: 2
+  cardName: Modifizierte Sturmfregatte der Pelta-Klasse
+  cost: 56
+  contradictories: []
+  isCommander: 0
+  isUnique: 0
+  isSquadron: 0
+  cardTypeRaw: n-pelta
+  cardSize: 0
+  shipType: 13
+  upgradeTypes: 010000000f00000018000000200000001c000000

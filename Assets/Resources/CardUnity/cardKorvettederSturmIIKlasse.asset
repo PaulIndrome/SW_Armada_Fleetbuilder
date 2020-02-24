@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 233e9fe69c4f7c34eb2447d13b0fc2b7, type: 3}
+  m_Name: cardKorvettederSturmIIKlasse
+  m_EditorClassIdentifier: 
+  ID: cardKorvettederSturmIIKlasse
+  sprite: {fileID: 21300000, guid: 6058b439de927b544992de771f064c36, type: 3}
+  size: large
+  faction: 1
+  cardName: Korvette der Sturm II-Klasse
+  cost: 48
+  contradictories: []
+  isCommander: 0
+  isUnique: 0
+  isSquadron: 0
+  cardTypeRaw: f-sturm-klasse
+  cardSize: 0
+  shipType: 5
+  upgradeTypes: 010000000700000016000000190000001a000000

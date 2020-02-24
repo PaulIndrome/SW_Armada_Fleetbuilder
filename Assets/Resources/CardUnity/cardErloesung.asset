@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce9add6379e0dca4a857da5e8fd3cd84, type: 3}
+  m_Name: cardErloesung
+  m_EditorClassIdentifier: 
+  ID: cardErloesung
+  sprite: {fileID: 21300000, guid: dfacec3f804a4ed45b49721378a1b86a, type: 3}
+  size: small
+  faction: 2
+  cardName: Erloesung
+  cost: 8
+  contradictories: []
+  isCommander: 0
+  isUnique: 1
+  isSquadron: 0
+  cardTypeRaw: 20b-title-nebulon-b-fregatte
+  cardSize: 2
+  upgradeType: 3
