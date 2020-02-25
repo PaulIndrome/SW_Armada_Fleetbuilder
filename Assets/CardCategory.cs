@@ -15,15 +15,17 @@ public class CardCategory : MonoBehaviour
     public CategoryHeader categoryHeaderPrefab;
     public CardUI cardUIPrefab;
 
-    [Header("Scene references")]
-    [SerializeField] private CategoryHeader categoryHeader;
-    public CategoryHeader CategoryHeader => categoryHeader;
-    [SerializeField] private List<CardUI> uiCardsInCategory;
+    // [Header("Scene references")]
     
     [Header("Set via script")]
-    [Range(120f, 360f), SerializeField] private float cardWidth = 120f;
-    public CardSize categoryCardSize;
-    [SerializeField] private List<CardUnityBase> cardsInCategory;
+    [ReadOnly, SerializeField] private List<CardUI> uiCardsInCategory;
+    [ReadOnly, SerializeField] private CategoryHeader categoryHeader;
+    [ReadOnly(true), Range(120f, 360f), SerializeField] private float cardWidth = 120f;
+    [ReadOnly] public CardSize categoryCardSize;
+    [ReadOnly, SerializeField] private List<CardUnityBase> cardsInCategory;
+
+    public CategoryHeader CategoryHeader => categoryHeader;
+    public List<CardUI> UiCardsInCategory => uiCardsInCategory;
 
 
     public RectTransform RectTransform {
@@ -45,7 +47,7 @@ public class CardCategory : MonoBehaviour
         rectTransform = GetComponent<RectTransform>();
     }
 
-    public void SetupCardCategory(CardSize cardSize, List<CardUnityBase> cards){
+    public void SetupCardCategory(CardSize cardSize, List<CardUnityBase> cards, int defaulColumnCount = 0){
         categoryHeader = Instantiate<CategoryHeader>(categoryHeaderPrefab, Vector3.zero, Quaternion.identity, transform.parent);
         categoryHeader.transform.SetSiblingIndex(transform.GetSiblingIndex());
 
@@ -75,6 +77,10 @@ public class CardCategory : MonoBehaviour
 
         SetupCardsInCategory();
 
+        if(defaulColumnCount > 0){
+            SetColumns(defaulColumnCount);
+        }
+
         gameObject.name = $"{transform.GetSiblingIndex().ToString("000")}-{categoryName}";
     }
 
@@ -82,6 +88,9 @@ public class CardCategory : MonoBehaviour
         Debug.Log($"About to set up cards in category {categoryCardSize}: {cardsInCategory.Count} ui cards will be set up");
         if(cardsInCategory.Count < 1) return;
         cardsInCategory.Sort();
+
+        Canvas.ForceUpdateCanvases();
+
         CardUI newCard;
         for(int i = 0; i < cardsInCategory.Count; i++){
             newCard = Instantiate<CardUI>(cardUIPrefab, Vector3.zero, Quaternion.identity, transform);
@@ -97,9 +106,15 @@ public class CardCategory : MonoBehaviour
     }
 
     public void SetColumns(int numberOfColumns){
-        float newWidth = (rectTransform.sizeDelta.x - (gridLayoutGroup.spacing.x * (numberOfColumns - 1)) - gridLayoutGroup.padding.left - gridLayoutGroup.padding.right) / numberOfColumns;
+        float newWidth = (RectTransform.sizeDelta.x - (gridLayoutGroup.spacing.x * (numberOfColumns - 1)) - gridLayoutGroup.padding.left - gridLayoutGroup.padding.right) / numberOfColumns;
         cardWidth = newWidth;
         gridLayoutGroup.cellSize = new Vector2(newWidth, newWidth * 1.5f);
+
+        Canvas.ForceUpdateCanvases();
+
+        for(int i = 0; i < uiCardsInCategory.Count; i++){
+            uiCardsInCategory[i].PositionAmountGroup();
+        }
     }
 
     [ContextMenu("Set 2 Columns")]

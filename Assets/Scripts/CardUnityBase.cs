@@ -7,6 +7,11 @@ using UnityEditor;
 #endif
 
 public abstract class CardUnityBase : ScriptableObject, IComparable<CardUnityBase> {
+
+    private delegate void CardMovedDelegate(bool toDeck, int amountChangedBy);
+    private event CardMovedDelegate OnCardMoved;
+    
+
     public string ID = "";
     public Sprite sprite;
     public string size = "";
@@ -51,6 +56,22 @@ public abstract class CardUnityBase : ScriptableObject, IComparable<CardUnityBas
         cardSize = cardTypesLookup.GetCardSize(card.cardType);
     }
 
+    public void MoveCard(bool toDeck, int amount){
+        OnCardMoved(toDeck, amount);
+    }
+
+    public void LinkUICard(CardUI cardUI){
+        OnCardMoved += cardUI.MoveCard;
+    }
+
+    public void UnlinkUICard(CardUI cardUI){
+        OnCardMoved -= cardUI.MoveCard;
+    }
+
+    public void ResetLinkedUICards(){
+        OnCardMoved = null;
+    }
+
     public void LinkContradictories(params CardUnityBase[] contradictoryCards){
         for(int i = 0; i < contradictoryCards.Length; i++){
             if(contradictoryCards[i] == null || contradictories.Contains(contradictoryCards[i])) continue;
@@ -77,6 +98,14 @@ public abstract class CardUnityBase : ScriptableObject, IComparable<CardUnityBas
     [ContextMenu("Debug Log Faction Enum")]
     void DebugLogFactionEnum(){
         Debug.Log($"{cardName} faction: {faction.ToString()} ({(int) faction})");
+    }
+
+    /// <summary>
+    /// This function is called when the behaviour becomes disabled or inactive.
+    /// </summary>
+    void OnDisable()
+    {
+        ResetLinkedUICards();
     }
 }
 

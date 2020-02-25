@@ -5,21 +5,35 @@ using UnityEngine.UI;
 
 public class CollectionContentControl : MonoBehaviour
 {
+
+    [System.Serializable]
+    public struct DefaultColumnCount {
+        public CardSize categorySize;
+        [Range(1, 5)]
+        public int defaultColumnCount;
+    }
+
     private List<CardUnityBase> unityCards;
     private List<CardCollection> allCardCollections;
     
     [Header("Prefab references")]
     [SerializeField] private CardCategory cardCategoryPrefab;
 
+
+    [Header("Set via inspector")]
+    [SerializeField] public List<DefaultColumnCount> defaultColumnCounts = new List<DefaultColumnCount>();
+
     [Header("Scene references")]
+    [SerializeField] private CardSelectionSlot cardSelectionSlot;
     [SerializeField] private ScrollRect scrollRect;
     private RectTransform scrollTransform;
-    
     [SerializeField] private RectTransform contentTransform;
     [Space, SerializeField] private List<CardCategory> cardCategories;
 
     [Header("Set up via script")]
-    [SerializeField] private CardCollection currentCollection;
+    [SerializeField, ContextMenuItem("Load collection data", "LoadCollectionData")] 
+    private CardCollection currentCollection;
+
     [ContextMenuItem("Cycle current faction", "CycleCurrentFaction")]
     public Faction currentFaction = (Faction) ~0;
 
@@ -47,6 +61,10 @@ public class CollectionContentControl : MonoBehaviour
         if(cardCategories.Count < 1){
             SpawnAllCategories();
         }
+        
+        if(currentCollection != null){
+            SetCurrentCollection(currentCollection);
+        }
     }
 
     [ContextMenu("Load Resources")]
@@ -58,17 +76,17 @@ public class CollectionContentControl : MonoBehaviour
 
     [ContextMenu("Spawn ship category")]
     void SpawnShipCategory(){
-        SpawnCategory(CardSize.Large);
+        SpawnCategory(CardSize.Large, defaultColumnCounts.Find(dcc => dcc.categorySize == CardSize.Large).defaultColumnCount);
     }
 
     [ContextMenu("Spawn squadron category")]
     void SpawnSquadronCategory(){
-        SpawnCategory(CardSize.Normal);
+        SpawnCategory(CardSize.Normal, defaultColumnCounts.Find(dcc => dcc.categorySize == CardSize.Normal).defaultColumnCount);
     }
 
     [ContextMenu("Spawn upgrade category")]
     void SpawnUpgradeCategory(){
-        SpawnCategory(CardSize.Small);
+        SpawnCategory(CardSize.Small, defaultColumnCounts.Find(dcc => dcc.categorySize == CardSize.Small).defaultColumnCount);
     }
 
     [ContextMenu("Spawn all categories")]
@@ -104,18 +122,37 @@ public class CollectionContentControl : MonoBehaviour
 
     
 
-    public void SpawnCategory(CardSize cardSize){
+    public void SpawnCategory(CardSize cardSize, int defaultColumnCount = 0){
         CardCategory cardCategoryToSpawn = Instantiate<CardCategory>(cardCategoryPrefab, Vector3.zero, Quaternion.identity, contentTransform);
-        cardCategoryToSpawn.SetupCardCategory(cardSize, unityCards.FindAll(uC => uC.cardSize == cardSize));
+        cardCategoryToSpawn.SetupCardCategory(cardSize, unityCards.FindAll(uC => uC.cardSize == cardSize), defaultColumnCount);
         if(!cardCategories.Contains(cardCategoryToSpawn)){
             cardCategories.Add(cardCategoryToSpawn);
         }
     }
 
-    public void LoadCollectionData(){
-        foreach(CardCategory cc in cardCategories){
-
+    public void SetCurrentCollection(CardCollection newCurrent){
+        Debug.Log("SetCurrentCollection", newCurrent);
+        if(currentCollection != null){
+            CardSelectionSlot.OnAddToDeck -= currentCollection.PickFromCollection;
+            CardSelectionSlot.OnReturnToCollection -= currentCollection.ReturnToCollection;
         }
+        
+        currentCollection = newCurrent;
+
+        CardSelectionSlot.OnAddToDeck += currentCollection.PickFromCollection;
+        CardSelectionSlot.OnReturnToCollection += currentCollection.ReturnToCollection;
+
+        LoadCollectionData();
+    }
+
+    void LoadCollectionData(){
+        Debug.Log("LoadCollectionData", currentCollection);
+        foreach(CardCategory cc in cardCategories){
+            foreach(CardUI cui in cc.UiCardsInCategory){
+                cui.CurrentAmountInCollection = currentCollection.FindAllOfCardType(cc.categoryCardSize).Find(cub => cub.card.ID == cui.Card.ID).AmountMax;
+            }
+        }
+        Canvas.ForceUpdateCanvases();
     }
 
     public void CenterToItem(CardCategory categoryToGoTo){

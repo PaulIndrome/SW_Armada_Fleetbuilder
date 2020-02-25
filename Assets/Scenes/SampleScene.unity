@@ -711,6 +711,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c8b48c622ab3614d975840578989e08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentSelectedCard: {fileID: 0}
 --- !u!1 &1134600009
 GameObject:
   m_ObjectHideFlags: 0
@@ -10312,6 +10313,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardCategoryPrefab: {fileID: 7864975658483319485, guid: 65e8c144705a3b846b0816e54a422694,
     type: 3}
+  defaultColumnCounts:
+  - categorySize: 0
+    defaultColumnCount: 3
+  - categorySize: 1
+    defaultColumnCount: 4
+  - categorySize: 2
+    defaultColumnCount: 5
+  cardSelectionSlot: {fileID: 1112573428}
   scrollRect: {fileID: 2101457205}
   contentTransform: {fileID: 1829179931}
   cardCategories: []
@@ -10744,7 +10753,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0.000038146973}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1829179932
@@ -11067,7 +11076,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f69dfb25b53b14addbd71dbebdbaa132, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Camera: {fileID: 2111312902}
 --- !u!4 &2111312904
 Transform:
   m_ObjectHideFlags: 0

@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7864975658483319486}
   - component: {fileID: 7864975658483319484}
-  - component: {fileID: 7864975658483319487}
   - component: {fileID: 7864975658483319485}
   m_Layer: 5
   m_Name: CardCategory
@@ -62,20 +61,6 @@ MonoBehaviour:
   m_Spacing: {x: 10, y: 10}
   m_Constraint: 0
   m_ConstraintCount: 4
---- !u!114 &7864975658483319487
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7864975658483319473}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_HorizontalFit: 0
-  m_VerticalFit: 1
 --- !u!114 &7864975658483319485
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92,8 +77,8 @@ MonoBehaviour:
     type: 3}
   cardUIPrefab: {fileID: 7088405551694465112, guid: d79b847666b8b5440a5fc83b84656417,
     type: 3}
-  categoryHeader: {fileID: 0}
   uiCardsInCategory: []
+  categoryHeader: {fileID: 0}
   cardWidth: 120
   categoryCardSize: 0
   cardsInCategory: []
