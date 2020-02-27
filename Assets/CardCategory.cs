@@ -48,8 +48,12 @@ public class CardCategory : MonoBehaviour
     }
 
     public void SetupCardCategory(CardSize cardSize, List<CardUnityBase> cards, int defaulColumnCount = 0){
-        categoryHeader = Instantiate<CategoryHeader>(categoryHeaderPrefab, Vector3.zero, Quaternion.identity, transform.parent);
-        categoryHeader.transform.SetSiblingIndex(transform.GetSiblingIndex());
+        // transform.SetSiblingIndex((int) cardSize);
+
+        if(categoryHeader == null){
+            categoryHeader = Instantiate<CategoryHeader>(categoryHeaderPrefab, Vector3.zero, Quaternion.identity, transform.parent);
+            categoryHeader.transform.SetSiblingIndex(transform.GetSiblingIndex());
+        }
 
         string categoryName;
 
@@ -87,15 +91,19 @@ public class CardCategory : MonoBehaviour
     public void SetupCardsInCategory(){
         Debug.Log($"About to set up cards in category {categoryCardSize}: {cardsInCategory.Count} ui cards will be set up");
         if(cardsInCategory.Count < 1) return;
-        cardsInCategory.Sort();
+
+        cardsInCategory.Sort(delegate(CardUnityBase c1, CardUnityBase c2) {return c1.cardTypeRaw.CompareTo(c2.cardTypeRaw);});
 
         Canvas.ForceUpdateCanvases();
 
         CardUI newCard;
         for(int i = 0; i < cardsInCategory.Count; i++){
-            newCard = Instantiate<CardUI>(cardUIPrefab, Vector3.zero, Quaternion.identity, transform);
+            newCard = uiCardsInCategory.Find(nc => nc.Card.ID == cardsInCategory[i].ID);
+            if(newCard == null){
+                newCard = Instantiate<CardUI>(cardUIPrefab, Vector3.zero, Quaternion.identity, transform);
+                uiCardsInCategory.Add(newCard);
+            }
             newCard.SetupCardUI(cardsInCategory[i]);
-            uiCardsInCategory.Add(newCard);
         }
     }
 

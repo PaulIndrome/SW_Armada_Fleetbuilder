@@ -58,11 +58,12 @@ public class CollectionContentControl : MonoBehaviour
     /// </summary>
     void Start()
     {
-        if(cardCategories.Count < 1){
-            SpawnAllCategories();
-        }
+        // if(cardCategories.Count < 1){
+        //     SpawnAllCategories();
+        // }
         
         if(currentCollection != null){
+            Debug.Log("About to set collection " + currentCollection.name);
             SetCurrentCollection(currentCollection);
         }
     }
@@ -72,6 +73,16 @@ public class CollectionContentControl : MonoBehaviour
         unityCards = new List<CardUnityBase>(Resources.LoadAll<CardUnityBase>("CardUnity/"));
         allCardCollections = new List<CardCollection>(Resources.LoadAll<CardCollection>("Collections/")); // needs to be replaced with a JSON approach later
         cardCategories.Clear();
+    }
+
+    [ContextMenu("Spawn all categories")]
+    void SpawnAllCategories(){
+        if(unityCards.Count < 1){
+            LoadResources();
+        }
+        SpawnShipCategory();
+        SpawnSquadronCategory();
+        SpawnUpgradeCategory();
     }
 
     [ContextMenu("Spawn ship category")]
@@ -87,16 +98,6 @@ public class CollectionContentControl : MonoBehaviour
     [ContextMenu("Spawn upgrade category")]
     void SpawnUpgradeCategory(){
         SpawnCategory(CardSize.Small, defaultColumnCounts.Find(dcc => dcc.categorySize == CardSize.Small).defaultColumnCount);
-    }
-
-    [ContextMenu("Spawn all categories")]
-    void SpawnAllCategories(){
-        if(unityCards.Count < 1){
-            LoadResources();
-        }
-        SpawnShipCategory();
-        SpawnSquadronCategory();
-        SpawnUpgradeCategory();
     }
 
     public void CycleCurrentFaction(){
@@ -120,14 +121,18 @@ public class CollectionContentControl : MonoBehaviour
         }
     }
 
-    
-
     public void SpawnCategory(CardSize cardSize, int defaultColumnCount = 0){
-        CardCategory cardCategoryToSpawn = Instantiate<CardCategory>(cardCategoryPrefab, Vector3.zero, Quaternion.identity, contentTransform);
-        cardCategoryToSpawn.SetupCardCategory(cardSize, unityCards.FindAll(uC => uC.cardSize == cardSize), defaultColumnCount);
-        if(!cardCategories.Contains(cardCategoryToSpawn)){
-            cardCategories.Add(cardCategoryToSpawn);
+        
+        CardCategory cardCategory = cardCategories.Find(cc => cc.categoryCardSize == cardSize);
+        if(cardCategory == null){
+            cardCategory = Instantiate<CardCategory>(cardCategoryPrefab, Vector3.zero, Quaternion.identity, contentTransform);
+            cardCategories.Add(cardCategory);
         }
+
+        cardCategory.SetupCardCategory(cardSize, unityCards.FindAll(uC => uC.cardSize == cardSize), defaultColumnCount);
+        // if(!cardCategories.Contains(cardCategory)){
+            
+        // }
     }
 
     public void SetCurrentCollection(CardCollection newCurrent){
@@ -142,16 +147,33 @@ public class CollectionContentControl : MonoBehaviour
         CardSelectionSlot.OnAddToDeck += currentCollection.PickFromCollection;
         CardSelectionSlot.OnReturnToCollection += currentCollection.ReturnToCollection;
 
+        currentCollection.ResetCardAmounts();
+
         LoadCollectionData();
     }
 
     void LoadCollectionData(){
         Debug.Log("LoadCollectionData", currentCollection);
+        SpawnAllCategories();
+        CardCollectionEntry entry;
         foreach(CardCategory cc in cardCategories){
+            // foreach(CardCollectionEntry cce in currentCollection.FindAllOfCardType(cc.categoryCardSize)){
+            //     Debug.LogWarning($"{cc.categoryCardSize}: entry card ID: {cce.card.ID} | entry Identifier: {cce.Identifier}");
+            // }
             foreach(CardUI cui in cc.UiCardsInCategory){
-                cui.CurrentAmountInCollection = currentCollection.FindAllOfCardType(cc.categoryCardSize).Find(cub => cub.card.ID == cui.Card.ID).AmountMax;
+                entry = currentCollection.FindAllOfCardType(cc.categoryCardSize).Find(cce => cce.Identifier == cui.Card.ID);
+                if(entry == null){
+                    Debug.LogError($"Could not find entry for CardUI \"{cui.Card.ID}\" in category \"{cc.categoryCardSize}\"", cui);
+                    continue;
+                }
+                cui.SetCollectionEntry(entry);
+                // cui.SetCollectionAmount(currentCollection.FindAllOfCardType(cc.categoryCardSize).Find(cub => cub.card.ID == cui.Card.ID).AmountMax);
+                // cui.CurrentAmountInCollection = currentCollection.FindAllOfCardType(cc.categoryCardSize).Find(cub => cub.card.ID == cui.Card.ID).AmountMax;
             }
         }
+
+        CreateCategoryMarkers();
+
         Canvas.ForceUpdateCanvases();
     }
 
@@ -169,6 +191,16 @@ public class CollectionContentControl : MonoBehaviour
         calculatedNormalizedPosition.y = 1 - Mathf.Abs(categoryHeaderTransform.anchoredPosition.y / scrollRect.content.sizeDelta.y);
         // Debug.Log("calculatedNormalizedPosition.y: " + calculatedNormalizedPosition.y);
         scrollRect.normalizedPosition = calculatedNormalizedPosition;
+    }
+
+    [ContextMenu("Create category markers")]
+    public void CreateCategoryMarkers(){
+        CategoryMarkerPlacer placer = GetComponentInChildren<CategoryMarkerPlacer>();
+        float[] places = new float[cardCategories.Count - 1];
+        for(int i = 0; i < places.Length; i++){
+            places[i] = 1 - Mathf.Abs(cardCategories[i + 1].CategoryHeader.GetComponent<RectTransform>().anchoredPosition.y  / scrollRect.content.sizeDelta.y);
+        }
+        placer.PlaceMarkers(places);
     }
 
     [ContextMenu("Go to Ship category")]

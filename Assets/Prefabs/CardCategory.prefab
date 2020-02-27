@@ -50,8 +50,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 15
-    m_Right: 0
+    m_Left: 0
+    m_Right: 1
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 1
@@ -75,7 +75,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   categoryHeaderPrefab: {fileID: 1996170168859752518, guid: 0bc02d0555cab84469b8e0db48aa22b5,
     type: 3}
-  cardUIPrefab: {fileID: 7088405551694465112, guid: d79b847666b8b5440a5fc83b84656417,
+  cardUIPrefab: {fileID: 825589351658365026, guid: de8f5b4c140db6a4f994099e8d342e5e,
     type: 3}
   uiCardsInCategory: []
   categoryHeader: {fileID: 0}

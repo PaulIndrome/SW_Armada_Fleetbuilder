@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 65f18e14e46ec3b4da77a8ff6698b57e, type: 3}
-  m_Name: _AxelCards_collection
+  m_Name: _AxelCards_collection_twoFewVaders
   m_EditorClassIdentifier: 
   cardCollectionEntries:
   - identifier: cardAdarTallon
@@ -233,7 +233,7 @@ MonoBehaviour:
     card: {fileID: 11400000, guid: 2d4b8ee5ec1ae18429a3edf00b97235b, type: 2}
     amountMax: 1
     amountRemaining: 1
-  - identifier: cardDarthVaderSquadron
+  - identifier: cardDarthVader
     card: {fileID: 11400000, guid: b6786771132afe147a3d29b620464373, type: 2}
     amountMax: 3
     amountRemaining: 3
@@ -1471,7 +1471,7 @@ MonoBehaviour:
     card: {fileID: 11400000, guid: 2d4b8ee5ec1ae18429a3edf00b97235b, type: 2}
     amountMax: 1
     amountRemaining: 1
-  - identifier: cardDarthVaderSquadron
+  - identifier: cardDarthVader
     card: {fileID: 11400000, guid: b6786771132afe147a3d29b620464373, type: 2}
     amountMax: 1
     amountRemaining: 1
@@ -1882,14 +1882,6 @@ MonoBehaviour:
     amountRemaining: 1
   - identifier: cardCorvus
     card: {fileID: 11400000, guid: 553eac026d040004697da39f5e461e72, type: 2}
-    amountMax: 1
-    amountRemaining: 1
-  - identifier: cardDarthVaderBoarding
-    card: {fileID: 11400000, guid: 5fba17bec2443a04b92109076390895f, type: 2}
-    amountMax: 1
-    amountRemaining: 1
-  - identifier: cardDarthVaderCommander
-    card: {fileID: 11400000, guid: 3f5d1057485d0fb4ab074ffb2712c9b9, type: 2}
     amountMax: 1
     amountRemaining: 1
   - identifier: cardDerGrossinquisitor

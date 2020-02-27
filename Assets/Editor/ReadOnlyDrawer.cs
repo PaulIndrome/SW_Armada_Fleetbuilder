@@ -9,6 +9,8 @@ public class ReadOnlyDrawer : PropertyDrawer {
 
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
         ReadOnlyAttribute readOnlyAttribute = (ReadOnlyAttribute) attribute;
+
+        float baseHeight = position.height;
         
         Rect togglePosition = position;
         togglePosition.x -= 12f;
@@ -21,4 +23,8 @@ public class ReadOnlyDrawer : PropertyDrawer {
         EditorGUI.PropertyField(position, property, label, true);
         EditorGUI.EndDisabledGroup();
     }
+
+    // public override float GetPropertyHeight (SerializedProperty property, GUIContent label) {
+        
+    // }
 }

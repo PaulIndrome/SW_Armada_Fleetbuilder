@@ -8,8 +8,11 @@ using UnityEditor;
 
 public abstract class CardUnityBase : ScriptableObject, IComparable<CardUnityBase> {
 
-    private delegate void CardMovedDelegate(bool toDeck, int amountChangedBy);
+    private delegate void CardMovedDelegate(string id, bool toDeck, int amountChangedBy);
     private event CardMovedDelegate OnCardMoved;
+
+    private delegate void CardToggledDelegate(string id, bool? onOff);
+    private event CardToggledDelegate OnCardToggled;
     
 
     public string ID = "";
@@ -56,20 +59,28 @@ public abstract class CardUnityBase : ScriptableObject, IComparable<CardUnityBas
         cardSize = cardTypesLookup.GetCardSize(card.cardType);
     }
 
-    public void MoveCard(bool toDeck, int amount){
-        OnCardMoved(toDeck, amount);
+    public void MoveCard(string id, bool toDeck, int amount){
+        OnCardMoved(id, toDeck, amount);
+    }
+
+    public void ToggleCardAvailability(bool? onOff){
+        OnCardToggled(ID, onOff);
     }
 
     public void LinkUICard(CardUI cardUI){
         OnCardMoved += cardUI.MoveCard;
+        OnCardToggled += cardUI.ToggleCardAvailability;
     }
 
     public void UnlinkUICard(CardUI cardUI){
         OnCardMoved -= cardUI.MoveCard;
+        OnCardToggled -= cardUI.ToggleCardAvailability;
+        
     }
 
     public void ResetLinkedUICards(){
         OnCardMoved = null;
+        OnCardToggled = null;
     }
 
     public void LinkContradictories(params CardUnityBase[] contradictoryCards){

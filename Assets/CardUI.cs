@@ -4,12 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-[RequireComponent(typeof(Button), typeof(Image))]
+// [RequireComponent(typeof(Button), typeof(Image))]
 public class CardUI : MonoBehaviour
 {
 
     public delegate void SelectCardDelegate(CardUI selected);
-    public static event SelectCardDelegate onCardSelected;
+    public static event SelectCardDelegate OnCardSelected;
 
     // [Header("Settings")]
     // [SerializeField] private Vector2 anchoredPositionOffset = Vector2.zero;
@@ -20,6 +20,9 @@ public class CardUI : MonoBehaviour
     [SerializeField] private RectTransform amountGroupTransform;
     [SerializeField] private TextMeshProUGUI amountInCollectionText;
     [SerializeField] private TextMeshProUGUI amountInDeckText;
+    [SerializeField] private Animator buttonAnimator;
+    private int animSelectedHash;
+    private int animDeselectedHash;
     
     // TODO: amountInCollection & amountInDeck 
 
@@ -27,18 +30,19 @@ public class CardUI : MonoBehaviour
 
     [Header("Set via script")]
     [ReadOnly, SerializeField] private int currentAmountInCollection;
+    [ReadOnly, SerializeField] private int currentAmountInCollectionMax;
     [ReadOnly, SerializeField] private int currentAmountInDeck;
     public float spriteWidth = 0f;
     public float spriteHeight = 0f;
     public float rightGap = 0f;
     public float topGap = 0f;
-    [SerializeField] private CardUnityBase card;
-
+    [ReadOnly(true), SerializeField] private CardUnityBase card;
 
     public int CurrentAmountInCollection {
         get { return currentAmountInCollection; }
         set {
-            currentAmountInCollection = value;
+            //Debug.Log("Calling CurrentAmountInCollection with value: " + value);
+            currentAmountInCollection = Mathf.Clamp(value, 0, currentAmountInCollectionMax);
             SetAmountInCollectionText(currentAmountInCollection);
         }
     }
@@ -46,7 +50,8 @@ public class CardUI : MonoBehaviour
     public int CurrentAmountInDeck {
         get { return currentAmountInDeck; }
         set {
-            currentAmountInDeck = value;
+            //Debug.Log("Calling CurrentAmountInDeck with value: " + value);
+            currentAmountInDeck = Mathf.Clamp(value, 0, card.isUnique || card.isCommander ? 1 : 999);
             SetAmountInDeckText(currentAmountInDeck);
         }
     }
@@ -58,9 +63,17 @@ public class CardUI : MonoBehaviour
     /// </summary>
     void Awake()
     {
-        cardButton = GetComponent<Button>();
-        cardImage = GetComponent<Image>();
-        rectTransform = GetComponent<RectTransform>();
+        if(!cardButton)
+            cardButton = GetComponent<Button>();
+            
+        if(!cardImage)
+            cardImage = GetComponent<Image>();
+
+        if(!rectTransform)
+            rectTransform = GetComponent<RectTransform>();
+
+        animSelectedHash = Animator.StringToHash("Selected");
+        animDeselectedHash = Animator.StringToHash("Deselected");
     }
 
     /// <summary>
@@ -119,11 +132,20 @@ public class CardUI : MonoBehaviour
         amountGroupTransform.anchoredPosition = cardWidthAnchoredPosition + customOffset;
     }
 
-    public void MoveCard(bool toDeck, int amount = 1){
-        currentAmountInDeck = toDeck ? currentAmountInDeck + amount : currentAmountInDeck - amount;
-        SetAmountInDeckText(currentAmountInDeck);
-        currentAmountInCollection = toDeck ? currentAmountInCollection - amount : currentAmountInCollection + amount;
-        SetAmountInCollectionText(currentAmountInCollection);
+    public void MoveCard(string id, bool toDeck, int amount = 1){
+        // only change amount in deck if THIS is the card that was moved to deck
+        if(id == card.ID){
+            // Debug.Log($"id: {id} == card.ID {card.ID}");
+            CurrentAmountInDeck = toDeck ? CurrentAmountInDeck + amount : CurrentAmountInDeck - amount;
+        }
+        
+        // amount in collection is "purely" visual
+        CurrentAmountInCollection = toDeck ? CurrentAmountInCollection - amount : CurrentAmountInCollection + amount;
+    }
+
+    /// <summary>Toggles the card clickable (true), unclickable (false) or inverse-state (null)</summary>
+    public void ToggleCardAvailability(string id, bool? onOff){
+        cardButton.interactable = onOff.HasValue ? onOff.Value : !cardButton.interactable;
     }
 
     public void SetAmountInCollectionText(int amount){
@@ -132,6 +154,17 @@ public class CardUI : MonoBehaviour
 
     public void SetAmountInDeckText(int amount){
         amountInDeckText.text = currentAmountInDeck.ToString();
+    }
+
+    public void SetCollectionEntry(CardCollectionEntry entry){
+        //Debug.Log($"Setting collection entry {entry.Identifier} to {gameObject.name}", gameObject);
+        SetCollectionAmount(entry.AmountMax);
+        CurrentAmountInDeck = 0;
+    }
+
+    private void SetCollectionAmount(int amountMax){
+        currentAmountInCollectionMax = amountMax;
+        CurrentAmountInCollection = currentAmountInCollectionMax;
     }
 
     [ContextMenu("Test card setup")]
@@ -150,9 +183,17 @@ public class CardUI : MonoBehaviour
     }
 
     public void SelectCard(){
-        if(onCardSelected != null){
-            onCardSelected(this);
+        if(OnCardSelected != null){
+            OnCardSelected(this);
+            buttonAnimator.ResetTrigger(animDeselectedHash);
+            buttonAnimator.SetTrigger(animSelectedHash);
         }
+    }
+
+    public void DeselectCard(){
+        Debug.Log("Deselecting card " + name, this);
+        buttonAnimator.ResetTrigger(animSelectedHash);
+        buttonAnimator.SetTrigger(animDeselectedHash);
     }
 
     /// <summary>

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
@@ -26,15 +26,13 @@ public class DeserializeCardsFromJSON : MonoBehaviour
     
     public TextAsset cardsJson;
     public TextAsset cardTypesJson;
+    [ContextMenuItem("Sort all cards by name", "SortAllCardsByName")]
     public List<Card> allCards;
     public List<CardUnityBase> allCardsUnity;
     public CardTypesLookup cardTypesLookup;
 
     // private char[] IDEndTrim = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'K', 'L', 'M', 'N', 'O', 'P'};
 
-    public void Start(){
-
-    }
 
 #if UNITY_EDITOR
     [ContextMenu("Build Collection")]
@@ -118,6 +116,10 @@ public class DeserializeCardsFromJSON : MonoBehaviour
         allCardsUnity = new List<CardUnityBase>(Resources.LoadAll<CardUnityBase>("CardUnity/"));
     }
 
+    public void SortAllCardsByName(){
+        allCards.Sort(delegate(Card c1, Card c2) { return c1.name.CompareTo(c2.name); });
+    }
+
     // [ContextMenu("Link Contradictories")]
     // public void LinkContradictories(){
     //     if(allCardsUnity.Count < 1) return; 
@@ -175,7 +177,7 @@ public class DeserializeCardsFromJSON : MonoBehaviour
             }
             // Debug.Log($"Trying to add card {allCards[i].name} to collection");
 
-            collection.AddCard(allCardsUnity.Find(cu => cu.cardName == allCards[i].name));
+            collection.AddCard(allCardsUnity.Find(cu => cu.ID == allCards[i].name));
         }
         
         EditorUtility.ClearProgressBar();

@@ -1,8 +1,9 @@
+using System;
 using UnityEngine;
 
 [System.Serializable]
-public class CardCollectionEntry {
-    [SerializeField, HideInInspector] private string identifier = "";
+public class CardCollectionEntry : IComparable<CardCollectionEntry>{
+    [ReadOnly(true), SerializeField] private string identifier = "";
     public string Identifier => identifier;
     public CardUnityBase card = null;
 
@@ -13,7 +14,7 @@ public class CardCollectionEntry {
     public int AmountMax {
         get { return amountMax; }
         set {
-            amountMax = Mathf.Clamp(value, 0, 999);
+            amountMax = Mathf.Clamp(value, 0, card.isUnique || card.isCommander ? 1 : 999);
         }
     }   
 
@@ -30,5 +31,12 @@ public class CardCollectionEntry {
         identifier = card.ID;
     }
 
-    
+    public void UpdateIdentifier(string newIdentifier){
+        identifier = newIdentifier;
+    }
+
+    public int CompareTo(CardCollectionEntry other)
+    {
+        return identifier.CompareTo(other.Identifier);
+    }
 }

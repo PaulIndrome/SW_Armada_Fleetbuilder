@@ -3,27 +3,40 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Image))]
-public class CardSelectionSlot : MonoBehaviour
+public class CardSelectionSlot : SwipableComponent
 {
-
-    public delegate int AddToDeckFromCollectionDelegate(string cardID, string cardName, int amountToAdd = 1);
+    public delegate int AddToDeckFromCollectionDelegate(CardUI cardUI, int amountToAdd = 1);
     public static event AddToDeckFromCollectionDelegate OnAddToDeck;
 
-    public delegate int ReturnToCollectionFromDeckDelegate(string cardID, string cardName, int amountToAdd = 1);
+    public delegate int ReturnToCollectionFromDeckDelegate(CardUI cardUI, int amountToAdd = 1);
     public static event ReturnToCollectionFromDeckDelegate OnReturnToCollection;
     
-    private Image image;
+    
 
     [ReadOnly(true), SerializeField, ContextMenuItem("Add to deck", "AddToDeck"), ContextMenuItem("Remove from deck", "RemoveFromDeck")] private CardUI currentSelectedCard;
+
+    [Header("Scene references")]
+    [SerializeField] private Image cardImage;
+    [SerializeField] private Image cardBackgroundImage;
 
     /// <summary>
     /// Awake is called when the script instance is being loaded.
     /// </summary>
     void Awake()
     {
-        image = GetComponent<Image>();
-        image.preserveAspect = true;
+        Image[] images = GetComponentsInChildren<Image>();
+        if(cardImage == null){
+            cardImage = images[2];
+        }
+        
+        cardImage.preserveAspect = true;    
+        
+        if(cardBackgroundImage == null){
+            cardBackgroundImage = images[1];
+        }
+
+        cardBackgroundImage.preserveAspect = true;
+        cardBackgroundImage.color = Color.clear;
     }
 
     /// <summary>
@@ -32,42 +45,76 @@ public class CardSelectionSlot : MonoBehaviour
     void OnEnable()
     {
         Debug.Log("SingleSelectedCard OnEnable()", this);
-        CardUI.onCardSelected -= SetCurrentSelectedCard;
-        CardUI.onCardSelected += SetCurrentSelectedCard;
+        CardUI.OnCardSelected -= SetCurrentSelectedCard;
+        CardUI.OnCardSelected += SetCurrentSelectedCard;
     }
 
     public void SetCurrentSelectedCard(CardUI cardToSet){
+        if(currentSelectedCard != null){
+            currentSelectedCard.DeselectCard();
+        }
+
         currentSelectedCard = cardToSet;
+        
         if(cardToSet != null){
-            image.sprite = cardToSet.Card.sprite;
-            image.color = Color.white;
+            cardImage.sprite = cardToSet.Card.sprite;
+            cardImage.color = Color.white;
         } else {
-            image.sprite = null;
-            image.color = Color.clear;
+            cardImage.sprite = null;
+            cardImage.color = Color.clear;
         }
     }
 
     public void AddToDeck(){
         if(currentSelectedCard.CurrentAmountInCollection < 1) return;
         if(OnAddToDeck != null){
-            OnAddToDeck(currentSelectedCard.Card.ID, currentSelectedCard.Card.cardName, 1);
-            currentSelectedCard.MoveCard(true, 1);
+            OnAddToDeck(currentSelectedCard, 1);
+            //currentSelectedCard.MoveCard(true, 1);
         }
     }
 
     public void RemoveFromDeck(){
         if(currentSelectedCard.CurrentAmountInDeck < 1) return;
         if(OnReturnToCollection != null){
-            OnReturnToCollection(currentSelectedCard.Card.ID, currentSelectedCard.Card.cardName, 1);
-            currentSelectedCard.MoveCard(false, 1);
+            OnReturnToCollection(currentSelectedCard, 1);
+            //currentSelectedCard.MoveCard(false, 1);
         }
     }
+
+    public override void OnEndDrag(UnityEngine.EventSystems.PointerEventData eventData){
+        if(dragActivationUp){
+            AddToDeck();
+        } 
+        if(dragActivationDown){
+            RemoveFromDeck();
+        }
+
+        base.OnEndDrag(eventData);
+    }
+
+    public override void DragActivationVisuals(bool dragging)
+    {
+        if(dragging){
+            if(dragActivationUp) {
+                cardBackgroundImage.color = Color.green;
+            } else if(dragActivationDown){
+                cardBackgroundImage.color = Color.red;
+            } else {
+                cardBackgroundImage.color = Color.clear;
+            }
+        } else {
+            cardBackgroundImage.color = Color.clear;
+        }
+
+    }
+
 
     /// <summary>
     /// This function is called when the behaviour becomes disabled or inactive.
     /// </summary>
     void OnDisable()
     {
-        CardUI.onCardSelected -= SetCurrentSelectedCard;
+        CardUI.OnCardSelected -= SetCurrentSelectedCard;
     }
+
 }
