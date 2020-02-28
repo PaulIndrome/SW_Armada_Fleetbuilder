@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
 using System;
+using System.IO;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -183,6 +184,34 @@ public class DeserializeCardsFromJSON : MonoBehaviour
         EditorUtility.ClearProgressBar();
 
         UnityEditor.AssetDatabase.CreateAsset(collection, $"Assets/Resources/Collections/{collection.name}_collection.asset");
+    }
+
+    
+    [ContextMenu("Serialize deck")]
+    public void SerializeDeck(){
+        // Debug.Log(Application.dataPath);
+        Deck deck = ScriptableObject.CreateInstance<Deck>();
+        deck.SetupDeck("testDeck", 400);
+        int i = 0;
+        
+        // deck.SetName("testDeck");
+        // deck.SetPointsMax(400);
+
+        while(deck.CurrentPoints < deck.PointsMax && i < 100){
+            deck.AddCardToDeck(allCardsUnity[UnityEngine.Random.Range(0, allCardsUnity.Count)], 1);
+            i = i + 1;
+        }
+        
+
+        string serializedString = JsonConvert.SerializeObject(deck, Formatting.Indented);
+        Debug.Log(serializedString);
+        
+        TextAsset textAsset = new TextAsset(serializedString);
+        // AssetDatabase.CreateAsset(textAsset, $"Assets/{deck.DeckName}.json");
+        File.WriteAllText($"{Application.dataPath}/{deck.DeckName}.json", serializedString);
+
+        AssetDatabase.Refresh();
+
     }
 
     // [ContextMenu("Debug all Card Types")]

@@ -21,7 +21,7 @@ public abstract class CardUnityBase : ScriptableObject, IComparable<CardUnityBas
     public Faction faction;
     public string cardName = "";
     public int cost = -1;
-    [HideInInspector] public List<CardUnityBase> contradictories = new List<CardUnityBase>();
+    // [HideInInspector] public List<CardUnityBase> contradictories = new List<CardUnityBase>();
     public bool isCommander = false;
     public bool isUnique = false;
     public bool isSquadron = false;
@@ -83,23 +83,23 @@ public abstract class CardUnityBase : ScriptableObject, IComparable<CardUnityBas
         OnCardToggled = null;
     }
 
-    public void LinkContradictories(params CardUnityBase[] contradictoryCards){
-        for(int i = 0; i < contradictoryCards.Length; i++){
-            if(contradictoryCards[i] == null || contradictories.Contains(contradictoryCards[i])) continue;
-            else {
-                contradictories.Add(contradictoryCards[i]);
-            }
-        }
-    }
+    // public void LinkContradictories(params CardUnityBase[] contradictoryCards){
+    //     for(int i = 0; i < contradictoryCards.Length; i++){
+    //         if(contradictoryCards[i] == null || contradictories.Contains(contradictoryCards[i])) continue;
+    //         else {
+    //             contradictories.Add(contradictoryCards[i]);
+    //         }
+    //     }
+    // }
 
-    public void RemoveContradictories(params CardUnityBase[] contradictoryCards) {
-        for(int i = 0; i < contradictoryCards.Length; i++){
-            if(contradictoryCards[i] == null || !contradictories.Contains(contradictoryCards[i])) continue;
-            else {
-                contradictories.Remove(contradictoryCards[i]);
-            }
-        }
-    }
+    // public void RemoveContradictories(params CardUnityBase[] contradictoryCards) {
+    //     for(int i = 0; i < contradictoryCards.Length; i++){
+    //         if(contradictoryCards[i] == null || !contradictories.Contains(contradictoryCards[i])) continue;
+    //         else {
+    //             contradictories.Remove(contradictoryCards[i]);
+    //         }
+    //     }
+    // }
 
     public int CompareTo(CardUnityBase other)
     {
@@ -118,6 +118,7 @@ public abstract class CardUnityBase : ScriptableObject, IComparable<CardUnityBas
     {
         ResetLinkedUICards();
     }
+
 }
 
 #if UNITY_EDITOR
@@ -126,7 +127,7 @@ public class CardUnityBaseEditor : Editor {
     public override void OnInspectorGUI(){
         CardUnityBase target = serializedObject.targetObject as CardUnityBase;
         DrawDefaultInspector();
-        Rect textureRect = EditorGUILayout.GetControlRect(false, target.sprite.texture.height);
+        Rect textureRect = EditorGUILayout.GetControlRect(false, target.sprite.texture.height + 20f);
         textureRect.y += 16f;
         textureRect.x = 16f;
         EditorGUI.DrawPreviewTexture(textureRect, target.sprite.texture, null, ScaleMode.ScaleToFit);

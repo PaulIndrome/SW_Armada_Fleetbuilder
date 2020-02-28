@@ -1,5 +1,5 @@
 using UnityEngine;
-
+[System.Serializable]
 public class CardUnityUpgrade : CardUnityBase {
     public UpgradeType upgradeType;
 

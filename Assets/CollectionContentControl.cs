@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -58,10 +59,6 @@ public class CollectionContentControl : MonoBehaviour
     /// </summary>
     void Start()
     {
-        // if(cardCategories.Count < 1){
-        //     SpawnAllCategories();
-        // }
-        
         if(currentCollection != null){
             Debug.Log("About to set collection " + currentCollection.name);
             SetCurrentCollection(currentCollection);
@@ -100,6 +97,19 @@ public class CollectionContentControl : MonoBehaviour
         SpawnCategory(CardSize.Small, defaultColumnCounts.Find(dcc => dcc.categorySize == CardSize.Small).defaultColumnCount);
     }
 
+
+    public void SpawnCategory(CardSize cardSize, int defaultColumnCount = 0){
+        
+        CardCategory cardCategory = cardCategories.Find(cc => cc.categoryCardSize == cardSize);
+        if(cardCategory == null){
+            cardCategory = Instantiate<CardCategory>(cardCategoryPrefab, Vector3.zero, Quaternion.identity, contentTransform);
+            cardCategories.Add(cardCategory);
+        }
+
+        cardCategory.SetupCardCategory(cardSize, unityCards.FindAll(uC => uC.cardSize == cardSize), defaultColumnCount);
+    }
+
+    [ContextMenu("Cycle current faction")]
     public void CycleCurrentFaction(){
         switch((int) currentFaction){
             case 0:
@@ -116,23 +126,8 @@ public class CollectionContentControl : MonoBehaviour
                 break;
         }
         foreach(CardCategory cC in cardCategories){
-            // Debug.Log($"About to set faction for {cC.categoryCardSize} to {currentFaction}");
             cC.SetFactionTo(currentFaction);
         }
-    }
-
-    public void SpawnCategory(CardSize cardSize, int defaultColumnCount = 0){
-        
-        CardCategory cardCategory = cardCategories.Find(cc => cc.categoryCardSize == cardSize);
-        if(cardCategory == null){
-            cardCategory = Instantiate<CardCategory>(cardCategoryPrefab, Vector3.zero, Quaternion.identity, contentTransform);
-            cardCategories.Add(cardCategory);
-        }
-
-        cardCategory.SetupCardCategory(cardSize, unityCards.FindAll(uC => uC.cardSize == cardSize), defaultColumnCount);
-        // if(!cardCategories.Contains(cardCategory)){
-            
-        // }
     }
 
     public void SetCurrentCollection(CardCollection newCurrent){
@@ -157,18 +152,13 @@ public class CollectionContentControl : MonoBehaviour
         SpawnAllCategories();
         CardCollectionEntry entry;
         foreach(CardCategory cc in cardCategories){
-            // foreach(CardCollectionEntry cce in currentCollection.FindAllOfCardType(cc.categoryCardSize)){
-            //     Debug.LogWarning($"{cc.categoryCardSize}: entry card ID: {cce.card.ID} | entry Identifier: {cce.Identifier}");
-            // }
             foreach(CardUI cui in cc.UiCardsInCategory){
-                entry = currentCollection.FindAllOfCardType(cc.categoryCardSize).Find(cce => cce.Identifier == cui.Card.ID);
+                entry = currentCollection.FindAllOfCardSize(cc.categoryCardSize).Find(cce => cce.Identifier == cui.Card.ID);
                 if(entry == null){
                     Debug.LogError($"Could not find entry for CardUI \"{cui.Card.ID}\" in category \"{cc.categoryCardSize}\"", cui);
                     continue;
                 }
                 cui.SetCollectionEntry(entry);
-                // cui.SetCollectionAmount(currentCollection.FindAllOfCardType(cc.categoryCardSize).Find(cub => cub.card.ID == cui.Card.ID).AmountMax);
-                // cui.CurrentAmountInCollection = currentCollection.FindAllOfCardType(cc.categoryCardSize).Find(cub => cub.card.ID == cui.Card.ID).AmountMax;
             }
         }
 
@@ -178,18 +168,9 @@ public class CollectionContentControl : MonoBehaviour
     }
 
     public void CenterToItem(CardCategory categoryToGoTo){
-        // float categoryHeaderSize = categoryToGoTo.CategoryHeader.HeaderSize;
-        // Debug.Log("\n");
-        // Debug.Log("categoryHeaderSize: " + categoryHeaderSize, categoryToGoTo.CategoryHeader);
         Vector2 calculatedNormalizedPosition = Vector2.zero;
-        // RectTransform categoryTransform = categoryToGoTo.RectTransform;
         RectTransform categoryHeaderTransform = categoryToGoTo.CategoryHeader.GetComponent<RectTransform>();
-        // RectTransform contentTransform = scrollRect.content;
-        // Debug.Log("scrollRect.content.sizeDelta.y: " + scrollRect.content.sizeDelta.y, scrollRect.content);
-        // Debug.Log("categoryTransform.anchoredPosition.y: " + categoryTransform.anchoredPosition.y, categoryTransform);
-        // Debug.Log("categoryHeaderTransform.anchoredPosition.y: " + categoryHeaderTransform.anchoredPosition.y);
         calculatedNormalizedPosition.y = 1 - Mathf.Abs(categoryHeaderTransform.anchoredPosition.y / scrollRect.content.sizeDelta.y);
-        // Debug.Log("calculatedNormalizedPosition.y: " + calculatedNormalizedPosition.y);
         scrollRect.normalizedPosition = calculatedNormalizedPosition;
     }
 
@@ -217,14 +198,6 @@ public class CollectionContentControl : MonoBehaviour
     }
     public void GoToCategory(CardSize cardSize){
         CenterToItem(cardCategories.Find(cC => cC.categoryCardSize == cardSize));
-        // switch(cardSize){
-        //     case CardSize.Large:
-        //         break;
-        //     case CardSize.Normal:
-        //         break;
-        //     case CardSize.Small:
-        //         break;
-        // }
     }
     
 }

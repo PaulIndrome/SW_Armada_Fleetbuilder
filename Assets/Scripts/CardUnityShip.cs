@@ -1,9 +1,9 @@
 using UnityEngine;
 
+[System.Serializable]
 public class CardUnityShip : CardUnityBase {
     public ShipType shipType;
     public UpgradeType[] upgradeTypes;
-
     public override void SetupCard(Card card, CardTypesLookup cardTypesLookup){
         base.SetupCard(card, cardTypesLookup);
         CardTypesLookupSlotShip cardTypesLookupSlotShip = cardTypesLookup.ships.Find(st => st.cardTypeRaw == card.cardType);

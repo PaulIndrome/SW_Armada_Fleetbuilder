@@ -1,5 +1,5 @@
 using UnityEngine;
-
+[System.Serializable]
 public class CardUnitySquadron : CardUnityBase {
     public SquadronType squadronType;
 
