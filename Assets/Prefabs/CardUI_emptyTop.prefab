@@ -754,6 +754,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5602579908130489619}
   - component: {fileID: 8050179749048594356}
+  - component: {fileID: 2660672990679914613}
+  - component: {fileID: 1220829020451660467}
   m_Layer: 0
   m_Name: deckGroup
   m_TagString: Untagged
@@ -807,6 +809,42 @@ MonoBehaviour:
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
+--- !u!222 &2660672990679914613
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4855364613042934802}
+  m_CullTransparentMesh: 0
+--- !u!114 &1220829020451660467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4855364613042934802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.32941177}
+  m_RaycastTarget: 0
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &4873445236312224996
 GameObject:
   m_ObjectHideFlags: 0
@@ -1168,11 +1206,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbe62d29dff2b9f48914a63e2e047e0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deckColorNormal: {r: 1, g: 1, b: 1, a: 1}
+  deckColorUsed: {r: 0, g: 1, b: 0, a: 1}
+  collectionColorNormal: {r: 0.65882355, g: 0.65882355, b: 0.65882355, a: 1}
+  collectionColorDepleted: {r: 1, g: 0, b: 0, a: 1}
   cardButton: {fileID: 2908946190364627640}
   cardImage: {fileID: 2499708111777090131}
   amountGroupTransform: {fileID: 2835971577143680824}
   amountInCollectionText: {fileID: 6406533559997977051}
+  amountInCollectionImage: {fileID: 1310441884908542093}
   amountInDeckText: {fileID: 3874956610861617670}
+  amountInDeckImage: {fileID: 1794216023514817641}
   buttonAnimator: {fileID: 3177617550794098443}
   currentAmountInCollection: 0
   currentAmountInCollectionMax: 0
@@ -1192,6 +1236,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3575769939705547878}
   - component: {fileID: 2926318786347558754}
+  - component: {fileID: 6877341620906717743}
+  - component: {fileID: 2576333850533400781}
   m_Layer: 5
   m_Name: collectionGroup
   m_TagString: Untagged
@@ -1245,6 +1291,42 @@ MonoBehaviour:
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
+--- !u!222 &6877341620906717743
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7893509822562263765}
+  m_CullTransparentMesh: 0
+--- !u!114 &2576333850533400781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7893509822562263765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.32941177}
+  m_RaycastTarget: 0
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &8201627150535355157
 GameObject:
   m_ObjectHideFlags: 0

@@ -62,3 +62,6 @@ sysinfo.txt
 crashlytics-build.properties
 
 /[Dd]evImpressions/
+Assets/_testDeck.json
+
+Assets/_testDeck.json.meta
