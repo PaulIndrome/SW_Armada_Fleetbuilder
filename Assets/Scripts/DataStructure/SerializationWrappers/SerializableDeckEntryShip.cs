@@ -12,7 +12,7 @@ public class SerializableDeckEntryShip : SerializableDeckEntry {
 
     public SerializableDeckEntryShip(DeckEntryShip entry){
         // if(entry == null) return;
-        Debug.Log("Inside SerializableDeckEntryShip(DeckEntryShip entry)");
+        // Debug.Log("Inside SerializableDeckEntryShip(DeckEntryShip entry)");
         if(entry.Card is CardUnityShip){
             CardUnityShip shipCard = entry.Card as CardUnityShip;
             cardID = entry.Card.ID;

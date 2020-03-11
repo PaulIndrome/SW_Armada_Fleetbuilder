@@ -7,12 +7,15 @@ using UnityEngine.UI;
 public class CardCategory : MonoBehaviour
 {
 
+    public delegate void CategoryColumnCountChangedDelegate();
+    public static event CategoryColumnCountChangedDelegate OnCategoryColumnChanged;
+
     private GridLayoutGroup gridLayoutGroup;
     private RectTransform rectTransform;
 
 
     [Header("Prefab references")]
-    public CategoryHeader categoryHeaderPrefab;
+    // public CategoryHeader categoryHeaderPrefab;
     public CardUI cardUIPrefab;
 
     // [Header("Scene references")]
@@ -47,34 +50,48 @@ public class CardCategory : MonoBehaviour
         rectTransform = GetComponent<RectTransform>();
     }
 
-    public void SetupCardCategory(CardSize cardSize, List<CardUnityBase> cards, int defaulColumnCount = 0){
+    public void SetupCardCategory(CardSize cardSize, List<CardUnityBase> cards, CategoryHeader header, int defaulColumnCount = 0){
         // transform.SetSiblingIndex((int) cardSize);
 
-        if(categoryHeader == null){
-            categoryHeader = Instantiate<CategoryHeader>(categoryHeaderPrefab, Vector3.zero, Quaternion.identity, transform.parent);
-            categoryHeader.transform.SetSiblingIndex(transform.GetSiblingIndex());
+
+        if(header != null){
+            categoryHeader = header;
+            categoryHeader.ResetTransform();
+
+            // categoryHeader = Instantiate<CategoryHeader>(categoryHeaderPrefab, Vector3.zero, Quaternion.identity, transform.parent);
+            // categoryHeader.transform.SetSiblingIndex(transform.GetSiblingIndex());
+            // categoryHeader.columnButtons[0].onClick.AddListener(() => SetColumns(2));
+            // categoryHeader.columnButtons[1].onClick.AddListener(() => SetColumns(3));
+            // categoryHeader.columnButtons[2].onClick.AddListener(() => SetColumns(4));
+            // categoryHeader.columnButtons[3].onClick.AddListener(() => SetColumns(5));
+            
+            categoryHeader.ColumnSlider.SetValueWithoutNotify(defaulColumnCount);
+            categoryHeader.ColumnSlider.onValueChanged.AddListener(SetColumns);
+
+            string categoryName;
+
+            switch (cardSize){
+                case CardSize.Large:
+                    categoryHeader.SetHeaderText("Ships");
+                    categoryName = "Category-Ships";
+                    break;
+                case CardSize.Normal:
+                    categoryHeader.SetHeaderText("Squadrons");
+                    categoryName = "Category-Squadrons";
+                    break;
+                case CardSize.Small:
+                    categoryHeader.SetHeaderText("Upgrades");
+                    categoryName = "Category-Upgrades";
+                    break;
+                default:
+                    categoryHeader.SetHeaderText("Miscellaneous");
+                    categoryName = "Category-Miscellaneous";
+                    break;
+            }
+
+            gameObject.name = $"{transform.GetSiblingIndex().ToString("000")}-{categoryName}";  
         }
 
-        string categoryName;
-
-        switch (cardSize){
-            case CardSize.Large:
-                categoryHeader.SetHeaderText("Ships");
-                categoryName = "Category-Ships";
-                break;
-            case CardSize.Normal:
-                categoryHeader.SetHeaderText("Squadrons");
-                categoryName = "Category-Squadrons";
-                break;
-            case CardSize.Small:
-                categoryHeader.SetHeaderText("Upgrades");
-                categoryName = "Category-Upgrades";
-                break;
-            default:
-                categoryHeader.SetHeaderText("Miscellaneous");
-                categoryName = "Category-Miscellaneous";
-                break;
-        }
 
         cardsInCategory = cards;
         categoryCardSize = cardSize;
@@ -85,7 +102,45 @@ public class CardCategory : MonoBehaviour
             SetColumns(defaulColumnCount);
         }
 
-        gameObject.name = $"{transform.GetSiblingIndex().ToString("000")}-{categoryName}";
+        gameObject.layer = LayerMask.NameToLayer("UI");
+
+        // return categoryHeader;
+    }
+
+    public void ToggleCategory(bool onOff){
+        categoryHeader.gameObject.SetActive(onOff);
+        gameObject.SetActive(onOff);
+    }
+
+    [ContextMenu("Sort category by cost ascending")]
+    public void SortCategoryByCostAscending(){
+        uiCardsInCategory.Sort(delegate(CardUI c1, CardUI c2) {return c1.Card.cost.CompareTo(c2.Card.cost);});
+        RearrangeCards();
+    }
+
+    [ContextMenu("Sort category by cost descending")]
+    public void SortCategoryByCostDescending(){
+        uiCardsInCategory.Sort(delegate(CardUI c1, CardUI c2) {return c1.Card.cost.CompareTo(c2.Card.cost);});
+        RearrangeCards(true);
+    }
+
+    void RearrangeCards(bool reverse = false){
+        // Debug.Log("Rearranging");
+        if(reverse){
+            // Debug.Log("reverse");
+            for(int i = 0; i < uiCardsInCategory.Count ; i++){
+                // Debug.Log(uiCardsInCategory[i].transform.GetSiblingIndex());
+                uiCardsInCategory[i].transform.SetAsFirstSibling();
+                // Debug.Log(uiCardsInCategory[i].transform.GetSiblingIndex());
+            }
+        } else {
+            // Debug.Log("non-reverse");
+            for(int i = 0; i < uiCardsInCategory.Count ; i++){
+                // Debug.Log(uiCardsInCategory[i].transform.GetSiblingIndex());
+                uiCardsInCategory[i].transform.SetAsLastSibling();
+                // Debug.Log(uiCardsInCategory[i].transform.GetSiblingIndex());
+            }
+        }
     }
 
     public void SetupCardsInCategory(){
@@ -123,6 +178,13 @@ public class CardCategory : MonoBehaviour
         for(int i = 0; i < uiCardsInCategory.Count; i++){
             uiCardsInCategory[i].PositionAmountGroup();
         }
+
+        if(OnCategoryColumnChanged != null)
+            OnCategoryColumnChanged();
+    }
+
+    public void SetColumns(float numberOfColumns){
+        SetColumns((int) Mathf.Ceil(numberOfColumns));
     }
 
     [ContextMenu("Set 2 Columns")]
@@ -137,18 +199,5 @@ public class CardCategory : MonoBehaviour
     [ContextMenu("Set 4 Columns")]
     public void Set4Columns(){
         SetColumns(4);
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if(cardWidth != gridLayoutGroup.cellSize.x)
-            gridLayoutGroup.cellSize = new Vector2(cardWidth, cardWidth * 1.5f);
     }
 }

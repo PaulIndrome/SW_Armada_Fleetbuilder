@@ -11,6 +11,9 @@ using UnityEditor;
 [ExecuteAlways]
 public class DeserializeCardsFromJSON : MonoBehaviour
 {
+
+    public static string DECKFILEPATH;
+
     [System.Serializable]
     public class Cards {
         public Card[] allCards = new Card[0];
@@ -36,6 +39,14 @@ public class DeserializeCardsFromJSON : MonoBehaviour
     public SerializableDeck currentSerializableDeck;
 
     // private char[] IDEndTrim = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'K', 'L', 'M', 'N', 'O', 'P'};
+
+    /// <summary>
+    /// Awake is called when the script instance is being loaded.
+    /// </summary>
+    void Awake()
+    {
+        if(DeserializeCardsFromJSON.DECKFILEPATH != null && DeserializeCardsFromJSON.DECKFILEPATH.Length < 1) DeserializeCardsFromJSON.DECKFILEPATH = $"{Application.persistentDataPath}/LocalDecks/";
+    }
 
 
 #if UNITY_EDITOR
@@ -150,23 +161,21 @@ public class DeserializeCardsFromJSON : MonoBehaviour
 
     [ContextMenu("Serialize deck")]
     public void SerializeDeck(){
-        Deck deck = new Deck("testDeck", 400);
+        Deck deck = new Deck("", 400, (Faction) ~0);
         int i = 0;
 
         DeckEntry upgradeTestShip = null;
 
-        while(deck.CurrentPoints < deck.PointsMax && i < 100){
+        while(deck.PointsCurrent < deck.PointsMax && i < 100){
             CardUnityBase cardToAdd = allCardsUnity[UnityEngine.Random.Range(0, allCardsUnity.Count)];
             Debug.Log($"Random card is \"{cardToAdd.cardName}\"", cardToAdd);
             if(cardToAdd is CardUnityShip && upgradeTestShip == null){
-                deck.AddCardToDeck(cardToAdd, out upgradeTestShip);
+                deck.AddCardToDeck(cardToAdd/* , out upgradeTestShip */);
             } else if(cardToAdd is CardUnityUpgrade && upgradeTestShip != null){
-                DeckEntry upgrade;
-                deck.AddCardToDeck(cardToAdd, out upgrade);
+                DeckEntry upgrade = deck.AddCardToDeck(cardToAdd/* , out upgrade */);
                 ((DeckEntryShip) upgradeTestShip).SlotUpgrade(upgrade as DeckEntryUpgrade);
             } else {
-                DeckEntry newEntry;
-                deck.AddCardToDeck(cardToAdd, out newEntry);
+                DeckEntry newEntry = deck.AddCardToDeck(cardToAdd/* , out newEntry */);
             }
 
             i = i + 1;
@@ -186,9 +195,10 @@ public class DeserializeCardsFromJSON : MonoBehaviour
 
 #endif
 
-    public static void SerializeDeck(Deck deck){
+    public static string SerializeDeck(Deck deck, string fileName = ""){
         SerializableDeck sDeck = new SerializableDeck();
         sDeck.SetUpSerializableDeck(deck);
+        sDeck.deckName = fileName.Length < 1 ? deck.DeckName : fileName;
 
         string serializedString = JsonConvert.SerializeObject(sDeck, Formatting.Indented);
         
@@ -197,9 +207,14 @@ public class DeserializeCardsFromJSON : MonoBehaviour
         if(!System.IO.Directory.Exists($"{Application.persistentDataPath}/LocalDecks")){
             System.IO.Directory.CreateDirectory($"{Application.persistentDataPath}/LocalDecks/");
         }
-        File.WriteAllText($"{Application.persistentDataPath}/LocalDecks/_{deck.DeckName}.json", serializedString);
 
-        Debug.LogWarning($"{Application.persistentDataPath}/LocalDecks/_{deck.DeckName}.json");
+        string path = $"{Application.persistentDataPath}/LocalDecks/{(fileName.Length < 1 ? deck.DeckName : fileName)}.json";
+        
+        File.WriteAllText(path, serializedString);
+
+        Debug.LogWarning(path);
+
+        return path;
     }
 
     public static Deck DeserializeDeck(string deckName){

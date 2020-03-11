@@ -11,9 +11,8 @@ public abstract class CardUnityBase : ScriptableObject, IComparable<CardUnityBas
     private delegate void CardMovedDelegate(string id, bool toDeck, int amountChangedBy);
     private event CardMovedDelegate OnCardMoved;
 
-    private delegate void CardToggledDelegate(string id, bool? onOff);
+    private delegate void CardToggledDelegate(string id, bool onOff);
     private event CardToggledDelegate OnCardToggled;
-    
 
     public string ID = "";
     public Sprite sprite;
@@ -60,11 +59,15 @@ public abstract class CardUnityBase : ScriptableObject, IComparable<CardUnityBas
     }
 
     public void MoveCard(string id, bool toDeck, int amount){
-        OnCardMoved(id, toDeck, amount);
+        // Debug.Log("Moving card " + ID + $" {(toDeck ? "to deck" : "from deck")}", this);
+        if(OnCardMoved != null)
+            OnCardMoved(id, toDeck, amount);
     }
 
-    public void ToggleCardAvailability(bool? onOff){
-        OnCardToggled(ID, onOff);
+    public void ToggleCardAvailability(string blockingName, bool onOff){
+        // Debug.Log("Toggling card " + ID + $" {(onOff.HasValue ? "" + onOff : "reverse")}", this);
+        if(OnCardToggled != null)
+            OnCardToggled(blockingName, onOff);
     }
 
     public void LinkUICard(CardUI cardUI){

@@ -10,15 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ce9add6379e0dca4a857da5e8fd3cd84, type: 3}
-  m_Name: cardLandoCalrissian
+  m_Name: cardHondoOhnakaUpgrade
   m_EditorClassIdentifier: 
-  ID: cardLandoCalrissian
-  sprite: {fileID: 21300000, guid: b7b965d8f1976474da8667b3e2978460, type: 3}
+  ID: cardHondoOhnakaUpgrade
+  sprite: {fileID: 21300000, guid: 7c35439fb2d37e946896cb9509cb1f48, type: 3}
   size: small
-  faction: 2
-  cardName: Lando Calrissian
-  cost: 4
-  contradictories: []
+  faction: -1
+  cardName: Hondo Ohnaka
+  cost: 2
   isCommander: 0
   isUnique: 1
   isSquadron: 0

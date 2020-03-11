@@ -61,13 +61,14 @@ public class CardSelectionSlot : SwipableComponent
 
         currentSelectedCard = cardToSet;
         
-        if(cardToSet != null){
-            cardImage.sprite = cardToSet.Card.sprite;
-            cardImage.color = Color.white;
-        } else {
+        if(cardToSet == null){
             cardImage.sprite = null;
             cardImage.color = Color.clear;
-        }
+            return;
+        } 
+        
+        cardImage.sprite = cardToSet.Card.sprite;
+        cardImage.color = Color.white;
     }
 
     public void AddToDeck(){
@@ -85,11 +86,13 @@ public class CardSelectionSlot : SwipableComponent
     }
 
     public override void OnEndDrag(UnityEngine.EventSystems.PointerEventData eventData){
-        if(dragActivationUp){
-            AddToDeck();
-        } 
-        if(dragActivationDown){
-            RemoveFromDeck();
+        if(currentSelectedCard){
+            if(dragActivationUp){
+                AddToDeck();
+            } 
+            if(dragActivationDown){
+                RemoveFromDeck();
+            }
         }
 
         base.OnEndDrag(eventData);

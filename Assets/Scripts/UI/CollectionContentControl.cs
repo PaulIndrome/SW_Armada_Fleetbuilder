@@ -19,6 +19,7 @@ public class CollectionContentControl : MonoBehaviour
     
     [Header("Prefab references")]
     [SerializeField] private CardCategory cardCategoryPrefab;
+    [SerializeField] private CategoryHeader categoryHeaderPrefab;
 
 
     [Header("Set via inspector")]
@@ -28,7 +29,7 @@ public class CollectionContentControl : MonoBehaviour
     [SerializeField] private CardSelectionSlot cardSelectionSlot;
     [SerializeField] private ScrollRect scrollRect;
     private RectTransform scrollTransform;
-    [SerializeField] private RectTransform contentTransform;
+    [SerializeField] private RectTransform headerGroupTransform, shipContentTransform, squadronContentTransform, upgradeContentTransform;
     [Space, SerializeField] private List<CardCategory> cardCategories;
 
     [Header("Set up via script")]
@@ -51,6 +52,16 @@ public class CollectionContentControl : MonoBehaviour
         }
 
         LoadResources();
+    }
+
+    /// <summary>
+    /// This function is called when the object becomes enabled and active.
+    /// </summary>
+    void OnEnable()
+    {
+        // CardCategory.OnCategoryColumnChanged += CreateCategoryMarkers;
+        DeckContentControl.OnNewDeckStarted += ResetCardAmountsOfCurrentSelection;
+        DeckContentControl.OnDeckLoaded += UpdateCollectionToDeck;
     }
 
     /// <summary>
@@ -97,16 +108,32 @@ public class CollectionContentControl : MonoBehaviour
         SpawnCategory(CardSize.Small, defaultColumnCounts.Find(dcc => dcc.categorySize == CardSize.Small).defaultColumnCount);
     }
 
-
     public void SpawnCategory(CardSize cardSize, int defaultColumnCount = 0){
-        
         CardCategory cardCategory = cardCategories.Find(cc => cc.categoryCardSize == cardSize);
+        RectTransform contentTransform = null;
+        switch(cardSize){
+            case CardSize.Large:
+                contentTransform = shipContentTransform;
+                break;
+            case CardSize.Normal:
+                contentTransform = squadronContentTransform;
+                break;
+            case CardSize.Small:
+                contentTransform = upgradeContentTransform;
+                break;
+        }
         if(cardCategory == null){
-            cardCategory = Instantiate<CardCategory>(cardCategoryPrefab, Vector3.zero, Quaternion.identity, contentTransform);
+            cardCategory = Instantiate<CardCategory>(cardCategoryPrefab, Vector3.zero, Quaternion.identity, contentTransform.transform);
             cardCategories.Add(cardCategory);
         }
 
-        cardCategory.SetupCardCategory(cardSize, unityCards.FindAll(uC => uC.cardSize == cardSize), defaultColumnCount);
+        // CategoryHeader header = Instantiate<CategoryHeader>(categoryHeaderPrefab, Vector3.zero, Quaternion.identity, headerGroupTransform);
+
+        cardCategory.SetupCardCategory(cardSize, unityCards.FindAll(uC => uC.cardSize == cardSize), null, defaultColumnCount);
+
+        // if(cardSize != CardSize.Large){
+        //     cardCategory.transform.parent.gameObject.SetActive(false);
+        // }
     }
 
     [ContextMenu("Cycle current faction")]
@@ -130,6 +157,11 @@ public class CollectionContentControl : MonoBehaviour
         }
     }
 
+    public void ResetCardAmountsOfCurrentSelection(Deck deck){
+        currentCollection.ResetCardAmounts();
+        ResetCollectionAmounts(deck.DeckFaction);
+    }
+
     public void SetCurrentCollection(CardCollection newCurrent){
         Debug.Log("SetCurrentCollection", newCurrent);
         if(currentCollection != null){
@@ -147,6 +179,40 @@ public class CollectionContentControl : MonoBehaviour
         LoadCollectionData();
     }
 
+    void UpdateCollectionToDeck(Deck deck){
+        currentCollection.ResetCardAmounts();
+        ResetCollectionAmounts(deck.DeckFaction);
+
+        CardCategory cc = cardCategories.Find(caca => caca.categoryCardSize == CardSize.Large);
+        
+        foreach(DeckEntryShip de in deck.shipCards){
+            currentCollection.PickFromCollection(cc.UiCardsInCategory.Find(uic => de.Card.ID == uic.Card.ID));
+        }
+
+        cc = cardCategories.Find(caca => caca.categoryCardSize == CardSize.Normal);
+        
+        foreach(DeckEntrySquadron de in deck.squadronCards){
+            currentCollection.PickFromCollection(cc.UiCardsInCategory.Find(uic => de.Card.ID == uic.Card.ID));
+        }
+
+        cc = cardCategories.Find(caca => caca.categoryCardSize == CardSize.Small);
+        
+        foreach(DeckEntryUpgrade de in deck.upgradeCards){
+            currentCollection.PickFromCollection(cc.UiCardsInCategory.Find(uic => de.Card.ID == uic.Card.ID));
+        }
+    }
+
+    void ResetCollectionAmounts(Faction faction = 0){
+        foreach(CardCategory cardCat in cardCategories){
+            foreach(CardUI cui in cardCat.UiCardsInCategory){
+                cui.ResetCardAccordingToCurrentCollection();
+            }
+            if(faction != 0){
+                cardCat.SetFactionTo(faction);
+            }
+        }
+    }
+
     void LoadCollectionData(){
         Debug.Log("LoadCollectionData", currentCollection);
         SpawnAllCategories();
@@ -162,7 +228,7 @@ public class CollectionContentControl : MonoBehaviour
             }
         }
 
-        CreateCategoryMarkers();
+        // CreateCategoryMarkers();
 
         Canvas.ForceUpdateCanvases();
     }
@@ -174,15 +240,15 @@ public class CollectionContentControl : MonoBehaviour
         scrollRect.normalizedPosition = calculatedNormalizedPosition;
     }
 
-    [ContextMenu("Create category markers")]
-    public void CreateCategoryMarkers(){
-        CategoryMarkerPlacer placer = GetComponentInChildren<CategoryMarkerPlacer>();
-        float[] places = new float[cardCategories.Count - 1];
-        for(int i = 0; i < places.Length; i++){
-            places[i] = 1 - Mathf.Abs(cardCategories[i + 1].CategoryHeader.GetComponent<RectTransform>().anchoredPosition.y  / scrollRect.content.sizeDelta.y);
-        }
-        placer.PlaceMarkers(places);
-    }
+    // [ContextMenu("Create category markers")]
+    // public void CreateCategoryMarkers(){
+    //     CategoryMarkerPlacer placer = GetComponentInChildren<CategoryMarkerPlacer>();
+    //     float[] places = new float[cardCategories.Count - 1];
+    //     for(int i = 0; i < places.Length; i++){
+    //         places[i] = 1 - Mathf.Abs(cardCategories[i + 1].CategoryHeader.GetComponent<RectTransform>().anchoredPosition.y  / scrollRect.content.sizeDelta.y);
+    //     }
+    //     placer.PlaceMarkers(places);
+    // }
 
     [ContextMenu("Go to Ship category")]
     void GoToShipCategory(){
@@ -198,6 +264,16 @@ public class CollectionContentControl : MonoBehaviour
     }
     public void GoToCategory(CardSize cardSize){
         CenterToItem(cardCategories.Find(cC => cC.categoryCardSize == cardSize));
+    }
+
+    /// <summary>
+    /// This function is called when the behaviour becomes disabled or inactive.
+    /// </summary>
+    void OnDisable()
+    {
+        // CardCategory.OnCategoryColumnChanged -= CreateCategoryMarkers;
+        DeckContentControl.OnNewDeckStarted -= ResetCardAmountsOfCurrentSelection;
+        DeckContentControl.OnDeckLoaded -= UpdateCollectionToDeck;
     }
     
 }

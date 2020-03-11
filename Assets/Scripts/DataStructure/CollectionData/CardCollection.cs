@@ -6,7 +6,7 @@ using UnityEngine;
 [System.Serializable]
 public class CardCollection : ScriptableObject
 {
-    List<CardCollectionEntry> cardCollectionEntries = new List<CardCollectionEntry>();
+    List<CardCollectionEntry> allCollectionEntries = new List<CardCollectionEntry>();
 
     [SerializeField] List<CardCollectionEntry> shipCollectionEntries        = new List<CardCollectionEntry>();
     [SerializeField] List<CardCollectionEntry> squadronCollectionEntries    = new List<CardCollectionEntry>();
@@ -18,10 +18,10 @@ public class CardCollection : ScriptableObject
 
     [ContextMenu("Split collection into card types")]
     public void SplitCollectionIntoCardTypes(){
-        cardCollectionEntries.Sort();
+        allCollectionEntries.Sort();
 
-        for(int i = 0; i < cardCollectionEntries.Count; i++){
-            CardCollectionEntry entry = cardCollectionEntries[i];
+        for(int i = 0; i < allCollectionEntries.Count; i++){
+            CardCollectionEntry entry = allCollectionEntries[i];
             if(entry.card is CardUnityShip && !shipCollectionEntries.Contains(entry)){
                 shipCollectionEntries.Add(entry);
             } else if(entry.card is CardUnitySquadron && !squadronCollectionEntries.Contains(entry)){
@@ -29,7 +29,7 @@ public class CardCollection : ScriptableObject
             } else if(entry.card is CardUnityUpgrade && !upgradeCollectionEntries.Contains(entry)) {
                 upgradeCollectionEntries.Add(entry);
             } else {
-                Debug.LogError($"{cardCollectionEntries[i].card.ID} is not of a valid CardUnityBase derived type. Skipping.");
+                Debug.LogError($"{allCollectionEntries[i].card.ID} is not of a valid CardUnityBase derived type. Skipping.");
                 continue;
             }
         }
@@ -175,7 +175,7 @@ public class CardCollection : ScriptableObject
 
     [ContextMenu("Reset Card Amounts")]
     public void ResetCardAmounts(){
-        foreach(CardCollectionEntry cce in cardCollectionEntries){
+        foreach(CardCollectionEntry cce in allCollectionEntries){
             cce.AmountRemaining = cce.AmountMax;
         }
         foreach(CardCollectionEntry cce in shipCollectionEntries){
@@ -191,7 +191,7 @@ public class CardCollection : ScriptableObject
 
     [ContextMenu("Sort all collections by identifier")]
     public void SortAllCollectionsByIdentifier(){
-        foreach(CardCollectionEntry cce in cardCollectionEntries){
+        foreach(CardCollectionEntry cce in allCollectionEntries){
             if(cce.Identifier != cce.card.ID){
                 cce.UpdateIdentifier(cce.card.ID);
             }
@@ -211,7 +211,7 @@ public class CardCollection : ScriptableObject
                 cce.UpdateIdentifier(cce.card.ID);
             }
         }
-        cardCollectionEntries.Sort();
+        allCollectionEntries.Sort();
         shipCollectionEntries.Sort();
         squadronCollectionEntries.Sort();
         upgradeCollectionEntries.Sort();
@@ -226,7 +226,6 @@ public class CardCollection : ScriptableObject
     ///             1 if only entries with identical ID were changed. 
     ///             2 if entries with identical names were changed as well.</returns>
     public int PickFromCollection(CardUI cardUI, int amountToAdd = 1){
-
         // collection of all cards with the same ship/squad/upgrade type
         List<CardCollectionEntry> cces;
         int maxAmountOfTypeRemaining = -1;
@@ -249,7 +248,7 @@ public class CardCollection : ScriptableObject
             if(cces[i].card != cardUI.Card && cces[i].card.isUnique){
                 if(maxAmountOfTypeRemaining > 1 || cces[i].AmountRemaining < 1) continue;
                 else {
-                    cces[i].card.ToggleCardAvailability(false);
+                    cces[i].card.ToggleCardAvailability(cardUI.Card.cardName, false);
                     continue;
                 }
             }
@@ -262,7 +261,9 @@ public class CardCollection : ScriptableObject
         if(cces.Count > 1){
             foreach(CardCollectionEntry cce in cces){
                 if(cce.card == cardUI.Card) continue;
-                cce.card.ToggleCardAvailability(false);
+                // cce.AmountRemaining -= amountToAdd;
+                // cce.card.MoveCard(cardUI.Card.ID, true, amountToAdd);
+                cce.card.ToggleCardAvailability(cardUI.Card.cardName, false);
             }
             return 2;
         } else {
@@ -296,14 +297,20 @@ public class CardCollection : ScriptableObject
             // upgrades are cards without miniatures tied to them
             // these cards are not decremented when an identical type card is added to the deck
             // we don't need to re-increment these when a card is returned from the deck
-            if(cardUI.Card is CardUnityUpgrade && ((CardUnityUpgrade) cardUI.Card).upgradeType != UpgradeType.commander && cces[i].card != cardUI.Card ) continue;
+            if(cardUI.Card is CardUnityUpgrade && ((CardUnityUpgrade) cardUI.Card).upgradeType != UpgradeType.commander && cces[i].card != cardUI.Card && !cces[i].card.isUnique) continue;
+            // skip cards that are upgrades, not commanders and not the moved card
+            
             if(cces[i].card.isUnique && cardUI.Card != cces[i].card){
+                // card is unique, card is not the moved card
+                // Debug.Log($"{cces[i].AmountRemaining} remaining of {cces[i].card.ID}. Toggling {cces[i].AmountRemaining > 0}.");
                 if(cces[i].AmountRemaining > 0){
-                    cces[i].card.ToggleCardAvailability(true);
+                    // card is still available
+                    cces[i].card.ToggleCardAvailability(cardUI.Card.cardName, true);
                 } else {
                     continue;
                 }
             }
+
             cces[i].AmountRemaining += amountToAdd;
             cces[i].card.MoveCard(cardUI.Card.ID, false, amountToAdd);
         }
@@ -313,7 +320,9 @@ public class CardCollection : ScriptableObject
         if(cces.Count > 1){
             foreach(CardCollectionEntry cce in cces){
                 if(cce.card == cardUI.Card) continue;
-                cce.card.ToggleCardAvailability(true);
+                // cce.AmountRemaining += amountToAdd;
+                // cce.card.MoveCard(cardUI.Card.ID, false, amountToAdd);
+                cce.card.ToggleCardAvailability(cardUI.Card.cardName, true);
             }
         } else {
             return 1;

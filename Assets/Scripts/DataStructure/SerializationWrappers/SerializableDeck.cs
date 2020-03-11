@@ -16,11 +16,11 @@ public class SerializableDeck {
     public SerializableDeck(){}
 
     public void SetUpSerializableDeck(Deck deck){
-        Debug.Log("Inside SerializableDeck(Deck deck)");
+        // Debug.Log("Inside SerializableDeck(Deck deck)");
 
         deckName = deck.DeckName;
         deckPointsMax = deck.PointsMax;
-        deckPointsUsed = deck.CurrentPoints;
+        deckPointsUsed = deck.PointsCurrent;
         deckFaction = deck.DeckFaction;
 
         shipsInDeck = new SerializableDeckEntryShip[deck.shipCards.Count];
