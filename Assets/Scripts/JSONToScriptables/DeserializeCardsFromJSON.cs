@@ -195,7 +195,7 @@ public class DeserializeCardsFromJSON : MonoBehaviour
 
 #endif
 
-    public static string SerializeDeck(Deck deck, string fileName = ""){
+    public static SerializedDeckInfo SerializeDeck(Deck deck, string fileName = ""){
         SerializableDeck sDeck = new SerializableDeck();
         sDeck.SetUpSerializableDeck(deck);
         sDeck.deckName = fileName.Length < 1 ? deck.DeckName : fileName;
@@ -210,11 +210,14 @@ public class DeserializeCardsFromJSON : MonoBehaviour
 
         string path = $"{Application.persistentDataPath}/LocalDecks/{(fileName.Length < 1 ? deck.DeckName : fileName)}.json";
         
-        File.WriteAllText(path, serializedString);
+        // File.WriteAllText(path, serializedString);
 
-        Debug.LogWarning(path);
+        // Debug.LogWarning(path);
 
-        return path;
+        return new SerializedDeckInfo(){
+            jsonString = serializedString,
+            fullPath = path
+        };
     }
 
     public static Deck DeserializeDeck(string deckName){
@@ -230,4 +233,10 @@ public class DeserializeCardsFromJSON : MonoBehaviour
     public static Deck DeserializeDeck(SerializableDeck sDeck){
         return new Deck(sDeck);
     }
+}
+
+[Serializable]
+public struct SerializedDeckInfo {
+    public string fullPath;
+    public string jsonString;
 }

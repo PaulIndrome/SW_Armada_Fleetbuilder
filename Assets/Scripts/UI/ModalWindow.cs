@@ -19,6 +19,8 @@ public class ModalWindow : MonoBehaviour
     [SerializeField] private TextMeshProUGUI descriptionText;
     [SerializeField] private Canvas modalWindowCanvas;
 
+    private bool settingUp = false;
+
 
     private Dictionary<ModalResult, ModalButton> modalButtons;
 
@@ -33,8 +35,12 @@ public class ModalWindow : MonoBehaviour
 
     public void ShowModalWindow(Action<ModalResult> resultHandlingMethod, string title, string description = "", params ModalResult[] possibleResults){
         // instantiate buttons for all possible results (add to dictionary if not existing for reuse)
-        // set buttons relating to possible results 
-        if(possibleResults.Length < 1) return;
+        // set buttons relating to possible results
+        Debug.Log("Called ShowModalWindow with action: " + (resultHandlingMethod != null ? resultHandlingMethod.Method.Name : "null"));
+        if(possibleResults.Length < 1) {
+            Debug.LogError("Modal window cannot show with less than one possible result");
+            return;
+        }
 
         if(modalButtons == null)
             modalButtons = new Dictionary<ModalResult, ModalButton>();
@@ -43,9 +49,10 @@ public class ModalWindow : MonoBehaviour
 
         titleText.text = title;
         descriptionText.text = description;
-
+        
         SetupModalButtons(possibleResults);
 
+        Debug.Log("Enabling canvas at " + Time.time);
         modalWindowCanvas.enabled = true;
     }
 
@@ -64,8 +71,6 @@ public class ModalWindow : MonoBehaviour
 
         SetupModalButtons(possibleResults);
 
-        
-
         modalWindowCanvas.enabled = true;
     }
 
@@ -80,6 +85,7 @@ public class ModalWindow : MonoBehaviour
             }
             mButton.SetupModalButton(possibleResults[i]);
             mButton.Button.onClick.RemoveAllListeners();
+            Debug.Log("Set up ModalButton " + mButton.name);
             // Debug.Log($"Adding listener for result {i} ({possibleResults[i]} to button {mButton.name}", mButton);
 
             // passing in array values yields OutOfRangeException because the array does not exist past this method's scope
@@ -99,6 +105,7 @@ public class ModalWindow : MonoBehaviour
         foreach(ModalButton mb in modalButtons.Values){
             mb.gameObject.SetActive(false);
         }
+        Debug.Log("Disabling canvas at " + Time.time);
         modalWindowCanvas.enabled = false;
     }
 

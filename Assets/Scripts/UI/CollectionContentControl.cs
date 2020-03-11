@@ -14,30 +14,23 @@ public class CollectionContentControl : MonoBehaviour
         public int defaultColumnCount;
     }
 
-    private List<CardUnityBase> unityCards;
-    private List<CardCollection> allCardCollections;
     
     [Header("Prefab references")]
     [SerializeField] private CardCategory cardCategoryPrefab;
-    [SerializeField] private CategoryHeader categoryHeaderPrefab;
 
-
-    [Header("Set via inspector")]
+    [Header("Settings")]
     [SerializeField] public List<DefaultColumnCount> defaultColumnCounts = new List<DefaultColumnCount>();
 
     [Header("Scene references")]
-    [SerializeField] private CardSelectionSlot cardSelectionSlot;
     [SerializeField] private ScrollRect scrollRect;
-    private RectTransform scrollTransform;
-    [SerializeField] private RectTransform headerGroupTransform, shipContentTransform, squadronContentTransform, upgradeContentTransform;
-    [Space, SerializeField] private List<CardCategory> cardCategories;
+    [SerializeField] private RectTransform shipContentTransform, squadronContentTransform, upgradeContentTransform;
 
-    [Header("Set up via script")]
+    [Header("Set via script")]
     [SerializeField, ContextMenuItem("Load collection data", "LoadCollectionData")] 
     private CardCollection currentCollection;
-
-    [ContextMenuItem("Cycle current faction", "CycleCurrentFaction")]
-    public Faction currentFaction = (Faction) ~0;
+    [Space, SerializeField] private List<CardCategory> cardCategories;
+    private List<CardUnityBase> unityCards;
+    private List<CardCollection> allCardCollections;
 
     /// <summary>
     /// Awake is called when the script instance is being loaded.
@@ -47,10 +40,6 @@ public class CollectionContentControl : MonoBehaviour
         if(scrollRect == null){
             scrollRect = GetComponentInChildren<ScrollRect>();
         }
-        if(scrollTransform == null){
-            scrollTransform = scrollRect.GetComponent<RectTransform>();
-        }
-
         LoadResources();
     }
 
@@ -59,7 +48,6 @@ public class CollectionContentControl : MonoBehaviour
     /// </summary>
     void OnEnable()
     {
-        // CardCategory.OnCategoryColumnChanged += CreateCategoryMarkers;
         DeckContentControl.OnNewDeckStarted += ResetCardAmountsOfCurrentSelection;
         DeckContentControl.OnDeckLoaded += UpdateCollectionToDeck;
     }
@@ -79,11 +67,10 @@ public class CollectionContentControl : MonoBehaviour
     [ContextMenu("Load Resources")]
     void LoadResources(){
         unityCards = new List<CardUnityBase>(Resources.LoadAll<CardUnityBase>("CardUnity/"));
-        allCardCollections = new List<CardCollection>(Resources.LoadAll<CardCollection>("Collections/")); // needs to be replaced with a JSON approach later
+        allCardCollections = new List<CardCollection>(Resources.LoadAll<CardCollection>("Collections/")); // TODO: needs to be replaced with a JSON approach later
         cardCategories.Clear();
     }
 
-    [ContextMenu("Spawn all categories")]
     void SpawnAllCategories(){
         if(unityCards.Count < 1){
             LoadResources();
@@ -93,17 +80,14 @@ public class CollectionContentControl : MonoBehaviour
         SpawnUpgradeCategory();
     }
 
-    [ContextMenu("Spawn ship category")]
     void SpawnShipCategory(){
         SpawnCategory(CardSize.Large, defaultColumnCounts.Find(dcc => dcc.categorySize == CardSize.Large).defaultColumnCount);
     }
 
-    [ContextMenu("Spawn squadron category")]
     void SpawnSquadronCategory(){
         SpawnCategory(CardSize.Normal, defaultColumnCounts.Find(dcc => dcc.categorySize == CardSize.Normal).defaultColumnCount);
     }
 
-    [ContextMenu("Spawn upgrade category")]
     void SpawnUpgradeCategory(){
         SpawnCategory(CardSize.Small, defaultColumnCounts.Find(dcc => dcc.categorySize == CardSize.Small).defaultColumnCount);
     }
@@ -127,34 +111,7 @@ public class CollectionContentControl : MonoBehaviour
             cardCategories.Add(cardCategory);
         }
 
-        // CategoryHeader header = Instantiate<CategoryHeader>(categoryHeaderPrefab, Vector3.zero, Quaternion.identity, headerGroupTransform);
-
         cardCategory.SetupCardCategory(cardSize, unityCards.FindAll(uC => uC.cardSize == cardSize), null, defaultColumnCount);
-
-        // if(cardSize != CardSize.Large){
-        //     cardCategory.transform.parent.gameObject.SetActive(false);
-        // }
-    }
-
-    [ContextMenu("Cycle current faction")]
-    public void CycleCurrentFaction(){
-        switch((int) currentFaction){
-            case 0:
-                currentFaction = (Faction) ~0;
-                break;
-            case ~0:
-                currentFaction = Faction.Empire;
-                break;
-            case (int) Faction.Empire:
-                currentFaction = Faction.Rebellion;
-                break;
-            case (int) Faction.Rebellion:
-                currentFaction = (Faction) 0;
-                break;
-        }
-        foreach(CardCategory cC in cardCategories){
-            cC.SetFactionTo(currentFaction);
-        }
     }
 
     public void ResetCardAmountsOfCurrentSelection(Deck deck){
@@ -163,7 +120,6 @@ public class CollectionContentControl : MonoBehaviour
     }
 
     public void SetCurrentCollection(CardCollection newCurrent){
-        Debug.Log("SetCurrentCollection", newCurrent);
         if(currentCollection != null){
             DeckContentControl.OnAddedToDeck -= currentCollection.PickFromCollection;
             DeckContentControl.OnRemovedFromDeck -= currentCollection.ReturnToCollection;
@@ -214,7 +170,6 @@ public class CollectionContentControl : MonoBehaviour
     }
 
     void LoadCollectionData(){
-        Debug.Log("LoadCollectionData", currentCollection);
         SpawnAllCategories();
         CardCollectionEntry entry;
         foreach(CardCategory cc in cardCategories){
@@ -228,42 +183,14 @@ public class CollectionContentControl : MonoBehaviour
             }
         }
 
-        // CreateCategoryMarkers();
-
         Canvas.ForceUpdateCanvases();
     }
 
-    public void CenterToItem(CardCategory categoryToGoTo){
+    public void CenterToItem(CardUI cardToGoTo){
         Vector2 calculatedNormalizedPosition = Vector2.zero;
-        RectTransform categoryHeaderTransform = categoryToGoTo.CategoryHeader.GetComponent<RectTransform>();
+        RectTransform categoryHeaderTransform = cardToGoTo.GetComponent<RectTransform>();
         calculatedNormalizedPosition.y = 1 - Mathf.Abs(categoryHeaderTransform.anchoredPosition.y / scrollRect.content.sizeDelta.y);
         scrollRect.normalizedPosition = calculatedNormalizedPosition;
-    }
-
-    // [ContextMenu("Create category markers")]
-    // public void CreateCategoryMarkers(){
-    //     CategoryMarkerPlacer placer = GetComponentInChildren<CategoryMarkerPlacer>();
-    //     float[] places = new float[cardCategories.Count - 1];
-    //     for(int i = 0; i < places.Length; i++){
-    //         places[i] = 1 - Mathf.Abs(cardCategories[i + 1].CategoryHeader.GetComponent<RectTransform>().anchoredPosition.y  / scrollRect.content.sizeDelta.y);
-    //     }
-    //     placer.PlaceMarkers(places);
-    // }
-
-    [ContextMenu("Go to Ship category")]
-    void GoToShipCategory(){
-        GoToCategory(CardSize.Large);
-    }
-    [ContextMenu("Go to Squadron category")]
-    void GoToSquadronCategory(){
-        GoToCategory(CardSize.Normal);
-    }
-    [ContextMenu("Go to Upgrade category")]
-    void GoToUpgradeCategory(){
-        GoToCategory(CardSize.Small);
-    }
-    public void GoToCategory(CardSize cardSize){
-        CenterToItem(cardCategories.Find(cC => cC.categoryCardSize == cardSize));
     }
 
     /// <summary>
@@ -271,7 +198,6 @@ public class CollectionContentControl : MonoBehaviour
     /// </summary>
     void OnDisable()
     {
-        // CardCategory.OnCategoryColumnChanged -= CreateCategoryMarkers;
         DeckContentControl.OnNewDeckStarted -= ResetCardAmountsOfCurrentSelection;
         DeckContentControl.OnDeckLoaded -= UpdateCollectionToDeck;
     }

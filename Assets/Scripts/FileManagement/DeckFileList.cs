@@ -21,11 +21,14 @@ public class DeckFileList : MonoBehaviour
     [SerializeField] private DeckFileEntry deckFileEntryPrefab;
 
     [Header("Set via script")]
-    [SerializeField] private DeckFileEntry currentSelectedEntry;
+    [ReadOnly, SerializeField] private DeckFileEntry currentSelectedEntry;
+    [ReadOnly, SerializeField] private SerializedDeckInfo serializedDeckInfo;
 
-    [Header("Constants")]
+    [Header("Settings")]
     [SerializeField] private float inputBlinkDuration = 1f;
     [SerializeField] private int inputBlinkRepeats = 4;
+    
+    [Header("Constants")]
     [SerializeField] public static string DECKFILEPATH;
     
     public Dictionary<int, DeckFileEntry> deckFileEntries;
@@ -97,7 +100,6 @@ public class DeckFileList : MonoBehaviour
 
     public void LoadDeckFile(){
         if(currentSelectedEntry == null) return;
-        Debug.Log("Attempting to load deck " + currentSelectedEntry.FileName);
         deckContentControl.LoadDeckFromFile(currentSelectedEntry.SerializableDeck);
         ModalWindowHandler.ShowModalWindow(null, "Deck file loaded", $"Deck \"{deckContentControl.CurrentDeck.DeckName}\" loaded", ModalResult.Ok);
         deckFileListCanvas.enabled = false;
@@ -109,11 +111,10 @@ public class DeckFileList : MonoBehaviour
             StartCoroutine(FlashCanvasGroup(inputNeededCanvasGroup, inputBlinkRepeats, inputBlinkDuration));
             return;
         }
-        ModalWindowHandler.ShowModalWindow(ModalNewDeck, "Choose a faction", "Which faction are you building a deck for?", ModalResult.Empire, ModalResult.Rebellion, ModalResult.Cancel);
+        ModalWindowHandler.ShowModalWindow(ModalNewDeck, "Choose a faction", "Which faction are you building a deck for?\n(This can be changed later using the side menu)", ModalResult.Empire, ModalResult.Rebellion, ModalResult.Factionless, ModalResult.Cancel);
     }
 
     public void ModalNewDeck(ModalResult result){
-        Debug.Log("Modal new Deck result: " + result);
         switch(result){
             case ModalResult.Empire:
                 deckContentControl.NewDeck(deckFileInputField.text, 400, Faction.Empire);
@@ -121,17 +122,42 @@ public class DeckFileList : MonoBehaviour
             case ModalResult.Rebellion:
                 deckContentControl.NewDeck(deckFileInputField.text, 400, Faction.Rebellion);
                 break;
+            case ModalResult.Factionless:
+                deckContentControl.NewDeck(deckFileInputField.text, 400);
+                break;
             case ModalResult.Cancel:
                 break;
         }
-        Debug.Log("About to set gameobject inactive");
         deckFileListCanvas.enabled = false;
     }
 
-
     public void SaveDeckFile(){
-        string path = DeserializeCardsFromJSON.SerializeDeck(deckContentControl.CurrentDeck, deckFileInputField.text.Trim());
-        LoadDeckFile(path);
+        serializedDeckInfo = DeserializeCardsFromJSON.SerializeDeck(deckContentControl.CurrentDeck, deckFileInputField.text.Trim());
+        if(File.Exists(serializedDeckInfo.fullPath)){
+            ModalWindowHandler.ShowModalWindow(ModalSaveDeck, "Overwrite?", "A file with this name already exists.\nDo you wish to overwrite it?", ModalResult.Yes, ModalResult.No, ModalResult.Cancel);
+        } else {
+            File.WriteAllText(serializedDeckInfo.fullPath, serializedDeckInfo.jsonString);
+            LoadDeckFile(serializedDeckInfo.fullPath);
+        }
+    }
+
+    public void ModalSaveDeck(ModalResult result){
+        Debug.Log("ModalSaveDeck");
+        switch(result){
+            case ModalResult.Yes:
+                Debug.Log("ModalSaveDeck Yes");
+                File.WriteAllText(serializedDeckInfo.fullPath, serializedDeckInfo.jsonString);
+                LoadDeckFile(serializedDeckInfo.fullPath);
+                ModalWindowHandler.ShowModalWindow(null, "Overwrite?", "Overwriting successfull", ModalResult.Ok);
+                break;
+            case ModalResult.No:
+                Debug.Log("ModalSaveDeck No");
+                ModalWindowHandler.ShowModalWindow(null, "Overwrite?", "Couldn't save file", ModalResult.Ok);
+                break;
+            case ModalResult.Cancel:
+                Debug.Log("ModalSaveDeck Cancel");
+                break;
+        }
     }
 
     public void DeleteDeckFile(){
@@ -157,8 +183,6 @@ public class DeckFileList : MonoBehaviour
     }
 
     IEnumerator FlashCanvasGroup(CanvasGroup group, int repeats = 4, float duration = 1f){
-        // float startTime = Time.time;
-
         float startAlpha = group.alpha;
 
         group.alpha = 0;
@@ -170,9 +194,6 @@ public class DeckFileList : MonoBehaviour
             group.alpha = 1 - Mathf.PingPong(t * blinkSpeed, 1);
             yield return null;
         }
-        // Debug.Log(group.alpha);
-
-        // Debug.Log("Duration: " + (Time.time - startTime));
 
         group.alpha = startAlpha;
         yield return null;

@@ -7,5 +7,6 @@ public enum ModalResult {
     Overwrite = 1 << 5,
     Rename = 1 << 6,
     Rebellion = 1 << 7,
-    Empire = 1 << 8
+    Empire = 1 << 8,
+    Factionless = 1 << 9
 }
