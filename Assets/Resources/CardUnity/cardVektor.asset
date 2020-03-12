@@ -18,10 +18,10 @@ MonoBehaviour:
   faction: 1
   cardName: Vektor
   cost: 2
-  contradictories: []
   isCommander: 0
   isUnique: 1
   isSquadron: 0
   cardTypeRaw: 20k-title-gozanti
   cardSize: 2
   upgradeType: 12
+  upgradeTypes: 0c000000

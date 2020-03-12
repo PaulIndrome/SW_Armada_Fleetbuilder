@@ -18,10 +18,10 @@ MonoBehaviour:
   faction: 1
   cardName: Orbitalbombardement-Partikelkanonen
   cost: 5
-  contradictories: []
   isCommander: 0
   isUnique: 1
   isSquadron: 0
   cardTypeRaw: 13a-superweapon-onager
   cardSize: 2
   upgradeType: 34
+  upgradeTypes: 22000000

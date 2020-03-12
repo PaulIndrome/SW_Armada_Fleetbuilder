@@ -18,10 +18,10 @@ MonoBehaviour:
   faction: 3
   cardName: Anti-Zielsuchsystem
   cost: 5
-  contradictories: []
   isCommander: 0
   isUnique: 0
   isSquadron: 0
   cardTypeRaw: 11-experimental-retrofit
   cardSize: 2
   upgradeType: 31
+  upgradeTypes: 1f000000

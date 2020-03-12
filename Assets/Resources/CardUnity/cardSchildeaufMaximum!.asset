@@ -18,10 +18,10 @@ MonoBehaviour:
   faction: 2
   cardName: Schilde auf Maximum!
   cost: 6
-  contradictories: []
   isCommander: 0
   isUnique: 0
   isSquadron: 0
   cardTypeRaw: 12-fleet-command
   cardSize: 2
   upgradeType: 32
+  upgradeTypes: 20000000

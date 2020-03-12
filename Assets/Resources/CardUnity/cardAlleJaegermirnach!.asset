@@ -18,10 +18,10 @@ MonoBehaviour:
   faction: 2
   cardName: Alle Jaeger mir nach!
   cost: 5
-  contradictories: []
   isCommander: 0
   isUnique: 0
   isSquadron: 0
   cardTypeRaw: 12-fleet-command
   cardSize: 2
   upgradeType: 32
+  upgradeTypes: 20000000

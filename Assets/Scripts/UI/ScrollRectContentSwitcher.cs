@@ -135,12 +135,15 @@ public class ScrollRectContentSwitcher : MonoBehaviour
     // }
 
     public void SwitchToContent(int contentChange){
+        if(switchingContent) return;
         if(contentChange == 0) {
             for(int i = 0; i < contentCanvases.Length; i++){
                 contentCanvases[i].enabled = CurrentContentIndex == i;
             }
             return;
         }
+
+        switchingContent = true;
         
         scrollRectPositions[CurrentContentIndex] = scrollRect.verticalNormalizedPosition;
 

@@ -18,10 +18,10 @@ MonoBehaviour:
   faction: 1
   cardName: Konform
   cost: 2
-  contradictories: []
   isCommander: 0
   isUnique: 1
   isSquadron: 0
   cardTypeRaw: 20p-title-quasarfeuer
   cardSize: 2
   upgradeType: 17
+  upgradeTypes: 11000000

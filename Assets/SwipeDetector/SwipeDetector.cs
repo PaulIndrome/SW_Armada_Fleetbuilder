@@ -103,7 +103,7 @@ public class SwipeDetector : MonoBehaviour
 
     private void DetectSwipeEnded(int touchIndex)
     {
-        Debug.Log("Detect swipe ended");
+        // Debug.Log("Detect swipe ended");
         if (SwipeDistanceCheckMet(touchIndex) || swipeActive[touchIndex])
         {
             swipeActive[touchIndex] = true;

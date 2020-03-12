@@ -18,10 +18,10 @@ MonoBehaviour:
   faction: 3
   cardName: Fruehwarnsystem
   cost: 7
-  contradictories: []
   isCommander: 0
   isUnique: 0
   isSquadron: 0
   cardTypeRaw: 06-defensive-retrofit
   cardSize: 2
   upgradeType: 26
+  upgradeTypes: 1a000000

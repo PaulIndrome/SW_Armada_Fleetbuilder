@@ -4,7 +4,6 @@ using UnityEngine;
 using System.IO;
 using Newtonsoft.Json;
 using TMPro;
-using DG.Tweening;
 
 public class DeckFileList : MonoBehaviour
 {
@@ -15,7 +14,6 @@ public class DeckFileList : MonoBehaviour
     [SerializeField] private TMP_InputField deckFileInputField;
     [SerializeField] private DeckContentControl deckContentControl;
     [SerializeField] private CanvasGroup inputNeededCanvasGroup;
-
 
     [Header("Asset references")]
     [SerializeField] private DeckFileEntry deckFileEntryPrefab;
@@ -34,8 +32,6 @@ public class DeckFileList : MonoBehaviour
     public Dictionary<int, DeckFileEntry> deckFileEntries;
     public string[] fullFilePaths;
 
-
-
     /// <summary>
     /// Awake is called when the script instance is being loaded.
     /// </summary>
@@ -52,8 +48,6 @@ public class DeckFileList : MonoBehaviour
         if(deckFileEntries == null){
             deckFileEntries = new Dictionary<int, DeckFileEntry>();
         }
-
-        
     }
 
     /// <summary>
@@ -101,7 +95,7 @@ public class DeckFileList : MonoBehaviour
     public void LoadDeckFile(){
         if(currentSelectedEntry == null) return;
         deckContentControl.LoadDeckFromFile(currentSelectedEntry.SerializableDeck);
-        ModalWindowHandler.ShowModalWindow(null, "Deck file loaded", $"Deck \"{deckContentControl.CurrentDeck.DeckName}\" loaded", ModalResult.Ok);
+        ModalWindowHandler.ShowModalWindow(null, "Deck file loaded", $"Deck \"{deckContentControl.CurrentDeckContent.DeckName}\" loaded", ModalResult.Ok);
         deckFileListCanvas.enabled = false;
     }
 
@@ -132,7 +126,7 @@ public class DeckFileList : MonoBehaviour
     }
 
     public void SaveDeckFile(){
-        serializedDeckInfo = DeserializeCardsFromJSON.SerializeDeck(deckContentControl.CurrentDeck, deckFileInputField.text.Trim());
+        serializedDeckInfo = DeserializeCardsFromJSON.SerializeDeck(deckContentControl.CurrentDeckContent, deckFileInputField.text.Trim());
         if(File.Exists(serializedDeckInfo.fullPath)){
             ModalWindowHandler.ShowModalWindow(ModalSaveDeck, "Overwrite?", "A file with this name already exists.\nDo you wish to overwrite it?", ModalResult.Yes, ModalResult.No, ModalResult.Cancel);
         } else {
@@ -214,4 +208,10 @@ public class DeckFileList : MonoBehaviour
         Debug.Log(DeserializeCardsFromJSON.DECKFILEPATH);
         Debug.Log(Application.persistentDataPath);
     }
+}
+
+public struct NewDeckInfo {
+    public int maxPoints;
+    public Faction faction;
+    public string deckName;
 }

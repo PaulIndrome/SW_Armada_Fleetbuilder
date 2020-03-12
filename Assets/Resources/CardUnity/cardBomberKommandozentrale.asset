@@ -18,10 +18,10 @@ MonoBehaviour:
   faction: 3
   cardName: Bomber-Kommandozentrale
   cost: 8
-  contradictories: []
   isCommander: 0
   isUnique: 0
   isSquadron: 0
   cardTypeRaw: 10-fleet-support
   cardSize: 2
   upgradeType: 30
+  upgradeTypes: 1e000000

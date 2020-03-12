@@ -18,10 +18,10 @@ MonoBehaviour:
   faction: 1
   cardName: Commander Vanto
   cost: 7
-  contradictories: []
   isCommander: 0
   isUnique: 1
   isSquadron: 0
   cardTypeRaw: 01-officer
   cardSize: 2
   upgradeType: 1
+  upgradeTypes: 01000000

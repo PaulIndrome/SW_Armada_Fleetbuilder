@@ -18,10 +18,10 @@ MonoBehaviour:
   faction: 3
   cardName: Hochleistungs-Ionenturbinen
   cost: 8
-  contradictories: []
   isCommander: 0
   isUnique: 0
   isSquadron: 0
   cardTypeRaw: 07-ion-cannons
   cardSize: 2
   upgradeType: 27
+  upgradeTypes: 1b000000

@@ -24,3 +24,4 @@ MonoBehaviour:
   cardTypeRaw: 01-officer
   cardSize: 2
   upgradeType: 1
+  upgradeTypes: 01000000

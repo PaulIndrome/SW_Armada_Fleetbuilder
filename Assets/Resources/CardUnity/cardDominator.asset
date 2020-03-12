@@ -18,10 +18,10 @@ MonoBehaviour:
   faction: 1
   cardName: Dominator
   cost: 12
-  contradictories: []
   isCommander: 0
   isUnique: 1
   isSquadron: 0
   cardTypeRaw: 20c-title-sieges-klasse
   cardSize: 2
   upgradeType: 4
+  upgradeTypes: 04000000

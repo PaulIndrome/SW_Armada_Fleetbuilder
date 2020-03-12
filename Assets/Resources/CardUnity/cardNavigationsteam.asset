@@ -18,10 +18,10 @@ MonoBehaviour:
   faction: 3
   cardName: Navigationsteam
   cost: 4
-  contradictories: []
   isCommander: 0
   isUnique: 0
   isSquadron: 0
   cardTypeRaw: 04-support-team
   cardSize: 2
   upgradeType: 24
+  upgradeTypes: 18000000

@@ -18,10 +18,10 @@ MonoBehaviour:
   faction: 2
   cardName: Liberator
   cost: 2
-  contradictories: []
   isCommander: 0
   isUnique: 1
   isSquadron: 0
   cardTypeRaw: 20a-title-cr-90-korvette
   cardSize: 2
   upgradeType: 2
+  upgradeTypes: 02000000

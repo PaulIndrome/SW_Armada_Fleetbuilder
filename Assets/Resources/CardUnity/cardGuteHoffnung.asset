@@ -18,10 +18,10 @@ MonoBehaviour:
   faction: 2
   cardName: Gute Hoffnung
   cost: 2
-  contradictories: []
   isCommander: 0
   isUnique: 1
   isSquadron: 0
   cardTypeRaw: 20j-title-gr-75-transporter
   cardSize: 2
   upgradeType: 11
+  upgradeTypes: 0b000000

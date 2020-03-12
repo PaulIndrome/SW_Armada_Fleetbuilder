@@ -23,6 +23,7 @@ public class SwipeInMenu : MonoBehaviour
     public RectTransform menuRectTransform;
     
     [Header("Settings")]
+    public bool swipingActive = true;
     [Range(0f, 0.25f), Tooltip("Percentage of screen width (left, right) or height (top, bottom) used to detect a menu swipe in")]
     public float swipeInScreenAreaSize;
     [Range(0f, 0.25f), Tooltip("Percentage of screen width (left, right) or height (top, bottom) used to detect a menu swipe out")]
@@ -61,7 +62,8 @@ public class SwipeInMenu : MonoBehaviour
     /// </summary>
     void OnEnable()
     {
-        SwipeDetector.OnSwipeDetected += SwipeReaction;
+        if(swipingActive)
+            SwipeDetector.OnSwipeDetected += SwipeReaction;
     }
 
     /// <summary>
@@ -171,6 +173,14 @@ public class SwipeInMenu : MonoBehaviour
             
     //     }
     // }
+
+    public void ToggleInOut(bool toScreen){
+        if(toScreen){
+            SwipeIn();
+        } else {
+            SwipeAway();
+        }
+    }
 
     [ContextMenu("Test swipe in")]
     public void SwipeIn(){

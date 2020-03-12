@@ -18,10 +18,10 @@ MonoBehaviour:
   faction: 1
   cardName: Grossmoff Tarkin
   cost: 38
-  contradictories: []
   isCommander: 1
   isUnique: 1
   isSquadron: 0
   cardTypeRaw: 00-commander
   cardSize: 2
   upgradeType: 0
+  upgradeTypes: 00000000

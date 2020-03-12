@@ -18,10 +18,10 @@ MonoBehaviour:
   faction: 1
   cardName: Vernichter
   cost: 10
-  contradictories: []
   isCommander: 0
   isUnique: 1
   isSquadron: 0
   cardTypeRaw: 20d-title-gladiator-klasse
   cardSize: 2
   upgradeType: 5
+  upgradeTypes: 05000000

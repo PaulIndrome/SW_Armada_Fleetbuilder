@@ -18,10 +18,10 @@ MonoBehaviour:
   faction: 2
   cardName: Mon Karren
   cost: 8
-  contradictories: []
   isCommander: 0
   isUnique: 1
   isSquadron: 0
   cardTypeRaw: 20l-title-mc80-kreuzer2
   cardSize: 2
   upgradeType: 13
+  upgradeTypes: 0d000000

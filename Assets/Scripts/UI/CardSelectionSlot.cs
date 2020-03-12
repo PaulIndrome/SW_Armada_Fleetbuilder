@@ -5,13 +5,8 @@ using UnityEngine.UI;
 
 public class CardSelectionSlot : SwipableComponent
 {
-    public delegate int AddToDeckFromCollectionDelegate(CardUI cardUI, int amountToAdd = 1);
-    public static event AddToDeckFromCollectionDelegate OnTryAddToDeck;
-
-    public delegate int ReturnToCollectionFromDeckDelegate(CardUI cardUI, int amountToAdd = 1);
-    public static event ReturnToCollectionFromDeckDelegate OnReturnToCollection;
-    
-    
+    public delegate int AddToDeckFromCollectionDelegate(CardUI cardUI, int amount = 1);
+    public static event AddToDeckFromCollectionDelegate OnTryAddToDeck, OnReturnToCollection;
 
     [ReadOnly(true), SerializeField, ContextMenuItem("Add to deck", "AddToDeck"), ContextMenuItem("Remove from deck", "RemoveFromDeck")] private CardUI currentSelectedCard;
 
@@ -42,6 +37,8 @@ public class CardSelectionSlot : SwipableComponent
         if(!deckContentControl){
             deckContentControl = GetComponentInParent<DeckContentControl>();
         }
+
+        Deck.OnNewDeckConstructor += ClearSelectedCard;
     }
 
     /// <summary>
@@ -49,9 +46,13 @@ public class CardSelectionSlot : SwipableComponent
     /// </summary>
     void OnEnable()
     {
-        Debug.Log("SingleSelectedCard OnEnable()", this);
+        // Debug.Log("SingleSelectedCard OnEnable()", this);
         CardUI.OnCardSelected -= SetCurrentSelectedCard;
         CardUI.OnCardSelected += SetCurrentSelectedCard;
+    }
+
+    private void ClearSelectedCard(){
+        SetCurrentSelectedCard(null);
     }
 
     public void SetCurrentSelectedCard(CardUI cardToSet){
@@ -64,11 +65,10 @@ public class CardSelectionSlot : SwipableComponent
         if(cardToSet == null){
             cardImage.sprite = null;
             cardImage.color = Color.clear;
-            return;
-        } 
-        
-        cardImage.sprite = cardToSet.Card.sprite;
-        cardImage.color = Color.white;
+        } else {
+            cardImage.sprite = cardToSet.Card.sprite;
+            cardImage.color = Color.white;
+        }
     }
 
     public void AddToDeck(){
@@ -111,9 +111,7 @@ public class CardSelectionSlot : SwipableComponent
         } else {
             cardBackgroundImage.color = Color.clear;
         }
-
     }
-
 
     /// <summary>
     /// This function is called when the behaviour becomes disabled or inactive.
@@ -121,6 +119,7 @@ public class CardSelectionSlot : SwipableComponent
     void OnDisable()
     {
         CardUI.OnCardSelected -= SetCurrentSelectedCard;
+        Deck.OnNewDeckConstructor -= ClearSelectedCard;
     }
 
 }

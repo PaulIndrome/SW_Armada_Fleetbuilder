@@ -18,10 +18,10 @@ MonoBehaviour:
   faction: 1
   cardName: Centicore
   cost: 3
-  contradictories: []
   isCommander: 0
   isUnique: 1
   isSquadron: 0
   cardTypeRaw: 20o-title-arquitens
   cardSize: 2
   upgradeType: 16
+  upgradeTypes: 10000000

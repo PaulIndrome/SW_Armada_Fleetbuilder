@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public static class Extensions {
     public static void ResetLocalAndAnchoredPosition(this RectTransform rectTransform){

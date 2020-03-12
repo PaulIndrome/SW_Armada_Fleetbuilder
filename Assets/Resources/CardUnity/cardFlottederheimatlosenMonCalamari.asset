@@ -18,10 +18,10 @@ MonoBehaviour:
   faction: 2
   cardName: Flotte der heimatlosen Mon Calamari
   cost: 5
-  contradictories: []
   isCommander: 0
   isUnique: 0
   isSquadron: 0
   cardTypeRaw: 20zzz-title-fleet
   cardSize: 2
   upgradeType: 21
+  upgradeTypes: 15000000

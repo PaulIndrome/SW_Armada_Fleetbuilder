@@ -122,6 +122,7 @@ public class CardUI : MonoBehaviour
 
         // Deck.OnCurrentDeckPointsChanged += UpdateDeckMessagesOnCardByEvent;
         OnCardMoved += UpdateDeckMessagesOnCardByStaticDeck;
+        Deck.OnFireUpdateDeckMessages += UpdateDeckMessagesOnCardByStaticDeck;
         
         if(CurrentDeck.deck != null && Card != null)
             UpdateDeckMessagesOnCardByStaticDeck();
@@ -266,6 +267,9 @@ public class CardUI : MonoBehaviour
         ToggleCollectionAmountZero(CurrentAmountInCollection < 1, Card.isUnique);
         ToggleMaxPointsExceeded(CurrentDeck.deck.PointsCurrent + Card.cost > CurrentDeck.deck.PointsMax);
         ToggleThirdSquadronPointsExceeded(Card is CardUnitySquadron && (CurrentDeck.deck.SquadronPoints + Card.cost) > CurrentDeck.deck.MaxSquadronPoints);
+        if(Card is CardUnityUpgrade && !Card.isCommander){
+            // CurrentDeck.deck.availableSlots.Find
+        }
 
         // #if UNITY_EDITOR
             Profiler.EndSample();
@@ -315,5 +319,6 @@ public class CardUI : MonoBehaviour
         }
         // Deck.OnCurrentDeckPointsChanged -= UpdateDeckMessagesOnCardByEvent;
         OnCardMoved -= UpdateDeckMessagesOnCardByStaticDeck;
+        Deck.OnFireUpdateDeckMessages -= UpdateDeckMessagesOnCardByStaticDeck;
     }
 }

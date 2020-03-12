@@ -18,10 +18,10 @@ MonoBehaviour:
   faction: 1
   cardName: Gunnery Chief Varnillian
   cost: 6
-  contradictories: []
   isCommander: 0
   isUnique: 1
   isSquadron: 0
   cardTypeRaw: 03-weapons-team
   cardSize: 2
   upgradeType: 22
+  upgradeTypes: 16000000

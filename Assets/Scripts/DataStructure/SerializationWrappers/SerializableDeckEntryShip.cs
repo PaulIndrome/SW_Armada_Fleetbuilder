@@ -18,8 +18,12 @@ public class SerializableDeckEntryShip : SerializableDeckEntry {
             cardID = entry.Card.ID;
 
             upgradeCardIDs = new string[entry.UpgradeSlots.Count];
+            Debug.Log(entry.UpgradeSlots.Count);
             for(int i = 0; i < entry.UpgradeSlots.Count; i++){
-                upgradeCardIDs[i] = entry.UpgradeSlots[i].SlottedUpgrade?.Card.ID;
+                if(entry.UpgradeSlots[i].Filled){
+                    Debug.Log(entry.UpgradeSlots[i].SlottedUpgrade.Identifier);
+                    upgradeCardIDs[i] = entry.UpgradeSlots[i].SlottedUpgrade.Card.ID;
+                }
             }
         } else {
             throw new System.ArgumentException($"{entry.Identifier} trying to create a serializable entry ship from wrong card type.");

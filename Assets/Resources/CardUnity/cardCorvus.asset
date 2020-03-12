@@ -18,10 +18,10 @@ MonoBehaviour:
   faction: 1
   cardName: Corvus
   cost: 2
-  contradictories: []
   isCommander: 0
   isUnique: 1
   isSquadron: 0
   cardTypeRaw: 20f-title-sturm-klasse
   cardSize: 2
   upgradeType: 7
+  upgradeTypes: 07000000

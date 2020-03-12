@@ -19,34 +19,48 @@ public class DeckContentControl : MonoBehaviour
     public delegate void DeckLoadedDelegate(Deck loadedDeck);
     public static event DeckLoadedDelegate OnDeckLoaded;
 
-
     [Header("Scene references")]
-    [SerializeField] private TextMeshProUGUI deckMaxPointsText;
+    [SerializeField] private TMP_InputField deckMaxPointsText;
     [SerializeField] private TextMeshProUGUI deckCurrentPointsText;
     [SerializeField] private DeckMessageControl deckMessageControl;
 
     [Header("Set via script")]
-    [SerializeField] private Deck currentDeck;
+    [SerializeField] private Deck currentDeckContent;
+    [ReadOnly, SerializeField] private CardUI currentSelectedCard;
 
-    public Deck CurrentDeck => currentDeck;
+    public Deck CurrentDeckContent => currentDeckContent;
 
     public int DeckPointsMax {
-        get { return currentDeck.PointsMax; }
+        get { return currentDeckContent.PointsMax; }
         private set {
-            if(value > 0 && value < 9999){
-                currentDeck.SetPointsMax(value);
-                deckMaxPointsText.text = currentDeck.PointsMax.ToString();
+            if(value > -1 && value <= 9999){
+                // Debug.Log("DeckContentControl max points to " + value);
+                currentDeckContent.SetPointsMax(value);
+                deckMaxPointsText.SetTextWithoutNotify(currentDeckContent.PointsMax.ToString());
+                if(currentSelectedCard != null){
+                    currentSelectedCard.UpdateDeckMessagesOnCardByStaticDeck();
+                    ShowDeckMessages(currentSelectedCard);
+                }
             }
         }
     }
 
     public int DeckPointsCurrent {
-        get { return currentDeck.PointsCurrent; }
+        get { return currentDeckContent.PointsCurrent; }
         private set {
             if(value <= DeckPointsMax && value > -1){
-                deckCurrentPointsText.text = currentDeck.PointsCurrent.ToString();
+                deckCurrentPointsText.text = currentDeckContent.PointsCurrent.ToString();
             }
         }
+    }
+
+    /// <summary>
+    /// Awake is called when the script instance is being loaded.
+    /// </summary>
+    void Awake()
+    {
+        deckMaxPointsText.contentType = TMP_InputField.ContentType.IntegerNumber;
+        deckMaxPointsText.pointSize = 100;
     }
 
 
@@ -71,9 +85,9 @@ public class DeckContentControl : MonoBehaviour
 
 
     private int AddCardToCurrentDeck(CardUI cardUI, int amountToAdd = 1){
-        DeckEntry newEntry = currentDeck.AddCardToDeck(cardUI.Card);
+        DeckEntry newEntry = currentDeckContent.AddCardToDeck(cardUI.Card);
         if(newEntry != null){
-            DeckPointsCurrent = currentDeck.PointsCurrent;
+            DeckPointsCurrent = currentDeckContent.PointsCurrent;
             OnAddedToDeck(cardUI, amountToAdd);
         }
         
@@ -83,7 +97,7 @@ public class DeckContentControl : MonoBehaviour
     }
 
     private int RemoveCardFromCurrentDeck(CardUI cardUI, int amountToAdd = 1){
-        if(currentDeck.AllCardsInDeck.Find(dE => dE.Identifier == cardUI.Card.ID) == null) {
+        if(currentDeckContent.AllCardsInDeck.Find(dE => dE.Identifier == cardUI.Card.ID) == null) {
             Debug.LogError($"DeckEntry for {cardUI.Card.ID} not found");
             return 0;
         }
@@ -91,18 +105,18 @@ public class DeckContentControl : MonoBehaviour
         int result = 0;
 
         if(cardUI.Card is CardUnityShip){
-            DeckEntryShip entryShip = currentDeck.shipCards.FindLast(eShip => eShip.Identifier == cardUI.Card.ID);
-            result = currentDeck.RemoveEntry(entryShip);
+            DeckEntryShip entryShip = currentDeckContent.shipCards.FindLast(eShip => eShip.Identifier == cardUI.Card.ID);
+            result = currentDeckContent.RemoveEntry(entryShip);
         } else if (cardUI.Card is CardUnitySquadron){
-            DeckEntrySquadron entrySquadron = currentDeck.squadronCards.FindLast(eSquadron => eSquadron.Identifier == cardUI.Card.ID);
-            result = currentDeck.RemoveEntry(entrySquadron);
+            DeckEntrySquadron entrySquadron = currentDeckContent.squadronCards.FindLast(eSquadron => eSquadron.Identifier == cardUI.Card.ID);
+            result = currentDeckContent.RemoveEntry(entrySquadron);
         } else {
-            DeckEntryUpgrade entryUpgrade = currentDeck.upgradeCards.FindLast(eUpgrade => eUpgrade.Identifier == cardUI.Card.ID);
-            result = currentDeck.RemoveEntry(entryUpgrade);
+            DeckEntryUpgrade entryUpgrade = currentDeckContent.upgradeCards.FindLast(eUpgrade => eUpgrade.Identifier == cardUI.Card.ID);
+            result = currentDeckContent.RemoveEntry(entryUpgrade);
         }
 
         if(result > 0){
-            DeckPointsCurrent = currentDeck.PointsCurrent;
+            DeckPointsCurrent = currentDeckContent.PointsCurrent;
             OnRemovedFromDeck(cardUI, amountToAdd);
         }
 
@@ -112,32 +126,55 @@ public class DeckContentControl : MonoBehaviour
     }
 
     public void NewDeck(string deckName, int maxPoints = 400, Faction faction = (Faction) ~0){
-        currentDeck = new Deck(deckName, maxPoints, faction);
+        currentDeckContent = new Deck(deckName, maxPoints, faction);
         DeckPointsMax = maxPoints;
         DeckPointsCurrent = 0;
+        ShowDeckMessages(null);
         if(OnNewDeckStarted != null)
-            OnNewDeckStarted(currentDeck);
+            OnNewDeckStarted(currentDeckContent);
     }
 
     public void SaveCurrentDeck(){
-        DeserializeCardsFromJSON.SerializeDeck(currentDeck);
+        DeserializeCardsFromJSON.SerializeDeck(currentDeckContent);
     }
 
     public void LoadDeckFromFile(SerializableDeck sDeck){
-        currentDeck = new Deck(sDeck);
-        DeckPointsCurrent = currentDeck.PointsCurrent;
-        DeckPointsMax = currentDeck.PointsMax;
+        currentDeckContent = new Deck(sDeck);
+        DeckPointsCurrent = currentDeckContent.PointsCurrent;
+        DeckPointsMax = currentDeckContent.PointsMax;
+        ShowDeckMessages(null);
         if(OnDeckLoaded != null)
-            OnDeckLoaded(currentDeck);
+            OnDeckLoaded(currentDeckContent);
     }
 
     void ShowDeckMessages(CardUI cardUI){
         if(cardUI == null){
             deckMessageControl.ToggleAllMessages(false);
+            currentSelectedCard = null;
+            return;
         }
+
+        currentSelectedCard = cardUI;
+
         deckMessageControl.ToggleMaxPointsExceeded(DeckPointsCurrent + cardUI.Card.cost > DeckPointsMax);
-        deckMessageControl.ToggleThirdSquadronPointsExceeded(cardUI.Card is CardUnitySquadron && (CurrentDeck.SquadronPoints + cardUI.Card.cost) > CurrentDeck.MaxSquadronPoints, CurrentDeck.SquadronPoints, CurrentDeck.MaxSquadronPoints);
+        deckMessageControl.ToggleThirdSquadronPointsExceeded(cardUI.Card is CardUnitySquadron && (CurrentDeckContent.SquadronPoints + cardUI.Card.cost) > CurrentDeckContent.MaxSquadronPoints, CurrentDeckContent.SquadronPoints, CurrentDeckContent.MaxSquadronPoints);
         deckMessageControl.ToggleCollectionAmountZero(cardUI.CurrentAmountInCollection < 1, cardUI.Card.isUnique);
+    }
+
+    public void SetPointsMax(string newPointsMax){
+        int newMaxParsed;
+        if(int.TryParse(newPointsMax, out newMaxParsed)){
+            DeckPointsMax = newMaxParsed;
+        }
+    }
+
+    [ContextMenu("Debug CurrentDeck Static")]
+    public void DebugCurrentDeckStatic(){
+        Debug.Log("Name: " + CurrentDeck.deck.DeckName);
+        Debug.Log("Faction: " + CurrentDeck.deck.DeckFaction);
+        Debug.Log("Points current: " + CurrentDeck.deck.PointsCurrent);
+        Debug.Log("Points max: " + CurrentDeck.deck.PointsMax);
+        Debug.Log("No. cards in deck: " + CurrentDeck.deck.AllCardsInDeck.Count);
     }
 
     /// <summary>

@@ -8,6 +8,10 @@ public class Deck {
     // public delegate void CurrentDeckPointsChangedDelegate(int pointsCurrent, int pointsMax, int squadronPoints);
     // public static event CurrentDeckPointsChangedDelegate OnCurrentDeckPointsChanged;
 
+    public delegate void BasicDelegate();
+    public static event BasicDelegate OnFireUpdateDeckMessages, OnNewDeckConstructor;
+    
+
     [ReadOnly, SerializeField] private int pointsCurrent = 0;
     public int PointsCurrent => pointsCurrent;
 
@@ -17,6 +21,8 @@ public class Deck {
         private set {
             pointsMax = Mathf.Clamp(value, 0, int.MaxValue);
             maxSquadronPoints = Mathf.CeilToInt((float) pointsMax / 3);
+            if(OnFireUpdateDeckMessages != null)
+                OnFireUpdateDeckMessages();
         }
     }
 
@@ -36,11 +42,10 @@ public class Deck {
     public int UpgradePoints => upgradePoints;
     public int MaxSquadronPoints => maxSquadronPoints;
 
-    
-
     public List<DeckEntryShip> shipCards = new List<DeckEntryShip>();
     public List<DeckEntrySquadron> squadronCards = new List<DeckEntrySquadron>();
     public List<DeckEntryUpgrade> upgradeCards = new List<DeckEntryUpgrade>();
+    public List<UpgradeSlot> availableSlots = new List<UpgradeSlot>();
 
     public List<DeckEntry> AllCardsInDeck {
         get {
@@ -55,32 +60,23 @@ public class Deck {
     public Deck(SerializableDeck sDeck){
         deckName = sDeck.deckName;
         PointsMax = sDeck.deckPointsMax;
-        // pointsCurrent = sDeck.deckPointsUsed;
-
         deckFaction = sDeck.deckFaction;
 
-        // CardUnityBase loadedCard;
-        // DeckEntryUpgrade entryUpgrade;
-        // DeckEntryShip entryShip;
-        // DeckEntrySquadron entrySquad;
-
         for(int i = 0; i < sDeck.upgradesInDeck.Length; i++){
-            DeckEntryUpgrade entryUpgrade = new DeckEntryUpgrade(Resources.Load<CardUnityUpgrade>($"CardUnity/{sDeck.upgradesInDeck[i].cardID}"));
-            upgradeCards.Add(entryUpgrade);
-            upgradePoints += entryUpgrade.Card.cost;
+            // DeckEntryUpgrade entryUpgrade = new DeckEntryUpgrade(Resources.Load<CardUnityUpgrade>($"CardUnity/{sDeck.upgradesInDeck[i].cardID}"));
+            // upgradeCards.Add(entryUpgrade);
+            // upgradePoints += entryUpgrade.Card.cost;
 
-            // CardUnityUpgrade loadedCard = Resources.Load<CardUnityUpgrade>($"CardUnity/{sDeck.upgradesInDeck[i].cardID}");
-            // AddCardToDeck(loadedCard, false);
+            CardUnityUpgrade loadedCard = Resources.Load<CardUnityUpgrade>($"CardUnity/{sDeck.upgradesInDeck[i].cardID}");
+            AddCardToDeck(loadedCard, false);
         }
         for(int i = 0; i < sDeck.shipsInDeck.Length; i++){
-            // Debug.Log("Attempting to add ship " + sDeck.shipsInDeck[i].cardID + " to deck");
+            // DeckEntryShip entryShip = new DeckEntryShip(Resources.Load<CardUnityShip>($"CardUnity/{sDeck.shipsInDeck[i].cardID}"));
+            // shipCards.Add(entryShip);
+            // shipPoints += entryShip.Card.cost;
 
-            DeckEntryShip entryShip = new DeckEntryShip(Resources.Load<CardUnityShip>($"CardUnity/{sDeck.shipsInDeck[i].cardID}"));
-            shipCards.Add(entryShip);
-            shipPoints += entryShip.Card.cost;
-
-            // CardUnityShip loadedCard = Resources.Load<CardUnityShip>($"CardUnity/{sDeck.shipsInDeck[i].cardID}");
-            // DeckEntryShip entryShip = AddCardToDeck(loadedCard, false) as DeckEntryShip;
+            CardUnityShip loadedCard = Resources.Load<CardUnityShip>($"CardUnity/{sDeck.shipsInDeck[i].cardID}");
+            DeckEntryShip entryShip = AddCardToDeck(loadedCard, false) as DeckEntryShip;
 
             for(int u = 0; u < sDeck.shipsInDeck[i].upgradeCardIDs.Length; u++){
                 if(sDeck.shipsInDeck[i].upgradeCardIDs[u] == null || sDeck.shipsInDeck[i].upgradeCardIDs[u].Length < 1) continue;
@@ -91,20 +87,20 @@ public class Deck {
             }
         }
         for(int i = 0; i < sDeck.squadronsInDeck.Length; i++){
-            DeckEntrySquadron entrySquadron = new DeckEntrySquadron(Resources.Load<CardUnitySquadron>($"CardUnity/{sDeck.squadronsInDeck[i].cardID}"));
-            squadronCards.Add(entrySquadron);
-            squadronPoints += entrySquadron.Card.cost;
+            // DeckEntrySquadron entrySquadron = new DeckEntrySquadron(Resources.Load<CardUnitySquadron>($"CardUnity/{sDeck.squadronsInDeck[i].cardID}"));
+            // squadronCards.Add(entrySquadron);
+            // squadronPoints += entrySquadron.Card.cost;
             
-            // CardUnitySquadron loadedCard = Resources.Load<CardUnitySquadron>($"CardUnity/{sDeck.squadronsInDeck[i].cardID}");
-            // AddCardToDeck(loadedCard, false);
+            CardUnitySquadron loadedCard = Resources.Load<CardUnitySquadron>($"CardUnity/{sDeck.squadronsInDeck[i].cardID}");
+            AddCardToDeck(loadedCard, false);
         }
 
         pointsCurrent = shipPoints + squadronPoints + upgradePoints;
 
-        // if(OnCurrentDeckPointsChanged != null)
-        //     OnCurrentDeckPointsChanged(PointsCurrent, PointsMax, SquadronPoints);
-
         CurrentDeck.deck = this;
+
+        if(OnNewDeckConstructor != null)
+            OnNewDeckConstructor();
     }
 
     public Deck(string name, int points, Faction faction){
@@ -121,9 +117,9 @@ public class Deck {
             upgradeCards = new List<DeckEntryUpgrade>();
 
         CurrentDeck.deck = this;
-
-        // if(OnCurrentDeckPointsChanged != null)
-        //     OnCurrentDeckPointsChanged(pointsCurrent, pointsMax, squadronPoints);
+        
+        if(OnNewDeckConstructor != null)
+            OnNewDeckConstructor();
     }
 
     public void SetName(string deckName){
@@ -153,9 +149,10 @@ public class Deck {
 
         if(card is CardUnityShip){
             // entryToAdd = ScriptableObject.CreateInstance<DeckEntryShip>();
-            entryToAdd = new DeckEntryShip(card as CardUnityShip);
+            entryToAdd = new DeckEntryShip(card as CardUnityShip) as DeckEntryShip;
             shipPoints += card.cost;
             shipCards.Add(entryToAdd as DeckEntryShip);
+            availableSlots.AddRange((entryToAdd as DeckEntryShip).UpgradeSlots);
             // Debug.Log("Added ship " + card.ID + " to deck");
         } else if(card is CardUnitySquadron){
             if((squadronPoints + card.cost) > maxSquadronPoints){ 
@@ -188,9 +185,15 @@ public class Deck {
     public int RemoveEntry(DeckEntry entry){
         // Debug.Log("Removing entry " + entry.Identifier);
         if(entry is DeckEntryShip){
+            DeckEntryShip entryShip = entry as DeckEntryShip;
             if(shipCards.Remove(entry as DeckEntryShip)){
-                pointsCurrent -= ((DeckEntryShip) entry).Card.cost;
-                shipPoints -= ((DeckEntryShip) entry).Card.cost;
+                pointsCurrent -= entryShip.Card.cost;
+                shipPoints -= entryShip.Card.cost;
+                for(int i = 0; i < entryShip.UpgradeSlots.Count; i++){
+                    if(!availableSlots.Remove(entryShip.UpgradeSlots[i])){
+                        Debug.LogError($"Trying to remove non-present upgrade ({entryShip.Identifier}: {entryShip.UpgradeSlots[i].UpgradeType})");
+                    }
+                }
                 // if(OnCurrentDeckPointsChanged != null) 
                 //     OnCurrentDeckPointsChanged(PointsCurrent, PointsMax, SquadronPoints);
                 return 1;
@@ -270,12 +273,6 @@ public class Deck {
     public DeckEntry FindUpgradeByName(string cardName){
         return upgradeCards.Find(de => de.Card.cardName == cardName);
     }
-
-    // public DeckEntry FindFirstByName(string cardName){
-    //     return (shipCards.Find(de => de.Card.cardName == cardName) ?? 
-    //             squadronCards.Find(de => de.Card.cardName == cardName) ?? 
-    //             upgradeCards.Find(de => de.Card.cardName == cardName));
-    // }
 
     public List<DeckEntry> FindAllByName(string cardName){
         List<DeckEntry> identicalNamedEntries = new List<DeckEntry>();

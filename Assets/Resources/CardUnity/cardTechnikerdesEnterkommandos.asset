@@ -18,10 +18,9 @@ MonoBehaviour:
   faction: 3
   cardName: Techniker des Enterkommandos
   cost: 2
-  contradictories: []
   isCommander: 0
   isUnique: 0
   isSquadron: 0
   cardTypeRaw: 03a-boarding-team
   cardSize: 2
-  upgradeType: 23
+  upgradeTypes: 1700000019000000

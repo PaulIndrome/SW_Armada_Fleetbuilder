@@ -18,10 +18,10 @@ MonoBehaviour:
   faction: 2
   cardName: Heimat Eins
   cost: 7
-  contradictories: []
   isCommander: 0
   isUnique: 1
   isSquadron: 0
   cardTypeRaw: 20h-title-mc80-kreuzer
   cardSize: 2
   upgradeType: 9
+  upgradeTypes: 09000000

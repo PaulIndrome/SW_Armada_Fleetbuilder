@@ -18,10 +18,10 @@ MonoBehaviour:
   faction: 2
   cardName: Yavaris
   cost: 5
-  contradictories: []
   isCommander: 0
   isUnique: 1
   isSquadron: 0
   cardTypeRaw: 20b-title-nebulon-b-fregatte
   cardSize: 2
   upgradeType: 3
+  upgradeTypes: 03000000

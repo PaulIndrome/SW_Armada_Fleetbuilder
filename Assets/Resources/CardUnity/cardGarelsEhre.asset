@@ -18,10 +18,10 @@ MonoBehaviour:
   faction: 2
   cardName: Garels Ehre
   cost: 4
-  contradictories: []
   isCommander: 0
   isUnique: 1
   isSquadron: 0
   cardTypeRaw: 20q-title-hammerhai
   cardSize: 2
   upgradeType: 18
+  upgradeTypes: 12000000

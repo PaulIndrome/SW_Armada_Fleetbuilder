@@ -18,10 +18,10 @@ MonoBehaviour:
   faction: 2
   cardName: Tugend
   cost: 5
-  contradictories: []
   isCommander: 0
   isUnique: 1
   isSquadron: 0
   cardTypeRaw: 20e-title-angriffsfregatte-typ-ii
   cardSize: 2
   upgradeType: 6
+  upgradeTypes: 06000000

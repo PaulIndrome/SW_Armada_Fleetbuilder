@@ -17,8 +17,7 @@ MonoBehaviour:
   size: medium
   faction: 2
   cardName: Dagger-Staffel
-  cost: 14
-  contradictories: []
+  cost: 15
   isCommander: 0
   isUnique: 1
   isSquadron: 1

@@ -18,10 +18,10 @@ MonoBehaviour:
   faction: 1
   cardName: Sunder
   cost: 10
-  contradictories: []
   isCommander: 0
   isUnique: 1
   isSquadron: 0
   cardTypeRaw: 20s-title-onager
   cardSize: 2
   upgradeType: 20
+  upgradeTypes: 14000000

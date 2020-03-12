@@ -18,10 +18,10 @@ MonoBehaviour:
   faction: 3
   cardName: Angriffs-Protonentorpedos
   cost: 5
-  contradictories: []
   isCommander: 0
   isUnique: 0
   isSquadron: 0
   cardTypeRaw: 08-ordnance
   cardSize: 2
   upgradeType: 28
+  upgradeTypes: 1c000000

@@ -18,10 +18,10 @@ MonoBehaviour:
   faction: 2
   cardName: Admonitor
   cost: 8
-  contradictories: []
   isCommander: 0
   isUnique: 1
   isSquadron: 0
   cardTypeRaw: 20g-title-mc30c-fregatte
   cardSize: 2
   upgradeType: 8
+  upgradeTypes: 08000000

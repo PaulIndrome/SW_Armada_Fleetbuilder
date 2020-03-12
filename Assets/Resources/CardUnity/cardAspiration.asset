@@ -18,10 +18,10 @@ MonoBehaviour:
   faction: 2
   cardName: Aspiration
   cost: 3
-  contradictories: []
   isCommander: 0
   isUnique: 1
   isSquadron: 0
   cardTypeRaw: 20r-title-profundity
   cardSize: 2
   upgradeType: 19
+  upgradeTypes: 13000000

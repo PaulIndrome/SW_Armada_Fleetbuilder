@@ -18,10 +18,10 @@ MonoBehaviour:
   faction: 1
   cardName: Interdictor
   cost: 3
-  contradictories: []
   isCommander: 0
   isUnique: 1
   isSquadron: 0
   cardTypeRaw: 20m-title-interdictor
   cardSize: 2
   upgradeType: 14
+  upgradeTypes: 0e000000

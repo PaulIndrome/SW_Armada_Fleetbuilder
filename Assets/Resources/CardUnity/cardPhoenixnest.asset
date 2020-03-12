@@ -18,10 +18,10 @@ MonoBehaviour:
   faction: 2
   cardName: Phoenixnest
   cost: 3
-  contradictories: []
   isCommander: 0
   isUnique: 1
   isSquadron: 0
   cardTypeRaw: 20n-title-pelta
   cardSize: 2
   upgradeType: 15
+  upgradeTypes: 0f000000
