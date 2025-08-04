@@ -18,11 +18,11 @@ MonoBehaviour:
   faction: 1
   cardName: Sternenzerstoerer der Onager-Klasse
   cost: 110
-  contradictories: []
   isCommander: 0
   isUnique: 0
   isSquadron: 0
   cardTypeRaw: s-onager
   cardSize: 0
   shipType: 18
-  upgradeTypes: 010000001400000016000000160000001d00000021000000
+  shipSize: 4
+  upgradeTypes: 00000000010000001400000016000000160000001d00000021000000

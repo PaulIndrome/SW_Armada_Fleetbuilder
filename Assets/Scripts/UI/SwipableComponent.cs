@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
 
+[RequireComponent(typeof(RectTransform))]
 public abstract class SwipableComponent : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     [System.Flags]
@@ -15,9 +16,9 @@ public abstract class SwipableComponent : MonoBehaviour, IBeginDragHandler, IDra
         Right = 1 << 3
     }
 
+    [SerializeField] private bool useThisRectTransform = true;
     [SerializeField] private bool dragVisible = true;
     [SerializeField] private bool returnToStartPos = true;
-    [FormerlySerializedAs("swipeDirections")]
     [SerializeField] private DragDirection dragDirections;
     [ReadOnly, SerializeField] protected bool dragActivationRight = false, dragActivationLeft = false, dragActivationUp = false, dragActivationDown = false;
     [SerializeField] private float activationDistanceRight = 0, activationDistanceLeft = 0, activationDistanceUp = 0, activationDistanceDown = 0;
@@ -29,12 +30,25 @@ public abstract class SwipableComponent : MonoBehaviour, IBeginDragHandler, IDra
 
     // TODO define left, right, down, up events for callback on successfull activation
 
+    /// <summary>
+    /// Awake is called when the script instance is being loaded.
+    /// </summary>
+    protected virtual void Awake()
+    {
+        if(useThisRectTransform){
+            draggedObjectRectTransform = GetComponent<RectTransform>();
+            draggedObjectStartPos = draggedObjectRectTransform.anchoredPosition;
+        }
+    }
+
     public void OnBeginDrag(PointerEventData eventData)
     {
         dragStartPos = eventData.pressPosition;
         draggedObject = eventData.pointerPressRaycast.gameObject;
-        draggedObjectRectTransform = draggedObject.GetComponentInParent<SwipableComponent>().GetComponent<RectTransform>();
-        draggedObjectStartPos = draggedObjectRectTransform.anchoredPosition;
+        if(!useThisRectTransform){
+            draggedObjectRectTransform = draggedObject.GetComponentInParent<SwipableComponent>().GetComponent<RectTransform>();
+            draggedObjectStartPos = draggedObjectRectTransform.anchoredPosition;
+        }
     }
 
     public void OnDrag(PointerEventData eventData)

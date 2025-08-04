@@ -32,6 +32,12 @@ public class Deck {
     [SerializeField] private Faction deckFaction;
     public Faction DeckFaction => deckFaction;
 
+    // [SerializeField] private DeckEntryShip activeShip;
+    // public DeckEntryShip ActiveShip => activeShip;
+
+    [SerializeField] private DeckEntryUpgrade activeUpgrade;
+    public DeckEntryUpgrade ActiveUpgrade => activeUpgrade;
+
     [SerializeField] private int shipPoints = 0;
     [SerializeField] private int squadronPoints = 0;
     [SerializeField] private int upgradePoints = 0;
@@ -41,6 +47,8 @@ public class Deck {
     public int SquadronPoints => squadronPoints;
     public int UpgradePoints => upgradePoints;
     public int MaxSquadronPoints => maxSquadronPoints;
+
+    public List<string> cardIDs = new List<string>();
 
     public List<DeckEntryShip> shipCards = new List<DeckEntryShip>();
     public List<DeckEntrySquadron> squadronCards = new List<DeckEntrySquadron>();
@@ -81,8 +89,8 @@ public class Deck {
             for(int u = 0; u < sDeck.shipsInDeck[i].upgradeCardIDs.Length; u++){
                 if(sDeck.shipsInDeck[i].upgradeCardIDs[u] == null || sDeck.shipsInDeck[i].upgradeCardIDs[u].Length < 1) continue;
                 DeckEntryUpgrade entryU =  upgradeCards.Find(uc => uc.Card.ID == sDeck.shipsInDeck[i].upgradeCardIDs[u] && !uc.IsAssigned);
-                if(!entryShip.SlotUpgrade(entryU, u)){
-                    Debug.LogError($"Upgrade {sDeck.shipsInDeck[i].upgradeCardIDs[u]} ({sDeck.shipsInDeck[i].upgradeCardIDs[u].Length}) | Slot {u} ({entryShip.UpgradeSlots[u].UpgradeType}) | Ship {i} ({entryShip.Card.ID}) | Deck {sDeck.deckName} could not be filled. No non-assigned upgrade availabe.");
+                if(!entryShip.SlotUpgrade(entryU)){
+                    Debug.LogError($"Upgrade {sDeck.shipsInDeck[i].upgradeCardIDs[u]} ({sDeck.shipsInDeck[i].upgradeCardIDs[u].Length}) | Slot {u} ({entryShip.UpgradeSlots[u].UpgradeSlotType}) | Ship {i} ({entryShip.Card.ID}) | Deck {sDeck.deckName} could not be filled. No non-assigned upgrade availabe.");
                 }
             }
         }
@@ -97,10 +105,12 @@ public class Deck {
 
         pointsCurrent = shipPoints + squadronPoints + upgradePoints;
 
-        CurrentDeck.deck = this;
+        CurrentDeck.SetDeck(this);
 
         if(OnNewDeckConstructor != null)
             OnNewDeckConstructor();
+
+        // CardSelection.OnDeckEntrySelectionChange += SetActiveDeckEntry;
     }
 
     public Deck(string name, int points, Faction faction){
@@ -115,11 +125,15 @@ public class Deck {
             squadronCards = new List<DeckEntrySquadron>();
         if(upgradeCards == null)
             upgradeCards = new List<DeckEntryUpgrade>();
+        if(cardIDs == null)
+            cardIDs = new List<string>();
 
-        CurrentDeck.deck = this;
+        CurrentDeck.SetDeck(this);
         
         if(OnNewDeckConstructor != null)
             OnNewDeckConstructor();
+
+        // CardSelection.OnDeckEntrySelectionChange += SetActiveDeckEntry;
     }
 
     public void SetName(string deckName){
@@ -129,6 +143,26 @@ public class Deck {
     public void SetPointsMax(int points){
         PointsMax = points;
     }
+
+    public void SetFaction(Faction faction){
+        deckFaction = faction;
+    }
+
+    // public void SetActiveDeckEntry(DeckEntry entry){
+    //     if(entry is DeckEntryShip){
+    //         SetActiveDeckEntryShip(entry as DeckEntryShip);
+    //     } else if(entry is DeckEntryUpgrade){
+    //         SetActiveDeckEntryUpgrade(entry as DeckEntryUpgrade);
+    //     }
+    // }
+
+    // void SetActiveDeckEntryShip(DeckEntryShip entryShip){
+    //     activeShip = entryShip;
+    // }
+
+    // void SetActiveDeckEntryUpgrade(DeckEntryUpgrade entryUpgrade){
+    //     activeUpgrade = entryUpgrade;
+    // }
 
     /// <summary>Adds an amount of the supplied card.</summary>
     /// <returns>If a DeckEntry was created a reference to it is returned, null otherwise.
@@ -175,6 +209,7 @@ public class Deck {
         }
         // newEntry = entryToAdd;
         pointsCurrent += card.cost;
+        cardIDs.Add(card.ID);
 
         // if(broadcastPoints && OnCurrentDeckPointsChanged != null)
         //     OnCurrentDeckPointsChanged(PointsCurrent, PointsMax, SquadronPoints);
@@ -189,9 +224,10 @@ public class Deck {
             if(shipCards.Remove(entry as DeckEntryShip)){
                 pointsCurrent -= entryShip.Card.cost;
                 shipPoints -= entryShip.Card.cost;
+                cardIDs.Remove(entry.Card.ID);
                 for(int i = 0; i < entryShip.UpgradeSlots.Count; i++){
                     if(!availableSlots.Remove(entryShip.UpgradeSlots[i])){
-                        Debug.LogError($"Trying to remove non-present upgrade ({entryShip.Identifier}: {entryShip.UpgradeSlots[i].UpgradeType})");
+                        Debug.LogError($"Trying to remove non-present upgrade ({entryShip.Identifier}: {entryShip.UpgradeSlots[i].UpgradeSlotType})");
                     }
                 }
                 // if(OnCurrentDeckPointsChanged != null) 
@@ -204,6 +240,7 @@ public class Deck {
             if(squadronCards.Remove(entry as DeckEntrySquadron)){
                 pointsCurrent -= ((DeckEntrySquadron) entry).Card.cost;
                 squadronPoints -= ((DeckEntrySquadron) entry).Card.cost;
+                cardIDs.Remove(entry.Card.ID);
                 // if(OnCurrentDeckPointsChanged != null) 
                 //     OnCurrentDeckPointsChanged(PointsCurrent, PointsMax, SquadronPoints);
                 return 1;
@@ -214,6 +251,7 @@ public class Deck {
             if(upgradeCards.Remove(entry as DeckEntryUpgrade)){
                 pointsCurrent -= ((DeckEntryUpgrade) entry).Card.cost;
                 upgradePoints -= ((DeckEntryUpgrade) entry).Card.cost;
+                cardIDs.Remove(entry.Card.ID);
                 // if(OnCurrentDeckPointsChanged != null) 
                 //     OnCurrentDeckPointsChanged(PointsCurrent, PointsMax, SquadronPoints);
                 return 1;
@@ -296,6 +334,15 @@ public class Deck {
         return identicalIDEntries;
     }
 
+    public List<DeckEntry> FindAllByFaction(Faction faction){
+        List<DeckEntry> factionList = new List<DeckEntry>();
+        factionList.AddRange(shipCards.FindAll(de => de.Card.faction == faction));
+        factionList.AddRange(squadronCards.FindAll(de => de.Card.faction == faction));
+        factionList.AddRange(upgradeCards.FindAll(de => de.Card.faction == faction));
+        // Debug.Log("Faction list length " + factionList.Count);
+        return factionList;
+    }
+
     // public List<DeckEntry> FindAllOfCardSize(CardSize cardSize){
     //     switch(cardSize){
     //         case CardSize.Large:
@@ -316,6 +363,10 @@ public class Deck {
         });
     }
 
+    public List<DeckEntryShip> FindAllShipsOfID(string ID){
+        return shipCards.FindAll(de => de.Card.ID == ID);
+    }
+
     public List<DeckEntrySquadron> FindAllSquadronsOfType(SquadronType squadronType){
         return squadronCards.FindAll(de => {
             CardUnitySquadron squadronCard = de.Card as CardUnitySquadron;
@@ -327,8 +378,23 @@ public class Deck {
     public List<DeckEntryUpgrade> FindAllUpgradesOfType(UpgradeType upgradeType){
         return upgradeCards.FindAll(de => {
             CardUnityUpgrade upgradeCard = de.Card as CardUnityUpgrade;
-            return upgradeCard.upgradeType == upgradeType;
+            for(int i = 0; i < upgradeCard.upgradeTypes.Length; i++){
+                if(upgradeCard.upgradeTypes[i] == upgradeType) return true;
+            }
+            return false;
         });
     }
 
+    public List<DeckEntryUpgrade> FindAllUpgradesOfID(string ID){
+        return upgradeCards.FindAll(de => de.Card.ID == ID);
+    }
+
+    public DeckEntryUpgrade FindFirstUpgradeOfIDAndUnslotted(string ID){
+        return upgradeCards.Find(de => de.Card.ID == ID && !de.IsAssigned);
+    }
+
+    public void DestroyDeck()
+    {
+        // CardSelection.OnDeckEntrySelectionChange -= SetActiveDeckEntry;
+    }
 }

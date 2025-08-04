@@ -18,11 +18,11 @@ MonoBehaviour:
   faction: 1
   cardName: Sternenzerstoerer der Gladiator-Klasse
   cost: 56
-  contradictories: []
   isCommander: 0
   isUnique: 0
   isSquadron: 0
   cardTypeRaw: d-gladiator-klasse
   cardSize: 0
   shipType: 3
-  upgradeTypes: 010000000500000016000000180000001c000000
+  shipSize: 1
+  upgradeTypes: 00000000010000000500000016000000180000001c000000

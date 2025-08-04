@@ -18,11 +18,11 @@ MonoBehaviour:
   faction: 2
   cardName: CR90-Korvette A
   cost: 44
-  contradictories: []
   isCommander: 0
   isUnique: 0
   isSquadron: 0
   cardTypeRaw: a-cr-90-korvette
   cardSize: 0
   shipType: 0
-  upgradeTypes: 0100000002000000180000001a0000001d000000
+  shipSize: 1
+  upgradeTypes: 000000000100000002000000180000001a0000001d000000

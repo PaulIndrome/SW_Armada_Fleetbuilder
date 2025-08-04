@@ -18,11 +18,11 @@ MonoBehaviour:
   faction: 1
   cardName: Interdictor mit Kampfausstattung
   cost: 93
-  contradictories: []
   isCommander: 0
   isUnique: 0
   isSquadron: 0
   cardTypeRaw: m-interdictor
   cardSize: 0
   shipType: 12
-  upgradeTypes: 010000000e00000018000000190000001b0000001f000000
+  shipSize: 2
+  upgradeTypes: 00000000010000000e00000018000000190000001b0000001f000000

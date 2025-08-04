@@ -18,10 +18,10 @@ MonoBehaviour:
   faction: 1
   cardName: Morna Kee
   cost: 27
-  contradictories: []
   isCommander: 0
   isUnique: 1
   isSquadron: 1
   cardTypeRaw: zz_vt49-decimator_hero
   cardSize: 1
+  cardType: 1
   squadronType: 21

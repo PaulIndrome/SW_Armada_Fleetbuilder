@@ -9,10 +9,11 @@ public class CollectionContentControl : MonoBehaviour
 
     [System.Serializable]
     public struct DefaultColumnCount {
-        public CardSize categorySize;
+        public CardType categoryType;
         [Range(1, 5)]
         public int defaultColumnCount;
     }
+    // Ships 3, Squadrons 4, Upgrades 5
 
     
     [Header("Prefab references")]
@@ -81,28 +82,28 @@ public class CollectionContentControl : MonoBehaviour
     }
 
     void SpawnShipCategory(){
-        SpawnCategory(CardSize.Large, defaultColumnCounts.Find(dcc => dcc.categorySize == CardSize.Large).defaultColumnCount);
+        SpawnCategory(CardType.Ship, defaultColumnCounts.Find(dcc => dcc.categoryType == CardType.Ship).defaultColumnCount);
     }
 
     void SpawnSquadronCategory(){
-        SpawnCategory(CardSize.Normal, defaultColumnCounts.Find(dcc => dcc.categorySize == CardSize.Normal).defaultColumnCount);
+        SpawnCategory(CardType.Squadron, defaultColumnCounts.Find(dcc => dcc.categoryType == CardType.Squadron).defaultColumnCount);
     }
 
     void SpawnUpgradeCategory(){
-        SpawnCategory(CardSize.Small, defaultColumnCounts.Find(dcc => dcc.categorySize == CardSize.Small).defaultColumnCount);
+        SpawnCategory(CardType.Upgrade, defaultColumnCounts.Find(dcc => dcc.categoryType == CardType.Upgrade).defaultColumnCount);
     }
 
-    public void SpawnCategory(CardSize cardSize, int defaultColumnCount = 0){
-        CardCategory cardCategory = cardCategories.Find(cc => cc.categoryCardSize == cardSize);
+    public void SpawnCategory(CardType cardType, int defaultColumnCount = 0){
+        CardCategory cardCategory = cardCategories.Find(cc => cc.categoryCardType == cardType);
         RectTransform contentTransform = null;
-        switch(cardSize){
-            case CardSize.Large:
+        switch(cardType){
+            case CardType.Ship:
                 contentTransform = shipContentTransform;
                 break;
-            case CardSize.Normal:
+            case CardType.Squadron:
                 contentTransform = squadronContentTransform;
                 break;
-            case CardSize.Small:
+            case CardType.Upgrade:
                 contentTransform = upgradeContentTransform;
                 break;
         }
@@ -110,8 +111,7 @@ public class CollectionContentControl : MonoBehaviour
             cardCategory = Instantiate<CardCategory>(cardCategoryPrefab, Vector3.zero, Quaternion.identity, contentTransform.transform);
             cardCategories.Add(cardCategory);
         }
-
-        cardCategory.SetupCardCategory(cardSize, unityCards.FindAll(uC => uC.cardSize == cardSize), null, defaultColumnCount);
+        cardCategory.SetupCardCategory(cardType, unityCards.FindAll(uC => uC.cardType == cardType), defaultColumnCount);
     }
 
     public void ResetCardAmountsOfCurrentSelection(Deck deck){
@@ -139,22 +139,25 @@ public class CollectionContentControl : MonoBehaviour
         currentCollection.ResetCardAmounts();
         ResetCollectionAmounts(deck.DeckFaction);
 
-        CardCategory cc = cardCategories.Find(caca => caca.categoryCardSize == CardSize.Large);
+        CardCategory cc = cardCategories.Find(caca => caca.categoryCardType == CardType.Ship);
         
         foreach(DeckEntryShip de in deck.shipCards){
-            currentCollection.PickFromCollection(cc.UiCardsInCategory.Find(uic => de.Card.ID == uic.Card.ID));
+            // currentCollection.PickFromCollection(cc.UiCardsInCategory.Find(uic => de.Card.ID == uic.Card.ID));
+            currentCollection.PickFromCollection(de.Card);
         }
 
-        cc = cardCategories.Find(caca => caca.categoryCardSize == CardSize.Normal);
+        cc = cardCategories.Find(caca => caca.categoryCardType == CardType.Squadron);
         
         foreach(DeckEntrySquadron de in deck.squadronCards){
-            currentCollection.PickFromCollection(cc.UiCardsInCategory.Find(uic => de.Card.ID == uic.Card.ID));
+            // currentCollection.PickFromCollection(cc.UiCardsInCategory.Find(uic => de.Card.ID == uic.Card.ID));
+            currentCollection.PickFromCollection(de.Card);
         }
 
-        cc = cardCategories.Find(caca => caca.categoryCardSize == CardSize.Small);
+        cc = cardCategories.Find(caca => caca.categoryCardType == CardType.Upgrade);
         
         foreach(DeckEntryUpgrade de in deck.upgradeCards){
-            currentCollection.PickFromCollection(cc.UiCardsInCategory.Find(uic => de.Card.ID == uic.Card.ID));
+            // currentCollection.PickFromCollection(cc.UiCardsInCategory.Find(uic => de.Card.ID == uic.Card.ID));
+            currentCollection.PickFromCollection(de.Card);
         }
     }
 
@@ -169,14 +172,21 @@ public class CollectionContentControl : MonoBehaviour
         }
     }
 
+    [ContextMenu("Toggle DeckView")]
+    void ShowOnlyIndeck(){
+        foreach(CardCategory cardCat in cardCategories){
+            cardCat.SetView(ViewType.DeckView);
+        }
+    }
+
     void LoadCollectionData(){
         SpawnAllCategories();
         CardCollectionEntry entry;
         foreach(CardCategory cc in cardCategories){
             foreach(CardUI cui in cc.UiCardsInCategory){
-                entry = currentCollection.FindAllOfCardSize(cc.categoryCardSize).Find(cce => cce.Identifier == cui.Card.ID);
+                entry = currentCollection.FindAllOfCardType(cc.categoryCardType).Find(cce => cce.Identifier == cui.Card.ID);
                 if(entry == null){
-                    Debug.LogError($"Could not find entry for CardUI \"{cui.Card.ID}\" in category \"{cc.categoryCardSize}\"", cui);
+                    Debug.LogError($"Could not find entry for CardUI \"{cui.Card.ID}\" in category \"{cc.categoryCardType}\"", cui);
                     continue;
                 }
                 cui.SetCollectionEntry(entry);
@@ -188,8 +198,8 @@ public class CollectionContentControl : MonoBehaviour
 
     public void CenterToItem(CardUI cardToGoTo){
         Vector2 calculatedNormalizedPosition = Vector2.zero;
-        RectTransform categoryHeaderTransform = cardToGoTo.GetComponent<RectTransform>();
-        calculatedNormalizedPosition.y = 1 - Mathf.Abs(categoryHeaderTransform.anchoredPosition.y / scrollRect.content.sizeDelta.y);
+        RectTransform cardTransform = cardToGoTo.GetComponent<RectTransform>();
+        calculatedNormalizedPosition.y = 1 - Mathf.Abs(cardTransform.anchoredPosition.y / scrollRect.content.sizeDelta.y);
         scrollRect.normalizedPosition = calculatedNormalizedPosition;
     }
 

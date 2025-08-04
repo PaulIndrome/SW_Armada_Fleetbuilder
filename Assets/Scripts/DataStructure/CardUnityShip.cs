@@ -3,6 +3,7 @@ using UnityEngine;
 [System.Serializable]
 public class CardUnityShip : CardUnityBase {
     public ShipType shipType;
+    public ShipSize shipSize;
     public UpgradeType[] upgradeTypes;
     public override void SetupCard(Card card, CardTypesLookup cardTypesLookup){
         base.SetupCard(card, cardTypesLookup);
@@ -19,5 +20,15 @@ public class CardUnityShip : CardUnityBase {
                 upgradeTypes[i] = cardTypesLookup.GetUpgradeType(card.upgradeSlots[i]);
             }
         }
+    }
+
+    [ContextMenu("Add Commander Upgrade Slot")]
+    public void AddCommanderUpgradeSlot(){
+        UpgradeType[] newArray = new UpgradeType[upgradeTypes.Length + 1];
+        newArray[0] = UpgradeType.commander;
+        for(int i = 1; i < newArray.Length; i++){
+            newArray[i] = upgradeTypes[i-1];
+        }
+        upgradeTypes = newArray;
     }
 }

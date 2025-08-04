@@ -18,11 +18,11 @@ MonoBehaviour:
   faction: 1
   cardName: Kommandokreuzer der Arquitens-Klasse
   cost: 59
-  contradictories: []
   isCommander: 0
   isUnique: 0
   isSquadron: 0
   cardTypeRaw: o-arquitens
   cardSize: 0
   shipType: 14
-  upgradeTypes: 0100000010000000180000001a0000001d000000
+  shipSize: 1
+  upgradeTypes: 000000000100000010000000180000001a0000001d000000

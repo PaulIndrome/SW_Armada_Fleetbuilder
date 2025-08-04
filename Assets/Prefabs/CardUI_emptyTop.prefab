@@ -2402,6 +2402,7 @@ GameObject:
   - component: {fileID: 4612301156665757382}
   - component: {fileID: 1182825538446032544}
   - component: {fileID: 825589351658365026}
+  - component: {fileID: 1355513831288431064}
   m_Layer: 5
   m_Name: CardUI_emptyTop
   m_TagString: Untagged
@@ -2475,7 +2476,7 @@ MonoBehaviour:
   amountInCollectionImage: {fileID: 1310441884908542093}
   amountInDeckText: {fileID: 3874956610861617670}
   amountInDeckImage: {fileID: 1794216023514817641}
-  buttonAnimator: {fileID: 3177617550794098443}
+  buttonAnimator: {fileID: 1355513831288431064}
   bordersPositionToSpriteBounds: {fileID: 9073605011223564933}
   deckMessageCardMaxPoints: {fileID: 5192433251132546793}
   deckMessageCardSquadronPoints: {fileID: 2730414204852057453}
@@ -2486,6 +2487,25 @@ MonoBehaviour:
   currentAmountInCollectionMax: 0
   currentAmountInDeck: 0
   card: {fileID: 0}
+--- !u!95 &1355513831288431064
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7196729533440337021}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: fcc711795c20fba4c91bcd90c8e208ed, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &7893509822562263765
 GameObject:
   m_ObjectHideFlags: 0
@@ -2694,7 +2714,6 @@ GameObject:
   - component: {fileID: 4683346502317026595}
   - component: {fileID: 2499708111777090131}
   - component: {fileID: 2908946190364627640}
-  - component: {fileID: 3177617550794098443}
   m_Layer: 5
   m_Name: CardUI_button
   m_TagString: Untagged
@@ -2780,10 +2799,10 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.6886792, g: 0.6886792, b: 0.6886792, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.6886792, g: 0.6886792, b: 0.6886792, a: 1}
+    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_PressedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_DisabledColor: {r: 1, g: 1, b: 1, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -2813,22 +2832,3 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!95 &3177617550794098443
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8472729273029775199}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 5c99e2cf3f0052c45a7679e3b22ee8cd, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0

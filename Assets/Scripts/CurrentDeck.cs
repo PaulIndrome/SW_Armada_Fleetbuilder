@@ -1,5 +1,13 @@
 public static class CurrentDeck {
 
-    public static Deck deck = null;
+    private static Deck deck = null;
+    public static Deck Deck => deck;
+
+    public static void SetDeck(Deck newDeck){
+        if(deck != null && deck != newDeck){
+            deck.DestroyDeck();
+        }
+        deck = newDeck;
+    }
 
 }

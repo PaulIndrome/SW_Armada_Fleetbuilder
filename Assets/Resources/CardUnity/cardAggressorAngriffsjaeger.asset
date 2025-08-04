@@ -18,10 +18,10 @@ MonoBehaviour:
   faction: 1
   cardName: Aggressor-Angriffsjaeger
   cost: 16
-  contradictories: []
   isCommander: 0
   isUnique: 0
   isSquadron: 1
   cardTypeRaw: zz_aggressor-angriffsjaeger_normal
   cardSize: 1
+  cardType: 1
   squadronType: 12

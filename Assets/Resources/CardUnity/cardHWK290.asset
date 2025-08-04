@@ -18,10 +18,10 @@ MonoBehaviour:
   faction: 2
   cardName: HWK-290
   cost: 12
-  contradictories: []
   isCommander: 0
   isUnique: 0
   isSquadron: 1
   cardTypeRaw: zz_hwk-290_normal
   cardSize: 1
+  cardType: 1
   squadronType: 14

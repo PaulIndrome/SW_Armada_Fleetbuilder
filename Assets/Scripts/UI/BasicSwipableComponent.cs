@@ -20,8 +20,10 @@ public class BasicSwipableComponent : SwipableComponent, IPointerClickHandler
     /// <summary>
     /// Awake is called when the script instance is being loaded.
     /// </summary>
-    void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+        
         image = GetComponent<Image>();
         defaultImageColor = image.color;
     }

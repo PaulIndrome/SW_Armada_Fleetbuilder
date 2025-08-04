@@ -18,10 +18,10 @@ MonoBehaviour:
   faction: 2
   cardName: Malee Hurra
   cost: 26
-  contradictories: []
   isCommander: 0
   isUnique: 1
   isSquadron: 1
   cardTypeRaw: zz_scurrg-h-6-bomber_hero
   cardSize: 1
+  cardType: 1
   squadronType: 19

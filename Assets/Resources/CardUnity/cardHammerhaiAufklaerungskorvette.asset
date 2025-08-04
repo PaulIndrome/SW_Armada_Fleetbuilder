@@ -18,11 +18,11 @@ MonoBehaviour:
   faction: 2
   cardName: Hammerhai-Aufklaerungskorvette
   cost: 41
-  contradictories: []
   isCommander: 0
   isUnique: 0
   isSquadron: 0
   cardTypeRaw: q-hammerhai
   cardSize: 0
   shipType: 16
-  upgradeTypes: 010000001200000019000000160000001d000000
+  shipSize: 1
+  upgradeTypes: 00000000010000001200000019000000160000001d000000

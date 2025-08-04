@@ -13,12 +13,33 @@ public class DeckMessageControl : MonoBehaviour
     [SerializeField] private DeckMessage collectionAmountZero;
 
     /// <summary>
+    /// This function is called when the object becomes enabled and active.
+    /// </summary>
+    void OnEnable()
+    {
+        CardSelection.OnUpdateDeckMessages += ShowDeckMessages;
+    }
+
+    /// <summary>
     /// Start is called on the frame when a script is enabled just before
     /// any of the Update methods is called the first time.
     /// </summary>
     void Start()
     {
         ToggleAllMessages(false);
+    }
+
+    void ShowDeckMessages(CardUI cardUI){
+        if(UpgradeSlotButtonsControl.UPGRADE_SET_MODE) return;
+
+        if(cardUI == null){
+            ToggleAllMessages(false);
+            return;
+        }
+        
+        ToggleMaxPointsExceeded(CurrentDeck.Deck.PointsCurrent + cardUI.Card.cost > CurrentDeck.Deck.PointsMax);
+        ToggleThirdSquadronPointsExceeded(cardUI.Card is CardUnitySquadron && (CurrentDeck.Deck.SquadronPoints + cardUI.Card.cost) > CurrentDeck.Deck.MaxSquadronPoints, CurrentDeck.Deck.SquadronPoints, CurrentDeck.Deck.MaxSquadronPoints);
+        ToggleCollectionAmountZero(cardUI.CurrentAmountInCollection < 1, cardUI.Card.isUnique);
     }
 
     public void ToggleMaxPointsExceeded(bool onOff){
@@ -37,6 +58,14 @@ public class DeckMessageControl : MonoBehaviour
         ToggleMaxPointsExceeded(onOff);
         ToggleThirdSquadronPointsExceeded(onOff);
         ToggleCollectionAmountZero(onOff);
+    }
+
+    /// <summary>
+    /// This function is called when the behaviour becomes disabled or inactive.
+    /// </summary>
+    void OnDisable()
+    {
+        CardSelection.OnUpdateDeckMessages -= ShowDeckMessages;
     }
 
 }

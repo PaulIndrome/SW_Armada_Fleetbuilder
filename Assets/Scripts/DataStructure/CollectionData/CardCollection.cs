@@ -148,7 +148,19 @@ public class CardCollection : ScriptableObject
             default:
                 throw new ArgumentException("FindAllOfCardType was called with an invalid CardSize.");
         }
-        // return cardCollectionEntries.FindAll(cce => cce.card.cardSize == cardSize);
+    }
+
+    public List<CardCollectionEntry> FindAllOfCardType(CardType cardType){
+        switch(cardType){
+            case CardType.Ship:
+                return shipCollectionEntries;
+            case CardType.Squadron:
+                return squadronCollectionEntries;
+            case CardType.Upgrade:
+                return upgradeCollectionEntries;
+            default:
+                throw new ArgumentException("FindAllOfCardType was called with an invalid CardSize.");
+        }
     }
 
     public List<CardCollectionEntry> FindAllShipsOfType(ShipType shipType){
@@ -166,11 +178,18 @@ public class CardCollection : ScriptableObject
         });
     }
 
-    public List<CardCollectionEntry> FindAllUpgradesOfType(UpgradeType upgradeType){
-        return upgradeCollectionEntries.FindAll(cce => {
-            CardUnityUpgrade upgradeCard = cce.card as CardUnityUpgrade;
-            return upgradeCard.upgradeType == upgradeType;
-        });
+    public List<CardCollectionEntry> FindAllUpgradesOfTypes(UpgradeType[] upgradeTypes){
+        List<CardCollectionEntry> entries = new List<CardCollectionEntry>();
+        for(int i = 0; i < upgradeTypes.Length; i++){
+            entries.AddRange(upgradeCollectionEntries.FindAll(cce => {
+                CardUnityUpgrade upgradeCard = cce.card as CardUnityUpgrade;
+                for(int t = 0; t < upgradeCard.upgradeTypes.Length; t++){
+                    if(upgradeCard.upgradeTypes[t] == upgradeTypes[i]) return true;
+                }
+                return false;
+            }));
+        }
+        return entries;
     }
 
     [ContextMenu("Reset Card Amounts")]
@@ -225,17 +244,17 @@ public class CardCollection : ScriptableObject
     ///             0 if no amount change took place. 
     ///             1 if only entries with identical ID were changed. 
     ///             2 if entries with identical names were changed as well.</returns>
-    public int PickFromCollection(CardUI cardUI, int amountToAdd = 1){
+    public int PickFromCollection(CardUnityBase card){
         // collection of all cards with the same ship/squad/upgrade type
         List<CardCollectionEntry> cces;
         int maxAmountOfTypeRemaining = -1;
 
-        if(cardUI.Card is CardUnityShip){
-            cces = FindAllShipsOfType(((CardUnityShip)cardUI.Card).shipType);
-        } else if(cardUI.Card is CardUnitySquadron){
-            cces = FindAllSquadronsOfType(((CardUnitySquadron)cardUI.Card).squadronType);
+        if(card is CardUnityShip){
+            cces = FindAllShipsOfType(((CardUnityShip)card).shipType);
+        } else if(card is CardUnitySquadron){
+            cces = FindAllSquadronsOfType(((CardUnitySquadron)card).squadronType);
         } else {
-            cces = FindAllUpgradesOfType(((CardUnityUpgrade)cardUI.Card).upgradeType);
+            cces = FindAllUpgradesOfTypes(((CardUnityUpgrade)card).upgradeTypes);
         }
         for(int i = 0; i < cces.Count; i++){
             maxAmountOfTypeRemaining = Mathf.Max(maxAmountOfTypeRemaining, cces[i].AmountRemaining);
@@ -244,26 +263,26 @@ public class CardCollection : ScriptableObject
         for(int i = 0; i < cces.Count; i++){
             // upgrades are cards without miniatures tied to them
             // decrementing other cards of the same type is not necessary in this case
-            if(cardUI.Card is CardUnityUpgrade && ((CardUnityUpgrade) cardUI.Card).upgradeType != UpgradeType.commander && cces[i].card != cardUI.Card) continue;
-            if(cces[i].card != cardUI.Card && cces[i].card.isUnique){
+            if(card is CardUnityUpgrade && ((CardUnityUpgrade) card).upgradeTypes[0] != UpgradeType.commander && cces[i].card != card) continue;
+            if(cces[i].card != card && cces[i].card.isUnique){
                 if(maxAmountOfTypeRemaining > 1 || cces[i].AmountRemaining < 1) continue;
                 else {
-                    cces[i].card.ToggleCardAvailability(cardUI.Card.cardName, false);
+                    cces[i].card.ToggleCardAvailability(card.cardName, false);
                     continue;
                 }
             }
-            cces[i].AmountRemaining -= amountToAdd;
-            cces[i].card.MoveCard(cardUI.Card.ID, true, amountToAdd);
+            cces[i].AmountRemaining -= 1;
+            cces[i].card.MoveCard(card.ID, true, 1);
         }
         
         cces.Clear();
-        cces = FindAllByName(cardUI.Card.cardName);
+        cces = FindAllByName(card.cardName);
         if(cces.Count > 1){
             foreach(CardCollectionEntry cce in cces){
-                if(cce.card == cardUI.Card) continue;
+                if(cce.card == card) continue;
                 // cce.AmountRemaining -= amountToAdd;
-                // cce.card.MoveCard(cardUI.Card.ID, true, amountToAdd);
-                cce.card.ToggleCardAvailability(cardUI.Card.cardName, false);
+                // cce.card.MoveCard(card.ID, true, amountToAdd);
+                cce.card.ToggleCardAvailability(card.cardName, false);
             }
             return 2;
         } else {
@@ -278,51 +297,47 @@ public class CardCollection : ScriptableObject
     ///             0 if no amount change took place. 
     ///             1 if only entries with identical ID were changed. 
     ///             2 if entries with identical names were changed as well.</returns>
-    public int ReturnToCollection(CardUI cardUI, int amountToAdd = 1){
-        if(amountToAdd < 1) return 0;
-
-        // TODO deck data structure and link up
-
+    public int ReturnToCollection(CardUnityBase card){
         List<CardCollectionEntry> cces;
 
-        if(cardUI.Card is CardUnityShip){
-            cces = FindAllShipsOfType(((CardUnityShip)cardUI.Card).shipType);
-        } else if(cardUI.Card is CardUnitySquadron){
-            cces = FindAllSquadronsOfType(((CardUnitySquadron)cardUI.Card).squadronType);
+        if(card is CardUnityShip){
+            cces = FindAllShipsOfType(((CardUnityShip)card).shipType);
+        } else if(card is CardUnitySquadron){
+            cces = FindAllSquadronsOfType(((CardUnitySquadron)card).squadronType);
         } else {
-            cces = FindAllUpgradesOfType(((CardUnityUpgrade)cardUI.Card).upgradeType);
+            cces = FindAllUpgradesOfTypes(((CardUnityUpgrade)card).upgradeTypes);
         }
 
         for(int i = 0; i < cces.Count; i++){
             // upgrades are cards without miniatures tied to them
             // these cards are not decremented when an identical type card is added to the deck
             // we don't need to re-increment these when a card is returned from the deck
-            if(cardUI.Card is CardUnityUpgrade && ((CardUnityUpgrade) cardUI.Card).upgradeType != UpgradeType.commander && cces[i].card != cardUI.Card && !cces[i].card.isUnique) continue;
+            if(card is CardUnityUpgrade && ((CardUnityUpgrade) card).upgradeTypes[0] != UpgradeType.commander && cces[i].card != card && !cces[i].card.isUnique) continue;
             // skip cards that are upgrades, not commanders and not the moved card
             
-            if(cces[i].card.isUnique && cardUI.Card != cces[i].card){
+            if(cces[i].card.isUnique && card != cces[i].card){
                 // card is unique, card is not the moved card
                 // Debug.Log($"{cces[i].AmountRemaining} remaining of {cces[i].card.ID}. Toggling {cces[i].AmountRemaining > 0}.");
                 if(cces[i].AmountRemaining > 0){
                     // card is still available
-                    cces[i].card.ToggleCardAvailability(cardUI.Card.cardName, true);
+                    cces[i].card.ToggleCardAvailability(card.cardName, true);
                 } else {
                     continue;
                 }
             }
 
-            cces[i].AmountRemaining += amountToAdd;
-            cces[i].card.MoveCard(cardUI.Card.ID, false, amountToAdd);
+            cces[i].AmountRemaining += 1;
+            cces[i].card.MoveCard(card.ID, false, 1);
         }
 
         cces.Clear();
-        cces = FindAllByName(cardUI.Card.cardName);
+        cces = FindAllByName(card.cardName);
         if(cces.Count > 1){
             foreach(CardCollectionEntry cce in cces){
-                if(cce.card == cardUI.Card) continue;
+                if(cce.card == card) continue;
                 // cce.AmountRemaining += amountToAdd;
-                // cce.card.MoveCard(cardUI.Card.ID, false, amountToAdd);
-                cce.card.ToggleCardAvailability(cardUI.Card.cardName, true);
+                // cce.card.MoveCard(card.ID, false, amountToAdd);
+                cce.card.ToggleCardAvailability(card.cardName, true);
             }
         } else {
             return 1;

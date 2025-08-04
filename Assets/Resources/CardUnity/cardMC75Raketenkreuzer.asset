@@ -18,11 +18,11 @@ MonoBehaviour:
   faction: 2
   cardName: MC75-Raketenkreuzer
   cost: 100
-  contradictories: []
   isCommander: 0
   isUnique: 0
   isSquadron: 0
-  cardTypeRaw: r-profundity
+  cardTypeRaw: r-mc75-kreuzer
   cardSize: 0
   shipType: 17
-  upgradeTypes: 010000001300000016000000190000001a0000001c0000001c000000
+  shipSize: 4
+  upgradeTypes: 00000000010000001300000016000000190000001a0000001c0000001c000000

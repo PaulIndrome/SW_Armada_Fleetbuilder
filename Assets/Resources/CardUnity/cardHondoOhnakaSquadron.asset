@@ -23,4 +23,5 @@ MonoBehaviour:
   isSquadron: 1
   cardTypeRaw: zz_firespray-31_hero
   cardSize: 1
+  cardType: 1
   squadronType: 13

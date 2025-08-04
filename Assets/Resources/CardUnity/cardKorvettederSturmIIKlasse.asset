@@ -18,11 +18,11 @@ MonoBehaviour:
   faction: 1
   cardName: Korvette der Sturm II-Klasse
   cost: 48
-  contradictories: []
   isCommander: 0
   isUnique: 0
   isSquadron: 0
   cardTypeRaw: f-sturm-klasse
   cardSize: 0
   shipType: 5
-  upgradeTypes: 010000000700000016000000190000001a000000
+  shipSize: 1
+  upgradeTypes: 00000000010000000700000016000000190000001a000000

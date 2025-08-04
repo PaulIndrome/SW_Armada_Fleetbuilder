@@ -18,10 +18,10 @@ MonoBehaviour:
   faction: 1
   cardName: Saber-Staffel
   cost: 12
-  contradictories: []
   isCommander: 0
   isUnique: 1
   isSquadron: 1
   cardTypeRaw: tie-interceptor_named
   cardSize: 1
+  cardType: 1
   squadronType: 6

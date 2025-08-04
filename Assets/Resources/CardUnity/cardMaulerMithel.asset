@@ -18,10 +18,10 @@ MonoBehaviour:
   faction: 1
   cardName: '''Mauler'' Mithel'
   cost: 15
-  contradictories: []
   isCommander: 0
   isUnique: 1
   isSquadron: 1
   cardTypeRaw: tie-fighter_hero
   cardSize: 1
+  cardType: 1
   squadronType: 5

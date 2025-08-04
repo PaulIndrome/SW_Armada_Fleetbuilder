@@ -15,7 +15,7 @@ MonoBehaviour:
   ID: cardFeuerverstaerken!
   sprite: {fileID: 21300000, guid: 871c05a7f90a842448535a1153ed224b, type: 3}
   size: small
-  faction: 3
+  faction: -1
   cardName: Feuer verstaerken!
   cost: 6
   isCommander: 0
@@ -23,5 +23,13 @@ MonoBehaviour:
   isSquadron: 0
   cardTypeRaw: 12-fleet-command
   cardSize: 2
-  upgradeType: 32
+  cardType: 2
+  requiresFlagship: 0
   upgradeTypes: 20000000
+  upgradeIncompatibility:
+    compatibleShipsizes: -1
+    hasCompatibleShiptype: 0
+    compatibleShipTypes: 
+    hasCombinedIncompatibility: 0
+    incompatibleShipsizes: 0
+    incompatibleUpgradeTypes: 24000000

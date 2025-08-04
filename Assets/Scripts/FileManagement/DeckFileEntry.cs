@@ -21,7 +21,7 @@ public class DeckFileEntry : MonoBehaviour
     [SerializeField] private Sprite empireIcon;
     [SerializeField] private Sprite collaborationIcon;
 
-    [ReadOnly, SerializeField] private SerializableDeck serializableDeck;
+    [SerializeField] private SerializableDeck serializableDeck;
     public SerializableDeck SerializableDeck => serializableDeck;
 
     [ReadOnly, SerializeField] private string fileName;

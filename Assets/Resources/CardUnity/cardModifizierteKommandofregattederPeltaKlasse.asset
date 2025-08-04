@@ -18,11 +18,11 @@ MonoBehaviour:
   faction: 2
   cardName: Modifizierte Kommandofregatte der Pelta-Klasse
   cost: 60
-  contradictories: []
   isCommander: 0
   isUnique: 0
   isSquadron: 0
   cardTypeRaw: n-pelta
   cardSize: 0
   shipType: 13
-  upgradeTypes: 010000000f000000180000002000000019000000
+  shipSize: 1
+  upgradeTypes: 00000000010000000f000000180000002000000019000000

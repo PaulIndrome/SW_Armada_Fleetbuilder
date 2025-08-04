@@ -18,11 +18,11 @@ MonoBehaviour:
   faction: 2
   cardName: Angriffsfregatte vom Typ II B
   cost: 72
-  contradictories: []
   isCommander: 0
   isUnique: 0
   isSquadron: 0
   cardTypeRaw: e-angriffsfregatte-typ-ii
   cardSize: 0
   shipType: 4
-  upgradeTypes: 010000000600000016000000190000001a0000001d000000
+  shipSize: 2
+  upgradeTypes: 00000000010000000600000016000000190000001a0000001d000000

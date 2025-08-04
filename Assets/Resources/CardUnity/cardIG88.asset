@@ -18,10 +18,10 @@ MonoBehaviour:
   faction: 1
   cardName: IG-88
   cost: 21
-  contradictories: []
   isCommander: 0
   isUnique: 1
   isSquadron: 1
   cardTypeRaw: zz_aggressor-angriffsjaeger_hero
   cardSize: 1
+  cardType: 1
   squadronType: 12

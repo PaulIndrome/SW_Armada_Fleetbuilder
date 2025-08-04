@@ -65,7 +65,7 @@ public class TMPIntegerInputClamp : MonoBehaviour
     }
 
     private void OnEndEditConditionalSubmitInteger(string input){
-        if(input.Length > 0 && int.TryParse(input, out parsedInt) && parsedInt >= CurrentDeck.deck.PointsCurrent){
+        if(input.Length > 0 && int.TryParse(input, out parsedInt) && parsedInt >= CurrentDeck.Deck.PointsCurrent){
             // Debug.Log(parsedInt + " >= " + CurrentDeck.deck.PointsCurrent);
             Submit(input);
         } else {
@@ -78,7 +78,7 @@ public class TMPIntegerInputClamp : MonoBehaviour
     }
 
     private void OnEndEditConditionalSubmitDecimal(string input){
-        if(input.Length > 0 && float.TryParse(input, out parsedFloat) && parsedFloat >= CurrentDeck.deck.PointsCurrent){
+        if(input.Length > 0 && float.TryParse(input, out parsedFloat) && parsedFloat >= CurrentDeck.Deck.PointsCurrent){
             Submit(input);
         } else {
             if(OnInvalid != null){

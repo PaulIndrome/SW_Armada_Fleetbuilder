@@ -18,5 +18,15 @@ public static class ModalWindowHandler {
         currentModalWindow = (currentModalWindow + 1 + registeredModalWindows.Count) % registeredModalWindows.Count;
     }
 
+    public static void ShowModalWindowActions(Action[] resultCallBacks, string title, string description = "", params ModalResult[] possibleResults){
+        registeredModalWindows[currentModalWindow].ShowModalWindowActions(resultCallBacks, title, description, possibleResults);
+        currentModalWindow = (currentModalWindow + 1 + registeredModalWindows.Count) % registeredModalWindows.Count;
+    }
+
+    public static void ShowModalWindowAction(Action resultCallBack, string title, string description = "", params ModalResult[] possibleResults){
+        registeredModalWindows[currentModalWindow].ShowModalWindowAction(resultCallBack, title, description, possibleResults);
+        currentModalWindow = (currentModalWindow + 1 + registeredModalWindows.Count) % registeredModalWindows.Count;
+    }
+
 
 }

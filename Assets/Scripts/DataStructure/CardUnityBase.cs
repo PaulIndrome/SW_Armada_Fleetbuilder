@@ -26,6 +26,7 @@ public abstract class CardUnityBase : ScriptableObject, IComparable<CardUnityBas
     public bool isSquadron = false;
     public string cardTypeRaw = "";
     public CardSize cardSize;
+    public CardType cardType;
 
     // private char[] IDEndTrim = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'K', 'L', 'M', 'N', 'O', 'P'};
 
@@ -112,6 +113,29 @@ public abstract class CardUnityBase : ScriptableObject, IComparable<CardUnityBas
     [ContextMenu("Debug Log Faction Enum")]
     void DebugLogFactionEnum(){
         Debug.Log($"{cardName} faction: {faction.ToString()} ({(int) faction})");
+    }
+
+    [ContextMenu("Set Card Type by Card Size")]
+    public void SetCardTypeByCardSize(){
+        switch(cardSize){
+            case CardSize.Large:
+                cardType = CardType.Ship;
+                break;
+            case CardSize.Normal:
+                cardType = CardType.Squadron;
+                break;
+            case CardSize.Small:
+                cardType = CardType.Upgrade;
+                break;
+        }
+    }
+
+    [ContextMenu("Set mixed faction to everything")]
+    public void SetMixedFactionToEverything(){
+        if(faction.HasFlag(Faction.Empire) && faction.HasFlag(Faction.Rebellion)){
+            Debug.Log("Card " + ID + " has both flags, will be set to " + ((Faction) ~0), this);
+            faction = (Faction) ~0;
+        }
     }
 
     /// <summary>

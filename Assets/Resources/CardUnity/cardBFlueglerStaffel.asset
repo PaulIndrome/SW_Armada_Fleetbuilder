@@ -18,10 +18,10 @@ MonoBehaviour:
   faction: 2
   cardName: B-Fluegler-Staffel
   cost: 14
-  contradictories: []
   isCommander: 0
   isUnique: 0
   isSquadron: 1
   cardTypeRaw: b-wing_normal
   cardSize: 1
+  cardType: 1
   squadronType: 1

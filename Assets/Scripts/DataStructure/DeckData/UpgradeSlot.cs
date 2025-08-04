@@ -4,21 +4,21 @@ using UnityEngine;
 public class UpgradeSlot {
 
     public bool Filled {
-        get { return slottedUpgrade != null; }
+        get { return slottedUpgrade != null && slottedUpgrade.Card != null; }
     }
 
     [SerializeField] private DeckEntryUpgrade slottedUpgrade;
     public DeckEntryUpgrade SlottedUpgrade => slottedUpgrade;
 
-    [SerializeField] private UpgradeType upgradeType;
-    public UpgradeType UpgradeType => upgradeType;
+    [SerializeField] private UpgradeType upgradeSlotType;
+    public UpgradeType UpgradeSlotType => upgradeSlotType;
 
     public UpgradeSlot(UpgradeType type){
-        upgradeType = type;
+        upgradeSlotType = type;
     }
 
-    public bool SlotCard(DeckEntryUpgrade entry){
-        if((entry.Card as CardUnityUpgrade).upgradeType != upgradeType || Filled){
+    public bool SlotCard(DeckEntryUpgrade entry, int typeIndex = 0, bool overwrite = false){
+        if((entry.Card as CardUnityUpgrade).upgradeTypes[typeIndex] != upgradeSlotType || (Filled && !overwrite)){
             return false;
         } else {    
             slottedUpgrade  = entry;

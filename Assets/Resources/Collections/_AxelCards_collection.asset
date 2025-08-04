@@ -84,9 +84,13 @@ MonoBehaviour:
   - identifier: cardMC30cAufklaerungsfregatte
     card: {fileID: 11400000, guid: 2cb5be3d9d2a8d847becfee82c1b1db5, type: 2}
     amountMax: 2
-    amountRemaining: 2
+    amountRemaining: 0
   - identifier: cardMC30cTropedofregatte
     card: {fileID: 11400000, guid: e806211d640538f4c959e3f192b96214, type: 2}
+    amountMax: 2
+    amountRemaining: 0
+  - identifier: cardMC75Panzerkreuzer
+    card: {fileID: 11400000, guid: ffcf8f423b443664d95ceabdae882cc3, type: 2}
     amountMax: 2
     amountRemaining: 2
   - identifier: cardMC75Raketenkreuzer
@@ -116,11 +120,11 @@ MonoBehaviour:
   - identifier: cardModifizierteKommandofregattederPeltaKlasse
     card: {fileID: 11400000, guid: 592621549de4a5e418a2e62e2724a08a, type: 2}
     amountMax: 2
-    amountRemaining: 2
+    amountRemaining: 1
   - identifier: cardModifizierteSturmfregattederPeltaKlasse
     card: {fileID: 11400000, guid: c389e7c59fb26a64eb293120dec6597d, type: 2}
     amountMax: 2
-    amountRemaining: 2
+    amountRemaining: 1
   - identifier: cardNebulonBEskortfregatte
     card: {fileID: 11400000, guid: 5a2aebcacc29f444483166adab2fc8b0, type: 2}
     amountMax: 2
@@ -133,26 +137,30 @@ MonoBehaviour:
     card: {fileID: 11400000, guid: 63059babc57663a40a94a56b253fde71, type: 2}
     amountMax: 1
     amountRemaining: 1
+  - identifier: cardSternenzerstoererderGladiatorIIKlasse
+    card: {fileID: 11400000, guid: 662d98a8ae380f249b823964a31ea1cf, type: 2}
+    amountMax: 3
+    amountRemaining: 3
   - identifier: cardSternenzerstoererderGladiatorKlasse
     card: {fileID: 11400000, guid: a6fbac4732b939c4b8f6376ae4fc7dcc, type: 2}
-    amountMax: 6
-    amountRemaining: 6
+    amountMax: 3
+    amountRemaining: 3
   - identifier: cardSternenzerstoererderImperiumIIKlasse
     card: {fileID: 11400000, guid: 95486a7c30f7b6a4fa915d3b09ad96c2, type: 2}
     amountMax: 2
-    amountRemaining: 1
+    amountRemaining: 2
   - identifier: cardSternenzerstoererderImperiumKlasse
     card: {fileID: 11400000, guid: 178991b9e652fc149a745b095fb2a921, type: 2}
     amountMax: 2
-    amountRemaining: 1
+    amountRemaining: 2
   - identifier: cardSternenzerstoererderImperiumKlasseCymoon1Umbau
     card: {fileID: 11400000, guid: 8f2432add6590204e9d6e7e81243d386, type: 2}
     amountMax: 3
-    amountRemaining: 2
+    amountRemaining: 3
   - identifier: cardSternenzerstoererderImperiumKlasseKuatUmbau
     card: {fileID: 11400000, guid: 8ad31c462fe7608499ecb72499e62120, type: 2}
     amountMax: 3
-    amountRemaining: 2
+    amountRemaining: 3
   - identifier: cardSternenzerstoererderOnagerKlasse
     card: {fileID: 11400000, guid: dfccb82dccc86c6468c62ae9843228db, type: 2}
     amountMax: 1
@@ -160,16 +168,16 @@ MonoBehaviour:
   - identifier: cardSternenzerstoererderSiegesKlasse
     card: {fileID: 11400000, guid: b441ac83905e56e43bff7f04ab50eb5e, type: 2}
     amountMax: 3
-    amountRemaining: 2
+    amountRemaining: 3
   - identifier: cardSternenzerstoererderSiegIIKlasse
     card: {fileID: 11400000, guid: 1657597761fd73543934cd02c36f2267, type: 2}
     amountMax: 3
-    amountRemaining: 2
+    amountRemaining: 3
   squadronCollectionEntries:
   - identifier: cardAFlueglerStaffel
     card: {fileID: 11400000, guid: d6304f0f35a672f4192b1cfb5ec11f4d, type: 2}
     amountMax: 9
-    amountRemaining: 9
+    amountRemaining: 6
   - identifier: cardAggressorAngriffsjaeger
     card: {fileID: 11400000, guid: 621439287bc4ff44b8825c297df8e617, type: 2}
     amountMax: 4
@@ -253,11 +261,11 @@ MonoBehaviour:
   - identifier: cardHanSolo
     card: {fileID: 11400000, guid: c0f08ec7d74271947a7738fb61e20db8, type: 2}
     amountMax: 1
-    amountRemaining: 1
+    amountRemaining: 0
   - identifier: cardHeraSyndulla
     card: {fileID: 11400000, guid: adb825f6de21ddf40a893869a16187da, type: 2}
     amountMax: 1
-    amountRemaining: 1
+    amountRemaining: 0
   - identifier: cardHondoOhnakaSquadron
     card: {fileID: 11400000, guid: af89cb21d954a7447b78818fdc887dfa, type: 2}
     amountMax: 1
@@ -265,7 +273,7 @@ MonoBehaviour:
   - identifier: cardHWK290
     card: {fileID: 11400000, guid: fa79a304c95f80f49abb2d087be609eb, type: 2}
     amountMax: 4
-    amountRemaining: 4
+    amountRemaining: 3
   - identifier: cardIG88
     card: {fileID: 11400000, guid: dee44d14ccdcda94e805f2cc760d94b8, type: 2}
     amountMax: 1
@@ -429,7 +437,7 @@ MonoBehaviour:
   - identifier: cardVCX100Frachter
     card: {fileID: 11400000, guid: d9d54a7bcaa4083439e9a2b969716a53, type: 2}
     amountMax: 8
-    amountRemaining: 8
+    amountRemaining: 7
   - identifier: cardVT49Decimator
     card: {fileID: 11400000, guid: 227bf24dc242cd845b7231d719bc28f6, type: 2}
     amountMax: 8
@@ -437,7 +445,7 @@ MonoBehaviour:
   - identifier: cardWedgeAntilles
     card: {fileID: 11400000, guid: cdc8e15c57f765b4c9b5dd1e0902ddfb, type: 2}
     amountMax: 1
-    amountRemaining: 1
+    amountRemaining: 0
   - identifier: cardWhisper
     card: {fileID: 11400000, guid: b4f74f56334a5de488bed85dad2d1fca, type: 2}
     amountMax: 1
@@ -445,7 +453,7 @@ MonoBehaviour:
   - identifier: cardXFlueglerStaffel
     card: {fileID: 11400000, guid: 3e958745beb368d4a855b1efa9d4fe08, type: 2}
     amountMax: 12
-    amountRemaining: 12
+    amountRemaining: 10
   - identifier: cardYFlueglerStaffel
     card: {fileID: 11400000, guid: 3b463e6490fc4ed4996d3ca26ceb0209, type: 2}
     amountMax: 9
@@ -453,7 +461,7 @@ MonoBehaviour:
   - identifier: cardYT1300
     card: {fileID: 11400000, guid: e603e0426b8400c4cbaf274871948422, type: 2}
     amountMax: 4
-    amountRemaining: 4
+    amountRemaining: 3
   - identifier: cardYT2400
     card: {fileID: 11400000, guid: 7bf10a901e992b24d8e44676460bf16e, type: 2}
     amountMax: 4
@@ -518,7 +526,7 @@ MonoBehaviour:
   - identifier: cardAdmonitor
     card: {fileID: 11400000, guid: 01cf59f0d6c64874c982cae7fa317607, type: 2}
     amountMax: 1
-    amountRemaining: 1
+    amountRemaining: 0
   - identifier: cardAerzteteam
     card: {fileID: 11400000, guid: d23dc5cccbfa65340af9cc448c7b64e7, type: 2}
     amountMax: 2
@@ -542,7 +550,7 @@ MonoBehaviour:
   - identifier: cardAngriffsProtonentorpedos
     card: {fileID: 11400000, guid: a3c55fd82558501479d23a24dad03511, type: 2}
     amountMax: 2
-    amountRemaining: 2
+    amountRemaining: 0
   - identifier: cardAnnaeherungsminen
     card: {fileID: 11400000, guid: 5733038ce0c34164a8067c89e6eca203, type: 2}
     amountMax: 3
@@ -754,11 +762,11 @@ MonoBehaviour:
   - identifier: cardFlugkoerperexperten
     card: {fileID: 11400000, guid: 5f07a070103e25a438d9e171750bc099, type: 2}
     amountMax: 4
-    amountRemaining: 4
+    amountRemaining: 2
   - identifier: cardFlugkommandant
     card: {fileID: 11400000, guid: f1723d2844ef3a543a78d0c519aa4d9d, type: 2}
     amountMax: 2
-    amountRemaining: 2
+    amountRemaining: 1
   - identifier: cardFlugkontrolle
     card: {fileID: 11400000, guid: 4e97bc7f6b350d64e9ba116c74f0aa9d, type: 2}
     amountMax: 2
@@ -943,10 +951,14 @@ MonoBehaviour:
     card: {fileID: 11400000, guid: 02ec198a198bd074d8b0f618b61fa5d4, type: 2}
     amountMax: 1
     amountRemaining: 1
-  - identifier: cardLeiaOrgana
+  - identifier: cardLeiaOrganaCommander
+    card: {fileID: 11400000, guid: f417a0897e8d4a34a9cc2fc7dcd66039, type: 2}
+    amountMax: 1
+    amountRemaining: 1
+  - identifier: cardLeiaOrganaUpgrade
     card: {fileID: 11400000, guid: bd888a9eb3844004aa36e3a3176d51e0, type: 2}
-    amountMax: 2
-    amountRemaining: 2
+    amountMax: 1
+    amountRemaining: 1
   - identifier: cardLeitenderTechniker
     card: {fileID: 11400000, guid: 0be4f4db5d5c0da4790897ed958e15d9, type: 2}
     amountMax: 6
@@ -990,7 +1002,7 @@ MonoBehaviour:
   - identifier: cardMonMothma
     card: {fileID: 11400000, guid: 061dceecf6116924b964b9cb3f410096, type: 2}
     amountMax: 1
-    amountRemaining: 1
+    amountRemaining: 0
   - identifier: cardMS1Ionenkanonen
     card: {fileID: 11400000, guid: e956a1f91cf52af41b056f566bf3144e, type: 2}
     amountMax: 4
@@ -1050,7 +1062,7 @@ MonoBehaviour:
   - identifier: cardRaymusAntilles
     card: {fileID: 11400000, guid: ead1f3906dcef5746bdbc14cfd437693, type: 2}
     amountMax: 1
-    amountRemaining: 1
+    amountRemaining: 0
   - identifier: cardRedundanteSchilde
     card: {fileID: 11400000, guid: fec9988e50d5bad43ace8352de183622, type: 2}
     amountMax: 4
@@ -1078,7 +1090,7 @@ MonoBehaviour:
   - identifier: cardScherenformation!
     card: {fileID: 11400000, guid: 8857a13ed87ee2044b6cfa51dc1bb638, type: 2}
     amountMax: 2
-    amountRemaining: 2
+    amountRemaining: 1
   - identifier: cardSchildeaufMaximum!
     card: {fileID: 11400000, guid: 05f961d591adc1f4f90bc0f288befe28, type: 2}
     amountMax: 2
@@ -1114,7 +1126,7 @@ MonoBehaviour:
   - identifier: cardSignalverstaerker
     card: {fileID: 11400000, guid: 3fd5c3d78bf1e144e813c678f725e856, type: 2}
     amountMax: 4
-    amountRemaining: 4
+    amountRemaining: 3
   - identifier: cardSkrupelloseStrategen
     card: {fileID: 11400000, guid: 8b414d2dd3f8c534d82e7ac61dc4c3ee, type: 2}
     amountMax: 2
@@ -1266,7 +1278,7 @@ MonoBehaviour:
   - identifier: cardVoraussicht
     card: {fileID: 11400000, guid: ba042fe4c8b704e4f82a9f361fd091d1, type: 2}
     amountMax: 1
-    amountRemaining: 1
+    amountRemaining: 0
   - identifier: cardWalexBlissex
     card: {fileID: 11400000, guid: afdb62c887fd16b489266e536abf7407, type: 2}
     amountMax: 1
