@@ -18,10 +18,10 @@ MonoBehaviour:
   faction: 1
   cardName: TIE-Turbojaeger-Staffel
   cost: 12
-  contradictories: []
   isCommander: 0
   isUnique: 0
   isSquadron: 1
   cardTypeRaw: tie-advanced_normal
   cardSize: 1
+  cardType: 1
   squadronType: 3

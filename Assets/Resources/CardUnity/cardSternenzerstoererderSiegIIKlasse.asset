@@ -18,11 +18,11 @@ MonoBehaviour:
   faction: 1
   cardName: Sternenzerstoerer der Sieg II-Klasse
   cost: 85
-  contradictories: []
   isCommander: 0
   isUnique: 0
   isSquadron: 0
   cardTypeRaw: c-sieges-klasse
   cardSize: 0
   shipType: 2
-  upgradeTypes: 010000000400000016000000190000001b0000001d000000
+  shipSize: 2
+  upgradeTypes: 00000000010000000400000016000000190000001b0000001d000000

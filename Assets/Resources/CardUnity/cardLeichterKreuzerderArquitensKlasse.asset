@@ -18,11 +18,11 @@ MonoBehaviour:
   faction: 1
   cardName: Leichter Kreuzer der Arquitens-Klasse
   cost: 54
-  contradictories: []
   isCommander: 0
   isUnique: 0
   isSquadron: 0
   cardTypeRaw: o-arquitens
   cardSize: 0
   shipType: 14
-  upgradeTypes: 01000000100000001a0000001d000000
+  shipSize: 1
+  upgradeTypes: 0000000001000000100000001a0000001d000000

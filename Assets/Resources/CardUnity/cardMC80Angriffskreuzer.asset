@@ -18,11 +18,11 @@ MonoBehaviour:
   faction: 2
   cardName: MC80-Angriffskreuzer
   cost: 114
-  contradictories: []
   isCommander: 0
   isUnique: 0
   isSquadron: 0
   cardTypeRaw: h-mc80-kreuzer
   cardSize: 0
   shipType: 7
-  upgradeTypes: 0100000009000000180000001a0000001a0000001b0000001d000000
+  shipSize: 4
+  upgradeTypes: 000000000100000009000000180000001a0000001a0000001b0000001d000000

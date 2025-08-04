@@ -18,10 +18,10 @@ MonoBehaviour:
   faction: 1
   cardName: Boba Fett
   cost: 26
-  contradictories: []
   isCommander: 0
   isUnique: 1
   isSquadron: 1
   cardTypeRaw: zz_firespray-31_hero
   cardSize: 1
+  cardType: 1
   squadronType: 13

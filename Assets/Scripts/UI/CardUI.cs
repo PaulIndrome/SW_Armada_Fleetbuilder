@@ -78,7 +78,7 @@ public class CardUI : MonoBehaviour
     public int CurrentAmountInDeck {
         get { return currentAmountInDeck; }
         set {
-            //Debug.Log("Calling CurrentAmountInDeck with value: " + value);
+            // Debug.Log("Calling CurrentAmountInDeck with value: " + value);
             currentAmountInDeck = Mathf.Clamp(value, 0, card.isUnique || card.isCommander ? 1 : 999);
             amountInDeckImage.color = currentAmountInDeck > 0 ? deckColorUsed : deckColorNormal;
             buttonAnimator.SetBool("InDeck", CurrentAmountInDeck > 0);
@@ -124,7 +124,7 @@ public class CardUI : MonoBehaviour
         OnCardMoved += UpdateDeckMessagesOnCardByStaticDeck;
         Deck.OnFireUpdateDeckMessages += UpdateDeckMessagesOnCardByStaticDeck;
         
-        if(CurrentDeck.deck != null && Card != null)
+        if(CurrentDeck.Deck != null && Card != null)
             UpdateDeckMessagesOnCardByStaticDeck();
     }
 
@@ -236,20 +236,44 @@ public class CardUI : MonoBehaviour
         ToggleCardAvailability(Card.ID, true);
     }
 
-    [ContextMenu("Test card setup")]
-    public void TestCardSetup(){
-        if(card == null) return;
-        Awake();
-        SetupCardUI(card);
-    }
-
     public void ToggleByFaction(Faction activeFaction){
         if(activeFaction == (Faction) 0) {
             gameObject.SetActive(false); 
             return;
         }
-        gameObject.SetActive(activeFaction == (Faction) ~0 || card.faction == (Faction) ~0 || card.faction == (Faction) 3 || card.faction == activeFaction);
+        bool shouldBeActive = activeFaction == (Faction) ~0 || card.faction == (Faction) ~0 || card.faction == (Faction) 3 || card.faction == activeFaction; 
+        // if(!shouldBeActive && CurrentAmountInDeck > 0){
+            
+        // }
+        gameObject.SetActive(shouldBeActive);
+        // Debug.Log(Card.ID + " ui card set to " + shouldBeActive, buttonAnimator);
+    }
 
+    public void ToggleView(ViewType view){
+        switch(view){
+            case ViewType.DeckView:
+                gameObject.SetActive(CurrentAmountInDeck > 0);
+                break;
+            case ViewType.BuildView:
+                gameObject.SetActive(currentAmountInCollectionMax > 0);
+                break;
+            case ViewType.CollectionView:
+                gameObject.SetActive(true);
+                break;
+        }
+    }
+
+    public void ToggleForUpgradeSetMode(UpgradeType type, bool keepFaction = true){
+        if(card is CardUnityUpgrade){
+            bool active = ((CardUnityUpgrade)card).HasUpgradeType(type);
+            if(keepFaction){
+                active = active && (card.faction == CurrentDeck.Deck.DeckFaction || card.faction.FactionIsEverything() || CurrentDeck.Deck.DeckFaction == (Faction) ~0);
+            }
+            gameObject.SetActive(active);
+            // if((!keepFaction || (keepFaction && (Card.faction == CurrentDeck.Deck.DeckFaction || Card.faction == (Faction) ~0 || CurrentDeck.Deck.DeckFaction == (Faction) ~0)))){
+            //     Debug.Log($"{Card.ID} is still valid");
+            // }
+        }
     }
 
     // public void UpdateDeckMessagesOnCardByEvent(int pointsCurrent, int pointsMax, int squadronPoints){
@@ -265,8 +289,8 @@ public class CardUI : MonoBehaviour
         // #endif
 
         ToggleCollectionAmountZero(CurrentAmountInCollection < 1, Card.isUnique);
-        ToggleMaxPointsExceeded(CurrentDeck.deck.PointsCurrent + Card.cost > CurrentDeck.deck.PointsMax);
-        ToggleThirdSquadronPointsExceeded(Card is CardUnitySquadron && (CurrentDeck.deck.SquadronPoints + Card.cost) > CurrentDeck.deck.MaxSquadronPoints);
+        ToggleMaxPointsExceeded(CurrentDeck.Deck.PointsCurrent + Card.cost > CurrentDeck.Deck.PointsMax);
+        ToggleThirdSquadronPointsExceeded(Card is CardUnitySquadron && (CurrentDeck.Deck.SquadronPoints + Card.cost) > CurrentDeck.Deck.MaxSquadronPoints);
         if(Card is CardUnityUpgrade && !Card.isCommander){
             // CurrentDeck.deck.availableSlots.Find
         }
@@ -297,16 +321,20 @@ public class CardUI : MonoBehaviour
 
     public void SelectCard(){
         if(OnCardSelected != null){
+            if(UpgradeSlotButtonsControl.UPGRADE_SET_MODE){
+                // Debug.Log("Setting deselected trigger on " + Card.ID);
+                buttonAnimator.SetBool(animSelectedHash, false);
+            } else {
+                // Debug.Log("Setting selected trigger on " + Card.ID);
+                buttonAnimator.SetBool(animSelectedHash, true);
+            }
             OnCardSelected(this);
-            buttonAnimator.ResetTrigger(animDeselectedHash);
-            buttonAnimator.SetTrigger(animSelectedHash);
         }
     }
 
     public void DeselectCard(){
-        Debug.Log("Deselecting card " + name, this);
-        buttonAnimator.ResetTrigger(animSelectedHash);
-        buttonAnimator.SetTrigger(animDeselectedHash);
+        // Debug.Log("Deselecting card " + name, this);
+        buttonAnimator.SetBool(animSelectedHash, false);
     }
 
     /// <summary>

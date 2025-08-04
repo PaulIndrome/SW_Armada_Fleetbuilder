@@ -36,6 +36,7 @@ public class ToggleGraphicSwap : MonoBehaviour
     }
 
     public void SwapGraphic(bool onOff){
+        // Debug.Log("Swapping graphic on toggle " + this.name, this);
         isOnGraphic.gameObject.SetActive(onOff);
         isOffGraphic.gameObject.SetActive(!onOff);
     }

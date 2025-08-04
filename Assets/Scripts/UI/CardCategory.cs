@@ -21,10 +21,13 @@ public class CardCategory : MonoBehaviour
     // [Header("Scene references")]
     
     [Header("Set via script")]
+    [ReadOnly, SerializeField] private bool[] previousActive;
+    [ReadOnly, SerializeField] private int currentColumnCount = 3;
+    [ReadOnly, SerializeField] private int previousColumnCount = 3;
     [ReadOnly, SerializeField] private List<CardUI> uiCardsInCategory;
     [ReadOnly, SerializeField] private CategoryHeader categoryHeader;
     [ReadOnly(true), Range(120f, 360f), SerializeField] private float cardWidth = 120f;
-    [ReadOnly] public CardSize categoryCardSize;
+    [ReadOnly] public CardType categoryCardType = CardType.None;
     [ReadOnly, SerializeField] private List<CardUnityBase> cardsInCategory;
 
     public CategoryHeader CategoryHeader => categoryHeader;
@@ -50,51 +53,48 @@ public class CardCategory : MonoBehaviour
         rectTransform = GetComponent<RectTransform>();
     }
 
-    public void SetupCardCategory(CardSize cardSize, List<CardUnityBase> cards, CategoryHeader header, int defaulColumnCount = 0){
-        // transform.SetSiblingIndex((int) cardSize);
-
-
-        if(header != null){
-            categoryHeader = header;
-            categoryHeader.ResetTransform();
-
-            // categoryHeader = Instantiate<CategoryHeader>(categoryHeaderPrefab, Vector3.zero, Quaternion.identity, transform.parent);
-            // categoryHeader.transform.SetSiblingIndex(transform.GetSiblingIndex());
-            // categoryHeader.columnButtons[0].onClick.AddListener(() => SetColumns(2));
-            // categoryHeader.columnButtons[1].onClick.AddListener(() => SetColumns(3));
-            // categoryHeader.columnButtons[2].onClick.AddListener(() => SetColumns(4));
-            // categoryHeader.columnButtons[3].onClick.AddListener(() => SetColumns(5));
-            
-            categoryHeader.ColumnSlider.SetValueWithoutNotify(defaulColumnCount);
-            categoryHeader.ColumnSlider.onValueChanged.AddListener(SetColumns);
-
-            string categoryName;
-
-            switch (cardSize){
-                case CardSize.Large:
-                    categoryHeader.SetHeaderText("Ships");
-                    categoryName = "Category-Ships";
-                    break;
-                case CardSize.Normal:
-                    categoryHeader.SetHeaderText("Squadrons");
-                    categoryName = "Category-Squadrons";
-                    break;
-                case CardSize.Small:
-                    categoryHeader.SetHeaderText("Upgrades");
-                    categoryName = "Category-Upgrades";
-                    break;
-                default:
-                    categoryHeader.SetHeaderText("Miscellaneous");
-                    categoryName = "Category-Miscellaneous";
-                    break;
-            }
-
-            gameObject.name = $"{transform.GetSiblingIndex().ToString("000")}-{categoryName}";  
+    /// <summary>
+    /// This function is called when the object becomes enabled and active.
+    /// </summary>
+    void OnEnable()
+    {
+        if(categoryCardType == CardType.Upgrade){
+            UpgradeSlotButtonsControl.OnUpgradeSetMode += ToggleSetUpgradeMode;
         }
+    }
+
+    public void SetupCardCategory(CardType cardType, List<CardUnityBase> cards, int defaulColumnCount = 0){
+        string categoryName;
+
+        switch (cardType){
+            case CardType.Ship:
+                // categoryHeader.SetHeaderText("Ships");
+                categoryName = "Category-Ships";
+                break;
+            case CardType.Squadron:
+                // categoryHeader.SetHeaderText("Squadrons");
+                categoryName = "Category-Squadrons";
+                break;
+            case CardType.Upgrade:
+                // categoryHeader.SetHeaderText("Upgrades");
+                categoryName = "Category-Upgrades";
+                UpgradeSlotButtonsControl.OnUpgradeSetMode += ToggleSetUpgradeMode;
+                break;
+            case CardType.Objective:
+                // categoryHeader.SetHeaderText("Objectives");
+                categoryName = "Category-Objectives";
+                break;
+            default:
+                // categoryHeader.SetHeaderText("Miscellaneous");
+                categoryName = "Category-Miscellaneous";
+                break;
+        }
+
+        gameObject.name = $"{transform.GetSiblingIndex().ToString("000")}-{categoryName}";  
 
 
         cardsInCategory = cards;
-        categoryCardSize = cardSize;
+        categoryCardType = cardType;
 
         SetupCardsInCategory();
 
@@ -103,8 +103,6 @@ public class CardCategory : MonoBehaviour
         }
 
         gameObject.layer = LayerMask.NameToLayer("UI");
-
-        // return categoryHeader;
     }
 
     public void ToggleCategory(bool onOff){
@@ -112,16 +110,55 @@ public class CardCategory : MonoBehaviour
         gameObject.SetActive(onOff);
     }
 
-    [ContextMenu("Sort category by cost ascending")]
+    [ContextMenu("Sort category by cost asc")]
     public void SortCategoryByCostAscending(){
         uiCardsInCategory.Sort(delegate(CardUI c1, CardUI c2) {return c1.Card.cost.CompareTo(c2.Card.cost);});
         RearrangeCards();
     }
 
-    [ContextMenu("Sort category by cost descending")]
+    [ContextMenu("Sort category by cost desc")]
     public void SortCategoryByCostDescending(){
         uiCardsInCategory.Sort(delegate(CardUI c1, CardUI c2) {return c1.Card.cost.CompareTo(c2.Card.cost);});
         RearrangeCards(true);
+    }
+
+    [ContextMenu("Sort category by in-deck asc")]
+    public void SortCategoryByInDeckAscending(){
+        uiCardsInCategory.Sort(delegate(CardUI c1, CardUI c2) {return c1.CurrentAmountInDeck.CompareTo(c2.CurrentAmountInDeck);});
+        RearrangeCards();
+    }
+
+    [ContextMenu("Sort category by in-deck desc")]
+    public void SortCategoryByInDeckDescending(){
+        uiCardsInCategory.Sort(delegate(CardUI c1, CardUI c2) {return c1.CurrentAmountInDeck.CompareTo(c2.CurrentAmountInDeck);});
+        RearrangeCards(true);
+    }
+
+    public void ToggleSetUpgradeMode(UpgradeType type, int slotIndex, bool onOff){
+        Debug.Log($"Category {gameObject.name} toggling set upgrade mode {(onOff ? "ON" : "OFF")}");
+        if(onOff){
+            // if(previousActive == null || previousActive.Length < 1){
+            //     previousActive = new bool[uiCardsInCategory.Count];
+            //     for(int i = 0; i < previousActive.Length; i++){
+            //         previousActive[i] = uiCardsInCategory[i].gameObject.activeSelf;
+            //     }
+            // }
+            SetUpgradeType(type);
+            if(currentColumnCount > 3){
+                SetColumns(3);
+            }
+        } else {
+            // if(previousActive == null || previousActive.Length < 1) {
+            //     SetFactionTo(CurrentDeck.Deck.DeckFaction);
+            // } else {
+            //     for(int i = 0; i < previousActive.Length; i++){
+            //         uiCardsInCategory[i].gameObject.SetActive(previousActive[i]);
+            //     }
+            // }
+            // previousActive = null;
+            SetFactionTo(CurrentDeck.Deck.DeckFaction);
+            SetColumns(previousColumnCount);
+        }
     }
 
     void RearrangeCards(bool reverse = false){
@@ -144,7 +181,7 @@ public class CardCategory : MonoBehaviour
     }
 
     public void SetupCardsInCategory(){
-        Debug.Log($"About to set up cards in category {categoryCardSize}: {cardsInCategory.Count} ui cards will be set up");
+        // Debug.Log($"About to set up cards in category {categoryCardSize}: {cardsInCategory.Count} ui cards will be set up");
         if(cardsInCategory.Count < 1) return;
 
         cardsInCategory.Sort(delegate(CardUnityBase c1, CardUnityBase c2) {return c1.cardTypeRaw.CompareTo(c2.cardTypeRaw);});
@@ -168,8 +205,22 @@ public class CardCategory : MonoBehaviour
         }
     }
 
+    public void SetView(ViewType view){
+        foreach(CardUI cui in uiCardsInCategory){
+            cui.ToggleView(view);
+        }
+    }
+
+    public void SetUpgradeType(UpgradeType type, bool keepFaction = true){
+        foreach(CardUI cui in uiCardsInCategory){
+            cui.ToggleForUpgradeSetMode(type);
+        }
+    }
+
     public void SetColumns(int numberOfColumns){
-        float newWidth = (RectTransform.sizeDelta.x - (gridLayoutGroup.spacing.x * (numberOfColumns - 1)) - gridLayoutGroup.padding.left - gridLayoutGroup.padding.right) / numberOfColumns;
+        previousColumnCount = currentColumnCount;
+
+        float newWidth = (RectTransform.rect.width - (gridLayoutGroup.spacing.x * (numberOfColumns - 1)) - gridLayoutGroup.padding.left - gridLayoutGroup.padding.right) / numberOfColumns;
         cardWidth = newWidth;
         gridLayoutGroup.cellSize = new Vector2(newWidth, newWidth * 1.5f);
 
@@ -181,6 +232,8 @@ public class CardCategory : MonoBehaviour
 
         if(OnCategoryColumnChanged != null)
             OnCategoryColumnChanged();
+        
+        currentColumnCount = numberOfColumns;
     }
 
     public void SetColumns(float numberOfColumns){
@@ -199,5 +252,15 @@ public class CardCategory : MonoBehaviour
     [ContextMenu("Set 4 Columns")]
     public void Set4Columns(){
         SetColumns(4);
+    }
+
+    /// <summary>
+    /// This function is called when the behaviour becomes disabled or inactive.
+    /// </summary>
+    void OnDisable()
+    {
+        if(categoryCardType == CardType.Upgrade){
+            UpgradeSlotButtonsControl.OnUpgradeSetMode -= ToggleSetUpgradeMode;
+        }
     }
 }

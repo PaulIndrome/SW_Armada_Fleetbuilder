@@ -18,10 +18,10 @@ MonoBehaviour:
   faction: 2
   cardName: Lieutenant Blount
   cost: 14
-  contradictories: []
   isCommander: 0
   isUnique: 1
   isSquadron: 1
   cardTypeRaw: z-95-kopfjaeger-staffel_hero
   cardSize: 1
+  cardType: 1
   squadronType: 11

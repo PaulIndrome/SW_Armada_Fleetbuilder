@@ -18,10 +18,10 @@ MonoBehaviour:
   faction: 2
   cardName: YT-1300
   cost: 13
-  contradictories: []
   isCommander: 0
   isUnique: 0
   isSquadron: 1
   cardTypeRaw: zz_yt1300_normal
   cardSize: 1
+  cardType: 1
   squadronType: 22

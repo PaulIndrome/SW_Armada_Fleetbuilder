@@ -48,6 +48,10 @@ public class DeckFileList : MonoBehaviour
         if(deckFileEntries == null){
             deckFileEntries = new Dictionary<int, DeckFileEntry>();
         }
+
+        if(!deckContentControl){
+            deckContentControl = FindObjectOfType<DeckContentControl>();
+        }
     }
 
     /// <summary>

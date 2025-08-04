@@ -8,32 +8,49 @@ public class DeckEntryUpgrade : DeckEntry, IComparable<DeckEntryUpgrade> {
     // private string identifier = "";
     // public string Identifier => identifier;
 
-    // [SerializeField] CardUnityBase card = null;
+    // [SerializeField] private CardUnityBase card = null;
     // public CardUnityBase Card => card;
 
     // [SerializeField] private int amountInDeck = -1;
     // public int AmountInDeck => amountInDeck;
 
+    // [SerializeField] private CardUnityUpgrade card = null;
+    // public CardUnityUpgrade Card => card;
+
     public bool IsAssigned {
         get { return assignedToShipID != null && assignedToShipID.Length > 0; }
     }
 
-    [SerializeField] private CardUnityUpgrade card = null;
-    public CardUnityUpgrade Card => card;
+    [SerializeField] private UpgradeType[] upgradeTypes;
+    public UpgradeType[] UpgradeTypes => upgradeTypes;
 
-    [SerializeField] private string assignedToShipID;
+    [SerializeField] private string assignedToShipID = null;
     public string AssignedToShipID => assignedToShipID;
+
+    // [SerializeField] private DeckEntryShip assignedToShip;
+    // public DeckEntryShip AssignedToShip => assignedToShip;
 
 
     public DeckEntryUpgrade(CardUnityUpgrade upgradeCard){
         card = upgradeCard;
         // amountInDeck = newAmount;
         identifier = upgradeCard.ID;
+        upgradeTypes = upgradeCard.upgradeTypes;
     }
 
     public bool AssignToShip(DeckEntryShip ship = null){
+        if(ship == null){
+            assignedToShipID = "";
+            // assignedToShip = null;
+            return false;
+        }
         assignedToShipID = ship.Card.ID;
+        // assignedToShip = ship;
         return IsAssigned;
+    }
+
+    public bool UnAssign(){
+        return AssignToShip(null);
     }
 
     // public void Add(int amountToAdd = 1){

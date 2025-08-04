@@ -54,23 +54,57 @@ public class ModalWindow : MonoBehaviour
         modalWindowCanvas.enabled = true;
     }
 
-    public void ShowModalWindowWithSlider(Action<ModalResult> resultHandlingMethod, string title, string description = "", params ModalResult[] possibleResults){
-        // instantiate buttons for all possible results (add to dictionary if not existing for reuse)
-        // set buttons relating to possible results 
-        if(possibleResults.Length < 1) return;
+    public void ShowModalWindowAction(Action resultCallback, string title, string description = "", params ModalResult[] possibleResults){
+        if(possibleResults.Length < 1) {
+            Debug.LogError("Modal window cannot show with less than one possible result");
+            return;
+        }
+        
+        if(modalButtons == null)
+            modalButtons = new Dictionary<ModalResult, ModalButton>();
+
+        titleText.text = title;
+        descriptionText.text = description;
+        
+        SetupModalButtonsWithAction(resultCallback, possibleResults);
+
+        modalWindowCanvas.enabled = true;
+    }
+
+    public void ShowModalWindowActions(Action[] resultCallbacks, string title, string description = "", params ModalResult[] possibleResults){
+        if(possibleResults.Length < 1 || resultCallbacks.Length > possibleResults.Length) {
+            Debug.LogError("Modal window cannot show with less than one possible result or more result callbacks than possible results");
+            return;
+        }
 
         if(modalButtons == null)
             modalButtons = new Dictionary<ModalResult, ModalButton>();
 
-        OnResult += resultHandlingMethod;
-
         titleText.text = title;
         descriptionText.text = description;
-
-        SetupModalButtons(possibleResults);
+        
+        SetupModalButtonsWithActionArray(resultCallbacks, possibleResults);
 
         modalWindowCanvas.enabled = true;
     }
+
+    // public void ShowModalWindowWithSlider(Action<ModalResult> resultHandlingMethod, string title, string description = "", params ModalResult[] possibleResults){
+    //     // instantiate buttons for all possible results (add to dictionary if not existing for reuse)
+    //     // set buttons relating to possible results 
+    //     if(possibleResults.Length < 1) return;
+
+    //     if(modalButtons == null)
+    //         modalButtons = new Dictionary<ModalResult, ModalButton>();
+
+    //     OnResult += resultHandlingMethod;
+
+    //     titleText.text = title;
+    //     descriptionText.text = description;
+
+    //     SetupModalButtons(possibleResults);
+
+    //     modalWindowCanvas.enabled = true;
+    // }
 
     void SetupModalButtons(params ModalResult[] possibleResults){
         ModalButton mButton;
@@ -92,6 +126,52 @@ public class ModalWindow : MonoBehaviour
         }
     }
 
+    void SetupModalButtonsWithAction(Action resultCallback, params ModalResult[] possibleResults){
+         ModalButton mButton;
+
+        for(int i = 0; i < possibleResults.Length; i++){
+            if(!modalButtons.TryGetValue(possibleResults[i], out mButton)){
+                mButton = Instantiate<ModalButton>(modalButtonPrefab, Vector3.zero, Quaternion.identity, buttonGridTransform);
+                // Debug.Log("Button with result " + possibleResults[i] + " created");
+                modalButtons.Add(possibleResults[i], mButton);
+            }
+            mButton.SetupModalButton(possibleResults[i]);
+            mButton.Button.onClick.RemoveAllListeners();
+
+            // passing in array values yields OutOfRangeException because the array does not exist past this method's scope
+            // we pass the result as a static enum
+            ModalResult result = possibleResults[i]; 
+            if(i < 1){
+                mButton.Button.onClick.AddListener(() => resultCallback());
+            }
+            mButton.Button.onClick.AddListener(() => DeactivateModalWindow());
+            mButton.gameObject.SetActive(true);
+        }
+    }
+
+    void SetupModalButtonsWithActionArray(Action[] resultCallbacks, params ModalResult[] possibleResults){
+        ModalButton mButton;
+
+        for(int i = 0; i < possibleResults.Length; i++){
+            if(!modalButtons.TryGetValue(possibleResults[i], out mButton)){
+                mButton = Instantiate<ModalButton>(modalButtonPrefab, Vector3.zero, Quaternion.identity, buttonGridTransform);
+                // Debug.Log("Button with result " + possibleResults[i] + " created");
+                modalButtons.Add(possibleResults[i], mButton);
+            }
+            mButton.SetupModalButton(possibleResults[i]);
+            mButton.Button.onClick.RemoveAllListeners();
+
+            // passing in array values yields OutOfRangeException because the array does not exist past this method's scope
+            // we pass the result as a static enum
+            ModalResult result = possibleResults[i]; 
+            if(i < resultCallbacks.Length){
+                mButton.Button.onClick.AddListener(() => resultCallbacks[i]());
+            }
+            mButton.Button.onClick.AddListener(() => DeactivateModalWindow());
+            mButton.gameObject.SetActive(true);
+        }
+    }
+
     ///<summary>Modal window variant for generic buttons / results using strings</summary>
     public void ShowModalWindow(Action<ModalResult> resultHandlingMethod, string title, string description = "", ModalResult[] modalResults = null, params string[] possibleResults){
         
@@ -99,6 +179,7 @@ public class ModalWindow : MonoBehaviour
 
     void DeactivateModalWindow(){
         foreach(ModalButton mb in modalButtons.Values){
+            mb.Button.onClick.RemoveAllListeners();
             mb.gameObject.SetActive(false);
         }
         modalWindowCanvas.enabled = false;

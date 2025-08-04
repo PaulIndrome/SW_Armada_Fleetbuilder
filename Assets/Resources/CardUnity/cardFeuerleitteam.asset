@@ -15,7 +15,7 @@ MonoBehaviour:
   ID: cardFeuerleitteam
   sprite: {fileID: 21300000, guid: 79f2e19ccc66e7b4a8d390dc9c6dbe33, type: 3}
   size: small
-  faction: 3
+  faction: -1
   cardName: Feuerleitteam
   cost: 2
   isCommander: 0
@@ -23,5 +23,13 @@ MonoBehaviour:
   isSquadron: 0
   cardTypeRaw: 03-weapons-team
   cardSize: 2
-  upgradeType: 22
+  cardType: 2
+  requiresFlagship: 0
   upgradeTypes: 16000000
+  upgradeIncompatibility:
+    compatibleShipsizes: -1
+    hasCompatibleShiptype: 0
+    compatibleShipTypes: 
+    hasCombinedIncompatibility: 0
+    incompatibleShipsizes: 0
+    incompatibleUpgradeTypes: 24000000

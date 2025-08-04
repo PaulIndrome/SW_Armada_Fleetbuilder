@@ -18,10 +18,10 @@ MonoBehaviour:
   faction: 1
   cardName: Gar Saxon
   cost: 23
-  contradictories: []
   isCommander: 0
   isUnique: 1
   isSquadron: 1
   cardTypeRaw: zz_mandalorianischer-gauntletjaeger_hero
   cardSize: 1
+  cardType: 1
   squadronType: 18

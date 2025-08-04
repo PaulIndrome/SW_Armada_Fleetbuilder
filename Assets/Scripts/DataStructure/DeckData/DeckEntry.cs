@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public abstract class DeckEntry {
+public class DeckEntry {
+
 
     [SerializeField] protected string identifier = "";
     public string Identifier => identifier;
-    // [SerializeField] protected CardUnityBase card = null;
-    // public CardUnityBase Card => card;
+    [SerializeField] protected CardUnityBase card;
+    public CardUnityBase Card => card;
 
     // [SerializeField] protected int amountInDeck = -1;
     // public int AmountInDeck => amountInDeck;
 
-    // public DeckEntry(CardUnityShip shipCard, int newAmount){
-    //     card = shipCard;
-    //     amountInDeck = newAmount;
-    //     identifier = shipCard.ID;
+    // public DeckEntry(CardUnityBase baseCard){
+    //     this.card = baseCard;
+    //     identifier = baseCard.ID;
     // }
     // public DeckEntry(CardUnitySquadron squadronCard, int newAmount){
     //     card = squadronCard;

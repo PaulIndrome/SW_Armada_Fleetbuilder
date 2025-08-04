@@ -23,4 +23,13 @@ MonoBehaviour:
   isSquadron: 0
   cardTypeRaw: 03a-boarding-team
   cardSize: 2
+  cardType: 2
+  requiresFlagship: 0
   upgradeTypes: 1700000019000000
+  upgradeIncompatibility:
+    compatibleShipsizes: -1
+    hasCompatibleShiptype: 0
+    compatibleShipTypes: 
+    hasCombinedIncompatibility: 0
+    incompatibleShipsizes: 0
+    incompatibleUpgradeTypes: 24000000

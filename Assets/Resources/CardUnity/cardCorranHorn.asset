@@ -18,10 +18,10 @@ MonoBehaviour:
   faction: 2
   cardName: Corran Horn
   cost: 22
-  contradictories: []
   isCommander: 0
   isUnique: 1
   isSquadron: 1
   cardTypeRaw: e-fluegler-staffel_hero
   cardSize: 1
+  cardType: 1
   squadronType: 2

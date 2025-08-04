@@ -18,11 +18,11 @@ MonoBehaviour:
   faction: 1
   cardName: Sternenzerstoerer der Imperium-Klasse - Cymoon-1-Umbau
   cost: 112
-  contradictories: []
   isCommander: 0
   isUnique: 0
   isSquadron: 0
   cardTypeRaw: i-imperium-klasse
   cardSize: 0
   shipType: 8
-  upgradeTypes: 010000000a00000016000000190000001d0000001d00000020000000
+  shipSize: 4
+  upgradeTypes: 00000000010000000a00000016000000190000001d0000001d00000020000000

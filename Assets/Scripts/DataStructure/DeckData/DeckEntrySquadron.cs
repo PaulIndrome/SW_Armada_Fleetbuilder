@@ -17,8 +17,8 @@ public class DeckEntrySquadron : DeckEntry, IComparable<DeckEntrySquadron> {
     // [SerializeField] private DeckEntryShip assignedToShip;
     // public DeckEntryShip AssignedToShip => assignedToShip;
 
-    [SerializeField] private CardUnitySquadron card = null;
-    public CardUnitySquadron Card => card;
+    // [SerializeField] private CardUnitySquadron card = null;
+    // public CardUnitySquadron Card => card;
 
 
     public DeckEntrySquadron(CardUnitySquadron squadronCard){

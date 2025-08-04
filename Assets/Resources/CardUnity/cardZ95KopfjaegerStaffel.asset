@@ -18,10 +18,10 @@ MonoBehaviour:
   faction: 2
   cardName: Z-95-Kopfjaeger-Staffel
   cost: 7
-  contradictories: []
   isCommander: 0
   isUnique: 0
   isSquadron: 1
   cardTypeRaw: z-95-kopfjaeger-staffel_normal
   cardSize: 1
+  cardType: 1
   squadronType: 11

@@ -18,11 +18,11 @@ MonoBehaviour:
   faction: 2
   cardName: Modifizierte Sturmfregatte der Pelta-Klasse
   cost: 56
-  contradictories: []
   isCommander: 0
   isUnique: 0
   isSquadron: 0
   cardTypeRaw: n-pelta
   cardSize: 0
   shipType: 13
-  upgradeTypes: 010000000f00000018000000200000001c000000
+  shipSize: 1
+  upgradeTypes: 00000000010000000f00000018000000200000001c000000

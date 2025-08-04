@@ -18,10 +18,10 @@ MonoBehaviour:
   faction: 2
   cardName: Norra Wexley
   cost: 17
-  contradictories: []
   isCommander: 0
   isUnique: 1
   isSquadron: 1
   cardTypeRaw: y-wing_hero
   cardSize: 1
+  cardType: 1
   squadronType: 10

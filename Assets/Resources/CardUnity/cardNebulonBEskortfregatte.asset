@@ -18,11 +18,11 @@ MonoBehaviour:
   faction: 2
   cardName: Nebulon-B-Eskortfregatte
   cost: 57
-  contradictories: []
   isCommander: 0
   isUnique: 0
   isSquadron: 0
   cardTypeRaw: b-nebulon-b-fregatte
   cardSize: 0
   shipType: 1
-  upgradeTypes: 0100000003000000180000001d000000
+  shipSize: 1
+  upgradeTypes: 000000000100000003000000180000001d000000

@@ -18,11 +18,11 @@ MonoBehaviour:
   faction: 2
   cardName: Mittelschwere GR-75-Transporter
   cost: 18
-  contradictories: []
   isCommander: 0
   isUnique: 0
   isSquadron: 0
   cardTypeRaw: j-gr-75-transporter
   cardSize: 0
   shipType: 9
+  shipSize: 1
   upgradeTypes: 010000000b000000190000001e000000

@@ -18,10 +18,10 @@ MonoBehaviour:
   faction: 2
   cardName: Scurrg H-6 Bomber
   cost: 16
-  contradictories: []
   isCommander: 0
   isUnique: 0
   isSquadron: 1
   cardTypeRaw: zz_scurrg-h-6-bomber_normal
   cardSize: 1
+  cardType: 1
   squadronType: 19

@@ -18,11 +18,11 @@ MonoBehaviour:
   faction: 1
   cardName: Kreuzer-Traeger der Quasarfeuer-II-Klasse
   cost: 61
-  contradictories: []
   isCommander: 0
   isUnique: 0
   isSquadron: 0
   cardTypeRaw: p-quasarfeuer
   cardSize: 0
   shipType: 15
-  upgradeTypes: 0100000011000000160000001600000019000000
+  shipSize: 2
+  upgradeTypes: 000000000100000011000000160000001600000019000000

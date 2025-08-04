@@ -34,5 +34,6 @@ experimentalRetrofit,
 fleetCommand,
 superweapon,
 superweaponOnager,
-INVALID
+INVALID,
+None
 }

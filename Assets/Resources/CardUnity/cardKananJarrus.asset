@@ -18,10 +18,10 @@ MonoBehaviour:
   faction: 2
   cardName: Kanan Jarrus
   cost: 19
-  contradictories: []
   isCommander: 0
   isUnique: 1
   isSquadron: 1
   cardTypeRaw: zz_hwk-290_hero
   cardSize: 1
+  cardType: 1
   squadronType: 14

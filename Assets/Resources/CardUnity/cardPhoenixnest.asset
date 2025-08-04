@@ -23,5 +23,13 @@ MonoBehaviour:
   isSquadron: 0
   cardTypeRaw: 20n-title-pelta
   cardSize: 2
-  upgradeType: 15
+  cardType: 2
+  requiresFlagship: 0
   upgradeTypes: 0f000000
+  upgradeIncompatibility:
+    compatibleShipsizes: -1
+    hasCompatibleShiptype: 0
+    compatibleShipTypes: 
+    hasCombinedIncompatibility: 0
+    incompatibleShipsizes: 0
+    incompatibleUpgradeTypes: 24000000

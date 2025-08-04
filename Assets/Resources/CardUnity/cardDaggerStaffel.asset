@@ -23,4 +23,5 @@ MonoBehaviour:
   isSquadron: 1
   cardTypeRaw: b-wing_named
   cardSize: 1
+  cardType: 1
   squadronType: 1

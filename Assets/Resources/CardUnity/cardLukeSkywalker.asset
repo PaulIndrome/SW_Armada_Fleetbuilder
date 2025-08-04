@@ -18,10 +18,10 @@ MonoBehaviour:
   faction: 2
   cardName: Luke Skywalker
   cost: 20
-  contradictories: []
   isCommander: 0
   isUnique: 1
   isSquadron: 1
   cardTypeRaw: x-wing_hero
   cardSize: 1
+  cardType: 1
   squadronType: 9

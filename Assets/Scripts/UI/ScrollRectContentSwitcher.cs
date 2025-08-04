@@ -9,23 +9,19 @@ using System.Reflection;
 [RequireComponent(typeof(ScrollRect))]
 public class ScrollRectContentSwitcher : MonoBehaviour
 {
-    
-    public enum SwitchDirection {
-        Horizontal,
-        Vertical
-    }
-    public float activationDistance = 50f;
+
+    [Header("Settings")]
     public float switchDuration = 0.5f;
-    public float[] scrollRectPositions;
     public SwitchDirection switchDirection;
-    public RectTransform switchContentSwipeArea;
+    
+    [Header("Scene references")]
     public List<RectTransform> contentTransforms;
-    public Image image;
     public UnityEventString OnContentSwitch;
 
-    private bool pointerHit = false;
+    [Header("Set via script")]
+    [ReadOnly, SerializeField] private float[] scrollRectPositions;
+
     private bool switchingContent = false;
-    [SerializeField] private bool swiping = false;
 
     private int currentContentIndex = 0;
 
@@ -64,8 +60,7 @@ public class ScrollRectContentSwitcher : MonoBehaviour
         }
 
         CurrentContentIndex = 0;
-        SwitchToContent(CurrentContentIndex);
-        // currentContentStartPosition = contentTransforms[CurrentContentIndex].anchoredPosition;
+        SwitchToContent(CurrentContentIndex, Vector2.right);
     }
 
     /// <summary>
@@ -73,37 +68,16 @@ public class ScrollRectContentSwitcher : MonoBehaviour
     /// </summary>
     void OnEnable()
     {
-        SwipeDetector.OnSwipeDetected += SwipeReaction;
+        UpgradeSlotButtonsControl.OnUpgradeSetMode += SwitchToUpgradeContent;
     }
 
-    void SwipeReaction(SwipeData swipeData){
-        if(!switchingContent && swipeData.TouchIndex < 1){
-            if(swipeData.TouchPhase == TouchPhase.Ended && swiping){
-                Debug.Log("TouchPhase Ended");
-                if(Mathf.Abs(swipeData.Distance.x) > activationDistance){
-                    SwitchToContent(swipeData.Direction == SwipeDirection.Right ? -1 : 1);
-                    return;
-                } else {
-                    ResetContentTransform();
-                    return;
-                }
-            } 
-
-            if(!swiping && switchContentSwipeArea.rect.Contains(switchContentSwipeArea.InverseTransformPoint(swipeData.StartPosition))){
-                swiping = true;
-            }
-            // Debug.Log("Swiping content switcher");
-            if(swiping && (swipeData.Direction == SwipeDirection.Right || swipeData.Direction == SwipeDirection.Left)){
-                // scrollRect.content = null;
-                swipeData.Distance.y = 0;
-                currentContentStartPosition.y = currentContentTransform.anchoredPosition.y;
-                contentTransforms[CurrentContentIndex].anchoredPosition = currentContentStartPosition + swipeData.Distance;
-                
-                // Debug.Log(swipeData.Distance);
-                // image.color = Mathf.Abs(swipeData.Distance.x) > activationDistance ? Color.green : Color.white;
-            }
-            // swipeData.Distance.x *= switchDirection == SwitchDirection.Horizontal ? 1 : 0;
-        }
+    /// <summary>
+    /// Start is called on the frame when a script is enabled just before
+    /// any of the Update methods is called the first time.
+    /// </summary>
+    void Start()
+    {
+        scrollRect.normalizedPosition = Vector2.one;
     }
 
     void ResetContentTransform(){
@@ -111,37 +85,51 @@ public class ScrollRectContentSwitcher : MonoBehaviour
         scrollRectPositions[CurrentContentIndex] = scrollRect.verticalNormalizedPosition;
         currentContentTransform.anchoredPosition *= Vector2.up;
         scrollRect.content = currentContentTransform;
-        swiping = false;
     }
 
-    /// <summary>
-    /// This function is called when the behaviour becomes disabled or inactive.
-    /// </summary>
-    void OnDisable()
-    {
-        SwipeDetector.OnSwipeDetected -= SwipeReaction;
+    public void SwitchContentBy(int changeBy){
+        if(changeBy == 0) return;
+
+        int newContentIndex = (int) Mathf.Repeat(CurrentContentIndex + changeBy, contentTransforms.Count);
+
+        // Debug.Log($"ChangeBy {changeBy} to {newContentIndex}");
+
+        SwitchToContent(newContentIndex, changeBy < 0 ? Vector2.right : Vector2.left);
     }
 
-    // public void OnPointerDown(PointerEventData eventData)
-    // {
-    //     Debug.Log("Pointer down");
-    //     pointerHit = true;
-    //     currentContentStartPosition = contentTransforms[currentContentIndex].anchoredPosition;
-    // }
-
-    // public void OnPointerUp(PointerEventData eventData)
-    // {
-    //     pointerHit = false;
-    // }
-
-    public void SwitchToContent(int contentChange){
-        if(switchingContent) return;
-        if(contentChange == 0) {
-            for(int i = 0; i < contentCanvases.Length; i++){
-                contentCanvases[i].enabled = CurrentContentIndex == i;
-            }
-            return;
+    void SwitchToUpgradeContent(UpgradeType type, int slotIndex, bool onOff){
+        if(onOff){
+            SwitchToContent(CardType.Upgrade);
+        } else {
+            SwitchToContent(CardType.Ship);
         }
+    }
+
+    public void SwitchToContent(CardType cardType){
+        switch(cardType){
+            case CardType.Ship:
+                SwitchToContent(0, CurrentContentIndex == 2 ? Vector2.left : Vector2.right);
+                break;
+            case CardType.Squadron:
+                SwitchToContent(1, CurrentContentIndex < 1 ? Vector2.left : Vector2.right);
+                break;
+            case CardType.Upgrade:
+                SwitchToContent(2, CurrentContentIndex == 0 ? Vector2.right : Vector2.left);
+                break;
+            case CardType.Objective:
+                SwitchToContent(3, CurrentContentIndex == 0 ? Vector2.right : Vector2.left);
+                break;
+        }
+    }
+
+    void SwitchToContent(int contentToChangeTo, Vector2 direction){
+        if(switchingContent) return;
+        
+        for(int i = 0; i < contentCanvases.Length; i++){
+            contentCanvases[i].enabled = i == CurrentContentIndex || i == contentToChangeTo;
+        }
+
+        if(contentToChangeTo == CurrentContentIndex) return;
 
         switchingContent = true;
         
@@ -153,16 +141,16 @@ public class ScrollRectContentSwitcher : MonoBehaviour
         // Debug.Log("scrollRect.verticalNormalizedPosition " + scrollRect.verticalNormalizedPosition);
         // Debug.Log("scrollRect.normalizedPosition.y " + scrollRect.normalizedPosition.y);
 
-        int newContentIndex = CurrentContentIndex + contentChange;
+        int newContentIndex = contentToChangeTo; //Mathf.Clamp(contentToChangeTo, 0, contentTransforms.Count - 1);//CurrentContentIndex + contentToChangeTo;
 
         // Debug.Log(currentContentIndex + " -> " + contentChange);
-        int actualContentIndex = (newContentIndex + contentTransforms.Count) % contentTransforms.Count;
+        // int actualContentIndex = (newContentIndex + contentTransforms.Count) % contentTransforms.Count;
         // Debug.Log("newContentIndex %= contentTransforms.Count -> " + newContentIndex);
         
         if(switchDirection == SwitchDirection.Horizontal){
-            contentSwitchRoutine = StartCoroutine(SwitchToContentRoutine(actualContentIndex, contentChange < 0 ? Vector2.right : Vector2.left));
+            contentSwitchRoutine = StartCoroutine(SwitchToContentRoutine(newContentIndex, direction));
         } else {
-            contentSwitchRoutine = StartCoroutine(SwitchToContentRoutine(actualContentIndex, contentChange < 0 ? Vector2.down : Vector2.up));
+            contentSwitchRoutine = StartCoroutine(SwitchToContentRoutine(newContentIndex, direction));
         }
     }
 
@@ -173,9 +161,8 @@ public class ScrollRectContentSwitcher : MonoBehaviour
         RectTransform newContent = contentTransforms[newContentIndex];
 
         Vector2 currentStartPos = currentContentTransform.anchoredPosition;
-        Vector2 newStartPos = currentContentStartPosition - newContent.rect.size * direction;
+        Vector2 newStartPos = new Vector2(0, contentTransforms[newContentIndex].anchoredPosition.y) - newContent.rect.size * direction;
 
-        // newContent.gameObject.SetActive(true);
         contentCanvases[newContentIndex].enabled = true;
 
         for(float t = 0; t < switchDuration; t += Time.deltaTime){
@@ -188,31 +175,25 @@ public class ScrollRectContentSwitcher : MonoBehaviour
         contentCanvases[currentContentIndex].enabled = false;
 
         scrollRect.content = newContent;
-        // yield return new WaitForEndOfFrame();
-        // Canvas.ForceUpdateCanvases();
-        // yield return new WaitForEndOfFrame();
         scrollRect.normalizedPosition = new Vector2(0, scrollRectPositions[newContentIndex]);
-        // scrollRect.verticalScrollbar.SetValueWithoutNotify(scrollRectPosition);
-        // scrollRect.verticalScrollbar.value = scrollRectPosition;
-        // scrollRect.verticalNormalizedPosition = scrollRectPosition;
-        // yield return new WaitForEndOfFrame();
-        // Canvas.ForceUpdateCanvases();
-
-        // currentContent.gameObject.SetActive(false);
-
-        // newContent.anchoredPosition = Vector2.zero;
 
         CurrentContentIndex = newContentIndex;
-
-        // image.color = Color.white;
 
         if(OnContentSwitch != null){
             OnContentSwitch.Invoke(currentContentTransform.name);
         }
 
         switchingContent = false;
-        swiping = false;
     }
+
+    /// <summary>
+    /// This function is called when the behaviour becomes disabled or inactive.
+    /// </summary>
+    void OnDisable()
+    {
+        UpgradeSlotButtonsControl.OnUpgradeSetMode -= SwitchToUpgradeContent;
+    }
+
 }
 
 [System.Serializable]

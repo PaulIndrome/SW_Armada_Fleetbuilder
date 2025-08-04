@@ -12,12 +12,13 @@ public class DeckEntryShip : DeckEntry, IComparable<DeckEntryShip> {
 
     // [SerializeField] private int amountInDeck = -1;
     // public int AmountInDeck => amountInDeck;
-
+    
     [SerializeField] private List<UpgradeSlot> upgradeSlots;
     public List<UpgradeSlot> UpgradeSlots => upgradeSlots;
+    [SerializeField] private Dictionary<UpgradeType, (int, int)> upgradeSlotsOfType;
 
-    [SerializeField] private CardUnityShip card = null;
-    public CardUnityShip Card => card;
+    // [SerializeField] private CardUnityShip card = null;
+    // public CardUnityShip Card => card;
 
     public DeckEntryShip(CardUnityShip shipCard){
         card = shipCard;
@@ -39,29 +40,52 @@ public class DeckEntryShip : DeckEntry, IComparable<DeckEntryShip> {
     //     amountInDeck = Mathf.Clamp(amountInDeck - amountToRemove, 0, card.isUnique ? 1 : amountInDeck);
     // }
 
-    public bool SlotUpgrade(DeckEntryUpgrade upgradeToSlot, int index = -1){
+    public bool SlotUpgrade(DeckEntryUpgrade upgradeToSlot){
         if(upgradeToSlot == null) return false;
         // Debug.Log($"Slotting {upgradeToSlot.Card.cardName}", upgradeToSlot.Card);
         // Debug.Log($"upgradeToSlot == null? -> {upgradeToSlot == null}");
         // Debug.Log($"upgradeToSlot.Card == null? -> {upgradeToSlot.Card == null}");
         
-        if(index < 0){
-            List<UpgradeSlot> availableSlots = upgradeSlots.FindAll(us => us.UpgradeType == upgradeToSlot.Card.upgradeType);
-            for(int i = 0; i < availableSlots.Count; i++){
-                if(availableSlots[i].Filled) continue;
-                if(availableSlots[i].SlotCard(upgradeToSlot)){
-                    upgradeToSlot.AssignToShip(this);
-                    return true;
+        bool freeSlotAvailable = false;
+        List<UpgradeSlot>[] availableSlotsOnShip = new List<UpgradeSlot>[upgradeToSlot.UpgradeTypes.Length];
+        if(availableSlotsOnShip.Length < 1) return false;
+
+        List<UpgradeSlot> slotsToFill = new List<UpgradeSlot>();
+
+        bool[] slotAvailableForType = new bool[upgradeToSlot.UpgradeTypes.Length];
+
+        for(int i = 0; i < availableSlotsOnShip.Length; i++){
+            Debug.Log("Finding available slots for " + upgradeToSlot.UpgradeTypes[i]);
+            availableSlotsOnShip[i] = upgradeSlots.FindAll(us => us.UpgradeSlotType == ((CardUnityUpgrade)upgradeToSlot.Card).upgradeTypes[i]);
+
+            for(int s = 0; s < availableSlotsOnShip[i].Count; s++){
+                Debug.Log("Checking to see if slot " + i + " can be slotted into");
+                freeSlotAvailable = freeSlotAvailable ? true : !availableSlotsOnShip[i][s].Filled;
+                if(freeSlotAvailable) {
+                    slotsToFill.Add(availableSlotsOnShip[i][s]);
+                    break;
+                    // slotsToFill[i] = availableSlotsOnShip[i][s];
+                    // if(upgradeToSlot.UpgradeTypes.Length < 2){
+                    //     break;
+                    // }
                 }
             }
-        } else {
-            if(upgradeSlots[index].SlotCard(upgradeToSlot)){
+            // if there is no free slot available, overwrite the last slot of given type
+            if(!freeSlotAvailable) slotsToFill.Add(availableSlotsOnShip[i][availableSlotsOnShip[i].Count - 1]);
+        }
+
+        for(int i = 0; i < slotsToFill.Count; i++){
+            Debug.Log("Trying to slot upgrade into slot " + i + $"({slotsToFill[i].UpgradeSlotType})");
+            if(slotsToFill[i].SlotCard(upgradeToSlot, i, true)){
+                Debug.Log("Was able to slot the card into slot " + i);
                 upgradeToSlot.AssignToShip(this);
-                return true;
+            } else {
+                Debug.LogError($"Can not fill checked upgrade slot for type {slotsToFill[i].UpgradeSlotType} on ship {card.ID} with upgrade {upgradeToSlot.Card.ID}");
+                return false;
             }
         }
-        // no open or fitting upgradeslots
-        return false;
+        // return freeSlotAvailable;
+        return true;
     }
 
     public bool UnslotUpgrade(DeckEntryUpgrade upgradeToUnslot){
@@ -74,10 +98,14 @@ public class DeckEntryShip : DeckEntry, IComparable<DeckEntryShip> {
         return false;
     }
 
+    public int FindSlotIndexForType(UpgradeType type) {
+        return upgradeSlots.FindIndex(slot => slot.UpgradeSlotType == type);
+    }
+
 
 
     public int CompareTo(DeckEntryShip other)
     {
-        return card.cardName.CompareTo(other.Card.cardName);
+        return String.Compare(card.cardName, other.Card.cardName, StringComparison.Ordinal);
     }
 }

@@ -18,10 +18,10 @@ MonoBehaviour:
   faction: 2
   cardName: YT-2400
   cost: 16
-  contradictories: []
   isCommander: 0
   isUnique: 0
   isSquadron: 1
   cardTypeRaw: zz_yt2400_normal
   cardSize: 1
+  cardType: 1
   squadronType: 23

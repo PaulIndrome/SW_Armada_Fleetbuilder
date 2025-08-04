@@ -23,5 +23,13 @@ MonoBehaviour:
   isSquadron: 0
   cardTypeRaw: 20zzz-title-fleet
   cardSize: 2
-  upgradeType: 21
+  cardType: 2
+  requiresFlagship: 0
   upgradeTypes: 15000000
+  upgradeIncompatibility:
+    compatibleShipsizes: -1
+    hasCompatibleShiptype: 1
+    compatibleShipTypes: 02000000030000000800000012000000
+    hasCombinedIncompatibility: 0
+    incompatibleShipsizes: 0
+    incompatibleUpgradeTypes: 

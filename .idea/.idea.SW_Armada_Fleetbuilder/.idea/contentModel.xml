@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\Indrome\.Rider2019.3\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\Indrome\.Rider2019.3\system\resharper-host\local\Transient\ReSharperHost\v193\SolutionCaches\_SW_Armada_Fleetbuilder.-1724608735.00" t="ExcludeRecursive" />
+    <e p="F:\unityProjects\SW_Armada_Fleetbuilder" t="IncludeRecursive">
+      <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
+      <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
+      <e p="Assets" t="Include">
+        <e p="ApplicationSettings.cs" t="Include" />
+        <e p="CurrentFactionIcon.cs" t="Include" />
+        <e p="Demigiant" t="Include">
+          <e p="DOTween" t="Include">
+            <e p="Modules" t="Include">
+              <e p="DOTweenModuleAudio.cs" t="Include" />
+              <e p="DOTweenModulePhysics.cs" t="Include" />
+              <e p="DOTweenModulePhysics2D.cs" t="Include" />
+              <e p="DOTweenModuleSprite.cs" t="Include" />
+              <e p="DOTweenModuleUI.cs" t="Include" />
+              <e p="DOTweenModuleUnityVersion.cs" t="Include" />
+              <e p="DOTweenModuleUtils.cs" t="Include" />
+            </e>
+            <e p="readme.txt" t="Include" />
+          </e>
+        </e>
+        <e p="Editor" t="Include">
+          <e p="ReadOnlyDrawer.cs" t="Include" />
+          <e p="Shortcuts.cs" t="Include" />
+        </e>
+        <e p="JsonDotNet" t="Include">
+          <e p="link.xml" t="Include" />
+        </e>
+        <e p="Resources" t="Include">
+          <e p="CardData" t="Include">
+            <e p="_card types raw.txt" t="Include" />
+          </e>
+        </e>
+        <e p="Scripts" t="Include">
+          <e p="ApplicationChrome.cs.cs" t="Include" />
+          <e p="CurrentDeck.cs" t="Include" />
+          <e p="CustomAttributes" t="Include">
+            <e p="ReadOnlyAttribute.cs" t="Include" />
+          </e>
+          <e p="DataStructure" t="Include">
+            <e p="CardUnity.cs" t="Include" />
+            <e p="CardUnityBase.cs" t="Include" />
+            <e p="CardUnityShip.cs" t="Include" />
+            <e p="CardUnitySquadron.cs" t="Include" />
+            <e p="CardUnityUpgrade.cs" t="Include" />
+            <e p="CollectionData" t="Include">
+              <e p="CardCollection.cs" t="Include" />
+              <e p="CardCollectionEntry.cs" t="Include" />
+            </e>
+            <e p="DeckData" t="Include">
+              <e p="Deck.cs" t="Include" />
+              <e p="DeckEntry.cs" t="Include" />
+              <e p="DeckEntryShip.cs" t="Include" />
+              <e p="DeckEntrySquadron.cs" t="Include" />
+              <e p="DeckEntryUpgrade.cs" t="Include" />
+              <e p="UpgradeSlot.cs" t="Include" />
+            </e>
+            <e p="SerializationWrappers" t="Include">
+              <e p="SerializableDeck.cs" t="Include" />
+              <e p="SerializableDeckEntry.cs" t="Include" />
+              <e p="SerializableDeckEntryShip.cs" t="Include" />
+              <e p="SerializableDeckEntrySquadron.cs" t="Include" />
+              <e p="SerializableDeckEntryUpgrade.cs" t="Include" />
+            </e>
+            <e p="UpgradeIncompatibility.cs" t="Include" />
+          </e>
+          <e p="Enums" t="Include">
+            <e p="CardSize.cs" t="Include" />
+            <e p="CardType.cs" t="Include" />
+            <e p="DeckMessageType.cs" t="Include" />
+            <e p="Faction.cs" t="Include" />
+            <e p="ModalResult.cs" t="Include" />
+            <e p="ShipSize.cs" t="Include" />
+            <e p="ShipType.cs" t="Include" />
+            <e p="SquadronType.cs" t="Include" />
+            <e p="SwitchDirection.cs" t="Include" />
+            <e p="UpgradeSlotState.cs" t="Include" />
+            <e p="UpgradeType.cs" t="Include" />
+            <e p="ViewType.cs" t="Include" />
+          </e>
+          <e p="Extensions.cs" t="Include" />
+          <e p="FileManagement" t="Include">
+            <e p="DeckFileEntry.cs" t="Include" />
+            <e p="DeckFileList.cs" t="Include" />
+          </e>
+          <e p="JSONToScriptables" t="Include">
+            <e p="Card.cs" t="Include" />
+            <e p="CardTypesLookup.cs" t="Include" />
+            <e p="DeserializeCardsFromJSON.cs" t="Include" />
+          </e>
+          <e p="ModalWindowHandler.cs" t="Include" />
+          <e p="UI" t="Include">
+            <e p="BasicSwipableComponent.cs" t="Include" />
+            <e p="CardCategory.cs" t="Include" />
+            <e p="CardSelection.cs" t="Include" />
+            <e p="CardSelectionSlot.cs" t="Include" />
+            <e p="CardUI.cs" t="Include" />
+            <e p="CategoryHeader.cs" t="Include" />
+            <e p="CategoryMarkerPlacer.cs" t="Include" />
+            <e p="CollectionContentControl.cs" t="Include" />
+            <e p="DeckContentControl.cs" t="Include" />
+            <e p="DeckMessage.cs" t="Include" />
+            <e p="DeckMessageControl.cs" t="Include" />
+            <e p="ModalButton.cs" t="Include" />
+            <e p="ModalWindow.cs" t="Include" />
+            <e p="PositionToSpriteBounds.cs" t="Include" />
+            <e p="ScreenSizeRelative.cs" t="Include" />
+            <e p="ScreenSizeRelativeControl.cs" t="Include" />
+            <e p="ScrollRectContentSwitcher.cs" t="Include" />
+            <e p="SwipableComponent.cs" t="Include" />
+            <e p="SwipedCardSelection.cs" t="Include" />
+            <e p="SwipeInMenu.cs" t="Include" />
+            <e p="ToggleGraphicSwap.cs" t="Include" />
+            <e p="UIAnimations.cs" t="Include" />
+          </e>
+        </e>
+        <e p="TextMesh Pro" t="Include">
+          <e p="Fonts" t="Include">
+            <e p="LiberationSans - OFL.txt" t="Include" />
+          </e>
+          <e p="Resources" t="Include">
+            <e p="LineBreaking Following Characters.txt" t="Include" />
+            <e p="LineBreaking Leading Characters.txt" t="Include" />
+            <e p="Shaders" t="Include">
+              <e p="TMP_Bitmap-Custom-Atlas.shader" t="Include" />
+              <e p="TMP_Bitmap-Mobile.shader" t="Include" />
+              <e p="TMP_Bitmap.shader" t="Include" />
+              <e p="TMP_SDF Overlay.shader" t="Include" />
+              <e p="TMP_SDF-Mobile Masking.shader" t="Include" />
+              <e p="TMP_SDF-Mobile Overlay.shader" t="Include" />
+              <e p="TMP_SDF-Mobile.shader" t="Include" />
+              <e p="TMP_SDF-Surface-Mobile.shader" t="Include" />
+              <e p="TMP_SDF-Surface.shader" t="Include" />
+              <e p="TMP_SDF.shader" t="Include" />
+              <e p="TMP_Sprite.shader" t="Include" />
+              <e p="TMPro.cginc" t="Include" />
+              <e p="TMPro_Properties.cginc" t="Include" />
+              <e p="TMPro_Surface.cginc" t="Include" />
+            </e>
+          </e>
+          <e p="Sprites" t="Include">
+            <e p="EmojiOne Attribution.txt" t="Include" />
+          </e>
+        </e>
+        <e p="TMPIntegerInputClamp.cs" t="Include" />
+        <e p="TouchScript" t="Include">
+          <e p="Editor" t="Include">
+            <e p="Behaviors" t="Include">
+              <e p="Cursors" t="Include">
+                <e p="CursorManagerEditor.cs" t="Include" />
+              </e>
+              <e p="TransformerEditor.cs" t="Include" />
+            </e>
+            <e p="Debugging" t="Include">
+              <e p="PointerDebuggerWindow.cs" t="Include" />
+            </e>
+            <e p="EditorResources.cs" t="Include" />
+            <e p="EditorUI" t="Include">
+              <e p="GUIElements.cs" t="Include" />
+              <e p="GUIUtils.cs" t="Include" />
+              <e p="PagedList.cs" t="Include" />
+            </e>
+            <e p="Gestures" t="Include">
+              <e p="FlickGestureEditor.cs" t="Include" />
+              <e p="GestureEditor.cs" t="Include" />
+              <e p="LongPressGestureEditor.cs" t="Include" />
+              <e p="MetaGestureEditor.cs" t="Include" />
+              <e p="PressGestureEditor.cs" t="Include" />
+              <e p="ReleaseGestureEditor.cs" t="Include" />
+              <e p="TapGestureEditor.cs" t="Include" />
+              <e p="TransformGestures" t="Include">
+                <e p="Base" t="Include">
+                  <e p="OnePointTransformGestureBaseEditor.cs" t="Include" />
+                  <e p="TransformGestureBaseEditor.cs" t="Include" />
+                  <e p="TwoPointTransformGestureBaseEditor.cs" t="Include" />
+                </e>
+                <e p="PinnedTransformGestureEditor.cs" t="Include" />
+                <e p="ScreenTransformGestureEditor.cs" t="Include" />
+                <e p="TransformGestureEditor.cs" t="Include" />
+              </e>
+            </e>
+            <e p="InputSources" t="Include">
+              <e p="InputSourceEditor.cs" t="Include" />
+              <e p="StandardInputEditor.cs" t="Include" />
+            </e>
+            <e p="Layers" t="Include">
+              <e p="FullscreenLayerEditor.cs" t="Include" />
+              <e p="StandardLayerEditor.cs" t="Include" />
+            </e>
+            <e p="TouchManagerEditor.cs" t="Include" />
+            <e p="TouchScriptSettingsWindow.cs" t="Include" />
+            <e p="Utils" t="Include">
+              <e p="PropertyDrawers" t="Include">
+                <e p="NullToggleDrawer.cs" t="Include" />
+                <e p="ToggleLeftDrawer.cs" t="Include" />
+              </e>
+            </e>
+          </e>
+          <e p="license.txt" t="Include" />
+          <e p="Scripts" t="Include">
+            <e p="Behaviors" t="Include">
+              <e p="Cursors" t="Include">
+                <e p="CursorManager.cs" t="Include" />
+                <e p="MouseCursor.cs" t="Include" />
+                <e p="ObjectCursor.cs" t="Include" />
+                <e p="PenCursor.cs" t="Include" />
+                <e p="PointerCursor.cs" t="Include" />
+                <e p="TouchCursor.cs" t="Include" />
+                <e p="UI" t="Include">
+                  <e p="GradientTexture.cs" t="Include" />
+                  <e p="TextureSwitch.cs" t="Include" />
+                </e>
+              </e>
+              <e p="Transformer.cs" t="Include" />
+              <e p="UI" t="Include">
+                <e p="OverHelper.cs" t="Include" />
+              </e>
+            </e>
+            <e p="Clusters" t="Include">
+              <e p="Clusters2D.cs" t="Include" />
+            </e>
+            <e p="Core" t="Include">
+              <e p="DebuggableMonoBehaviour.cs" t="Include" />
+              <e p="GestureManagerInstance.cs" t="Include" />
+              <e p="LayerManagerInstance.cs" t="Include" />
+              <e p="TouchManagerInstance.cs" t="Include" />
+            </e>
+            <e p="Debugging" t="Include">
+              <e p="Filters" t="Include">
+                <e p="IPointerDataFilter.cs" t="Include" />
+                <e p="IPointerLogFilter.cs" t="Include" />
+                <e p="PointerLogFilter.cs" t="Include" />
+              </e>
+              <e p="GL" t="Include">
+                <e p="DebugHelper.cs" t="Include" />
+                <e p="GLDebug.cs" t="Include" />
+              </e>
+              <e p="Loggers" t="Include">
+                <e p="FileReaderLogger.cs" t="Include" />
+                <e p="FileWriterLogger.cs" t="Include" />
+                <e p="IPointerLogger.cs" t="Include" />
+                <e p="PointerLogger.cs" t="Include" />
+              </e>
+              <e p="TouchScriptDebugger.cs" t="Include" />
+            </e>
+            <e p="Devices" t="Include">
+              <e p="Display" t="Include">
+                <e p="DisplayDevice.cs" t="Include" />
+                <e p="GenericDisplayDevice.cs" t="Include" />
+                <e p="IDisplayDevice.cs" t="Include" />
+              </e>
+            </e>
+            <e p="GestureManager.cs" t="Include" />
+            <e p="Gestures" t="Include">
+              <e p="FlickGesture.cs" t="Include" />
+              <e p="Gesture.cs" t="Include" />
+              <e p="IGestureDelegate.cs" t="Include" />
+              <e p="LongPressGesture.cs" t="Include" />
+              <e p="MetaGesture.cs" t="Include" />
+              <e p="PressGesture.cs" t="Include" />
+              <e p="ReleaseGesture.cs" t="Include" />
+              <e p="TapGesture.cs" t="Include" />
+              <e p="TransformGestures" t="Include">
+                <e p="Base" t="Include">
+                  <e p="OnePointTrasformGestureBase.cs" t="Include" />
+                  <e p="TransformGestureBase.cs" t="Include" />
+                  <e p="TwoPointTransformGestureBase.cs" t="Include" />
+                </e>
+                <e p="Clustered" t="Include">
+                  <e p="ClusteredPinnedTransformGesture.cs" t="Include" />
+                  <e p="ClusteredScreenTransformGesture.cs" t="Include" />
+                  <e p="ClusteredTransformGesture.cs" t="Include" />
+                </e>
+                <e p="ITransformGesture.cs" t="Include" />
+                <e p="PinnedTransformGesture.cs" t="Include" />
+                <e p="ScreenTransformGesture.cs" t="Include" />
+                <e p="TransformGesture.cs" t="Include" />
+              </e>
+            </e>
+            <e p="Hit" t="Include">
+              <e p="HitData.cs" t="Include" />
+              <e p="HitTest.cs" t="Include" />
+              <e p="RaycastHitUI.cs" t="Include" />
+              <e p="Untouchable.cs" t="Include" />
+            </e>
+            <e p="IDebuggable.cs" t="Include" />
+            <e p="IGestureManager.cs" t="Include" />
+            <e p="ILayerManager.cs" t="Include" />
+            <e p="InputSources" t="Include">
+              <e p="ICoordinatesRemapper.cs" t="Include" />
+              <e p="IInputSource.cs" t="Include" />
+              <e p="InputHandlers" t="Include">
+                <e p="MouseHandler.cs" t="Include" />
+                <e p="TouchHandler.cs" t="Include" />
+                <e p="WindowsPointerHandlers.cs" t="Include" />
+              </e>
+              <e p="InputSource.cs" t="Include" />
+              <e p="StandardInput.cs" t="Include" />
+            </e>
+            <e p="ITouchManager.cs" t="Include" />
+            <e p="LayerManager.cs" t="Include" />
+            <e p="Layers" t="Include">
+              <e p="FullscreenLayer.cs" t="Include" />
+              <e p="ILayerDelegate.cs" t="Include" />
+              <e p="ProjectionParams.cs" t="Include" />
+              <e p="StandardLayer.cs" t="Include" />
+              <e p="TouchLayer.cs" t="Include" />
+              <e p="UI" t="Include">
+                <e p="TouchScriptInputModule.cs" t="Include" />
+              </e>
+            </e>
+            <e p="Pointers" t="Include">
+              <e p="FakePointer.cs" t="Include" />
+              <e p="IPointer.cs" t="Include" />
+              <e p="MousePointer.cs" t="Include" />
+              <e p="ObjectPointer.cs" t="Include" />
+              <e p="PenPointer.cs" t="Include" />
+              <e p="Pointer.cs" t="Include" />
+              <e p="PointerFactory.cs" t="Include" />
+              <e p="TouchPointer.cs" t="Include" />
+            </e>
+            <e p="TouchManager.cs" t="Include" />
+            <e p="Utils" t="Include">
+              <e p="Attributes" t="Include">
+                <e p="NullToggleAttribute.cs" t="Include" />
+                <e p="ToggleLeftAttribute.cs" t="Include" />
+              </e>
+              <e p="BinaryUtils.cs" t="Include" />
+              <e p="ClusterUtils.cs" t="Include" />
+              <e p="EventHandlerExtensions.cs" t="Include" />
+              <e p="Geom" t="Include">
+                <e p="ProjectionUtils.cs" t="Include" />
+                <e p="TwoD.cs" t="Include" />
+              </e>
+              <e p="ObjectPool.cs" t="Include" />
+              <e p="Platform" t="Include">
+                <e p="WindowsUtils.cs" t="Include" />
+              </e>
+              <e p="PointerUtils.cs" t="Include" />
+              <e p="TimedSequence.cs" t="Include" />
+              <e p="TransformUtils.cs" t="Include" />
+            </e>
+          </e>
+          <e p="Shaders" t="Include">
+            <e p="Cursor.shader" t="Include" />
+            <e p="DebugDepthTest.shader" t="Include" />
+            <e p="DebugMultiplyDepthTest.shader" t="Include" />
+            <e p="DebugMultiplyNoDepthTest.shader" t="Include" />
+            <e p="DebugNoDepthTest.shader" t="Include" />
+          </e>
+        </e>
+        <e p="UpgradeSlotButton.cs" t="Include" />
+        <e p="UpgradeSlotButtonsControl.cs" t="Include" />
+      </e>
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="Packages" t="ExcludeRecursive" />
+      <e p="SW_Armada_Fleetbuilder.sln" t="IncludeFlat" />
+      <e p="Temp\bin" t="ExcludeRecursive" />
+    </e>
+  </component>
+</project>
